@@ -305,7 +305,7 @@ a. Refresh component on load and when area data changes
 ### Deployment
 - Amazon Web Services
 
-## Technical Requirements 🗹
+## Technical Requirements 📝
 - Three layer architecture
 - Database stored on mySQL server
 - HTTP error statuses must throw custom error and not provide sensitive information
@@ -394,7 +394,7 @@ a. Refresh component on load and when area data changes
 * [ ] POST caught pokemon to a user’s team.
     * [ ] If caught pokemon is a duplicate of existing pokemon in user’s team, update existing pokemon with newly caught pokemon’s stats if stats are higher.
 
-## Requirements Checklist 🗹
+## Requirements Checklist 📜
 * [ ] Query a pokemon from pokeapi and display its information and sprite.
 * [ ] Allow user account creation.
 * [ ] Allow user to log into their account/instance
