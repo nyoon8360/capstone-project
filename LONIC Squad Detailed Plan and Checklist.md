@@ -64,7 +64,7 @@ area_encounter
 - pokemon_name: name of the pokemon for this encounter
 - encounter_rate: the possibility of triggering this encounter
 
-## Validation 🪪
+## Validation 💳
 app_role
 - role_name
     - Can NOT be blank
