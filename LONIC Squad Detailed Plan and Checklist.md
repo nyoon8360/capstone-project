@@ -316,104 +316,104 @@ a. Refresh component on load and when area data changes
 
 ## Test Plan
 ### Users
-*[ ] Can create an account
- * [ ] Usernames must be unique
- * [ ] Username must be at least 6 characters long and less than 20 characters
- * [ ] Password must be at least 6 characters long and less than 40 characters
- * [ ] Display any errors encountered when creating a new account
+* [ ] Can create an account
+    * [ ] Usernames must be unique
+    * [ ] Username must be at least 6 characters long and less than 20 characters
+    * [ ] Password must be at least 6 characters long and less than 40 characters
+    * [ ] Display any errors encountered when creating a new account
 
-*[ ]  Can login to their account
- * [ ] Username and password fields can not be empty
- * [ ] Display any errors encountered when logging into account
+* [ ]  Can login to their account
+    * [ ] Username and password fields can not be empty
+    * [ ] Display any errors encountered when logging into account
 
-*[ ] GET all pokemon in users inventory
- * [ ] Display all pokemon in UI with their corresponding stats
+* [ ] GET all pokemon in users inventory
+    * [ ] Display all pokemon in UI with their corresponding stats
 
-*[ ] DELETE a pokemon from inventory
- * [ ] Pokemon is removed from user’s inventory when selecting the “release” option.
- * [ ] Updated inventory of pokemon is displayed after deletion.
+* [ ] DELETE a pokemon from inventory
+    * [ ] Pokemon is removed from user’s inventory when selecting the “release” option.
+    * [ ] Updated inventory of pokemon is displayed after deletion.
 
-*[ ] Can use moves and catch pokemon
- * [ ] Throw bait action successfully decreases catch rate of pokemon as well as decrease flee rate
- * [ ] Throw mud action successfully increases catch rate of pokemon as well as increase flee rate
- * [ ] Throwing pokemon takes modified catch rate into account and randomly rolls either a success or failure of capture
- * [ ] On successful capture of a pokemon the pokemon is added to the user’s inventory with randomized stats.
+* [ ] Can use moves and catch pokemon
+    * [ ] Throw bait action successfully decreases catch rate of pokemon as well as decrease flee rate
+    * [ ] Throw mud action successfully increases catch rate of pokemon as well as increase flee rate
+    * [ ] Throwing pokemon takes modified catch rate into account and randomly rolls either a success or failure of capture
+    * [ ] On successful capture of a pokemon the pokemon is added to the user’s inventory with randomized stats.
 
-*[ ] Travel to different areas
- * [ ] User is able to view and visit any of the available areas in the game
- * [ ] User is able to leave any of the available areas in the game
- * [ ] User is able to search for pokemon in their current area
- * [ ] Only pokemon that are listed as residing in the area can be encountered in that area
+* [ ] Travel to different areas
+    * [ ] User is able to view and visit any of the available areas in the game
+    * [ ] User is able to leave any of the available areas in the game
+    * [ ] User is able to search for pokemon in their current area
+    * [ ] Only pokemon that are listed as residing in the area can be encountered in that area
 
 
-*[ ]  DELETE Account
- * [ ] Users can delete own account and only their own account
- * [ ] User is prompted with a confirmation before deleting
- * [ ] If user deletes their own account they are automatically logged out and returned to the home landing page
+* [ ]  DELETE Account
+    * [ ] Users can delete own account and only their own account
+    * [ ] User is prompted with a confirmation before deleting
+    * [ ] If user deletes their own account they are automatically logged out and returned to the home landing page
 
 ### Admin
 
-*[ ] Get all pokemon in a user’s inventory
- * [ ] Display all pokemon in the selected user’s inventory
+* [ ] Get all pokemon in a user’s inventory
+    * [ ] Display all pokemon in the selected user’s inventory
 
-*[ ] DELETE a pokemon from a user’s inventory
- * [ ] Able to selectively delete pokemon from a specified user’s inventory
- * [ ] User’s pokemon list is updated after deletion
- * [ ] User is prompted with a confirmation before deleting
+* [ ] DELETE a pokemon from a user’s inventory
+    * [ ] Able to selectively delete pokemon from a specified user’s inventory
+    * [ ] User’s pokemon list is updated after deletion
+    * [ ] User is prompted with a confirmation before deleting
 
-*[ ] PUT a pokemon in a user’s inventory
- * [ ] Able to edit the random stats of a pokemon in a user’s inventory
+* [ ] PUT a pokemon in a user’s inventory
+    * [ ] Able to edit the random stats of a pokemon in a user’s inventory
 
-*[ ] DELETE an account
- * [ ] Able to delete a specified user’s account
- * [ ] User is prompted with a confirmation before deleting
- * [ ] Can NOT delete another admin account
+* [ ] DELETE an account
+    * [ ] Able to delete a specified user’s account
+    * [ ] User is prompted with a confirmation before deleting
+    * [ ] Can NOT delete another admin account
 
-*[ ] VIEW all areas
- * [ ] Display all areas with corresponding information on page
+* [ ] VIEW all areas
+    * [ ] Display all areas with corresponding information on page
 
-*[ ] CREATE an area
- * [ ] area name must not be blank
- * [ ] area must have at least 1 pokemon
+* [ ] CREATE an area
+    * [ ] area name must not be blank
+    * [ ] area must have at least 1 pokemon
 
-*[ ] UPDATE an area
- * [ ] Able to update name of area
- * [ ] Able to update pokemon that reside in area
- * [ ] Able to update encounter rate of pokemon that reside in area
- * [ ] Any errors that occur when updating are displayed on page
+* [ ] UPDATE an area
+    * [ ] Able to update name of area
+    * [ ] Able to update pokemon that reside in area
+    * [ ] Able to update encounter rate of pokemon that reside in area
+    * [ ] Any errors that occur when updating are displayed on page
 
-*[ ] DELETE an area
- * [ ] Able to delete a selected area and all associated data in database
- * [ ] User is prompted with a confirmation before deleting
+* [ ] DELETE an area
+    * [ ] Able to delete a selected area and all associated data in database
+    * [ ] User is prompted with a confirmation before deleting
 ### Pokemon
-*[ ] GET a randomly selected pokemon based on encounter rates of the area
-*[ ] GET pokemon information and sprite.
- * [ ] Pokemon base catch rate is successfully retrieved from pokeapi
- * [ ] Pokemon sprite is successfully retrieved and displayed during encounters
+* [ ] GET a randomly selected pokemon based on encounter rates of the area
+* [ ] GET pokemon information and sprite.
+    * [ ] Pokemon base catch rate is successfully retrieved from pokeapi
+    * [ ] Pokemon sprite is successfully retrieved and displayed during encounters
 
-*[ ] POST caught pokemon to a user’s team.
- * [ ] If caught pokemon is a duplicate of existing pokemon in user’s team, update existing pokemon with newly caught pokemon’s stats if stats are higher.
+* [ ] POST caught pokemon to a user’s team.
+    * [ ] If caught pokemon is a duplicate of existing pokemon in user’s team, update existing pokemon with newly caught pokemon’s stats if stats are higher.
 
 ## Requirements Checklist
-*[ ] Query a pokemon from pokeapi and display its information and sprite.
-*[ ] Allow user account creation.
-*[ ] Allow user to log into their account/instance
-*[ ] Delete user account 
-*[ ] Display all users to let admin select a user to delete/update **
-*[ ] Confirm account deletion with user/admin before performing DELETE request **
-*[ ] Display a user’s entire inventory.
-*[ ] Get information for a specific pokemon if the user selects one **
-*[ ] Display individual information on pokemon in a user’s inventory.
-*[ ] Run user’s current game state.
-*[ ] Add caught pokemon to user’s inventory with randomized stats
-*[ ] Remove pokemon from user’s inventory 
-*[ ] Display all users to admin and then display full inventory of selected user. **
-*[ ] Log out of account and save game state.
-*[ ] Use react router to implement client-side routes.
-*[ ] Display a custom 404 not found page when accessing a non-defined route
-*[ ] Prevent access to admin panel page without using an admin account
-*[ ] Deploy project through AWS to make it publicly accessible
-*[ ] Global Error Handling (correctly handles data and general errors differently)
-*[ ] Test data components (all data components are tested with valuable tests)
-*[ ] Test domain components (all domain components are tested with valuable tests)
-*[ ] Java Idioms (excellent layering, class design, method responsibilities, and naming)
+* [ ] Query a pokemon from pokeapi and display its information and sprite.
+* [ ] Allow user account creation.
+* [ ] Allow user to log into their account/instance
+* [ ] Delete user account 
+* [ ] Display all users to let admin select a user to delete/update
+* [ ] Confirm account deletion with user/admin before performing DELETE request
+* [ ] Display a user’s entire inventory.
+* [ ] Get information for a specific pokemon if the user selects one
+* [ ] Display individual information on pokemon in a user’s inventory.
+* [ ] Run user’s current game state.
+* [ ] Add caught pokemon to user’s inventory with randomized stats
+* [ ] Remove pokemon from user’s inventory 
+* [ ] Display all users to admin and then display full inventory of selected user
+* [ ] Log out of account and save game state.
+* [ ] Use react router to implement client-side routes.
+* [ ] Display a custom 404 not found page when accessing a non-defined route
+* [ ] Prevent access to admin panel page without using an admin account
+* [ ] Deploy project through AWS to make it publicly accessible
+* [ ] Global Error Handling (correctly handles data and general errors differently)
+* [ ] Test data components (all data components are tested with valuable tests)
+* [ ] Test domain components (all domain components are tested with valuable tests)
+* [ ] Java Idioms (excellent layering, class design, method responsibilities, and naming)
