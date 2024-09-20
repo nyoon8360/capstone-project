@@ -1,8 +1,8 @@
-# Detailed Plan
+# Detailed Plan 📅
 Create a browser based pokemon game designed around the safari zone minigame. Implement all base game functionalities alongside persistent data storage using MySQL, account creation, account and session security, and data fetching from the PokeAPI.
 
-## Key Features
-### Player Account Features
+## Key Features 🔑
+### Player Account Features 
 - Register a new account
 - Login to existing account
 - Users can delete own account
@@ -31,10 +31,10 @@ Create a browser based pokemon game designed around the safari zone minigame. Im
     - The Throw Pokeball action attempts to catch the pokemon using the current catch rate
     - The Run Away action ends the encounter without catching the pokemon and returns the player to the area option screen
 
-## Project Structure
+## Project Structure 🌳
 ![project file structure](./projectFileTree.png)
 
-## Data
+## Data 📚
 app_role
 - role_name: Name of the role
 
@@ -64,7 +64,7 @@ area_encounter
 - pokemon_name: name of the pokemon for this encounter
 - encounter_rate: the possibility of triggering this encounter
 
-## Validation
+## Validation 🪪
 app_role
 - role_name
     - Can NOT be blank
@@ -103,7 +103,7 @@ area_encounter
 - encounter_rate
     - Must be greater than 1
 
-## Java Class Details
+## Java Class Details ☕
 App
 - public static void main(String[]) -- instantiate all required classes with valid arguments, dependency injection. run controller
 
@@ -211,7 +211,7 @@ Area
 - private String areaName
 - Full getters and setters
 
-## React Component Details
+## React Component Details 🧩
 - Login – Main landing page for website where users can login or create accounts
 - SafariZoneEntrance – Main menu for player users that allows them to open their pc box, open the account menu, or travel to an area
 - Area – Area sub menu that allows players to search for pokemon or go back to safari zone entrance
@@ -225,7 +225,7 @@ Area
 - AdminPanelPlayerForm – Component that allows admins to edit the contents of a player’s pc box
 - NotFound – Component for 404 not found pages
 
-## Steps Back-End
+## Steps Back-End 📋
 1. Create a Maven project.
 2. Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security and Spring Boot Starter Web as maven dependencies and refresh Maven
 3. Create packages
@@ -266,7 +266,7 @@ b. Should take an AreaEncounterRepository instance as a dependency
 25. Create App class
 a. Instantiate all required classes with valid arguments, dependency injection. run controller
 
-## Steps Front-End
+## Steps Front-End 📋
 1. Create a react app
 2. Clean folders to only have needed files.
 3. Add dependencies (React Dom Router, Fetch API, )
@@ -292,7 +292,7 @@ a. Refresh component on load and when area data changes
 14. Implement AdminPanelAreaForm component
 15. Implement NotFound component
 
-## Technologies
+## Technologies 🤖
 ### Front-end
 - React
 
@@ -305,7 +305,7 @@ a. Refresh component on load and when area data changes
 ### Deployment
 - Amazon Web Services
 
-## Technical Requirements
+## Technical Requirements 🗹
 - Three layer architecture
 - Database stored on mySQL server
 - HTTP error statuses must throw custom error and not provide sensitive information
@@ -314,7 +314,7 @@ a. Refresh component on load and when area data changes
 - Must use React for the frontend
 - Must have both user and admin functionalities
 
-## Test Plan
+## Test Plan 👨‍🔬
 ### Users
 * [ ] Can create an account
     * [ ] Usernames must be unique
@@ -394,7 +394,7 @@ a. Refresh component on load and when area data changes
 * [ ] POST caught pokemon to a user’s team.
     * [ ] If caught pokemon is a duplicate of existing pokemon in user’s team, update existing pokemon with newly caught pokemon’s stats if stats are higher.
 
-## Requirements Checklist
+## Requirements Checklist 🗹
 * [ ] Query a pokemon from pokeapi and display its information and sprite.
 * [ ] Allow user account creation.
 * [ ] Allow user to log into their account/instance
