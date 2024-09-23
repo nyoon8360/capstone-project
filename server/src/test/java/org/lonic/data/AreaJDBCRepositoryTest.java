@@ -1,0 +1,48 @@
+package org.lonic.data;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.lonic.models.AppUser;
+import org.lonic.models.Area;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class AreaJDBCRepositoryTest {
+
+    @Autowired
+    AreaJDBCRepository repository;
+
+    @Autowired
+    KnownGoodState knownGoodState;
+
+    @BeforeEach
+    void setup() {
+        knownGoodState.set();
+    }
+
+    @Test
+    void findAll(){
+        List<Area> areas = repository.findAll();
+        assertNotNull(areas);
+        assertEquals(areas.get(0).getAreaName(),"Sinnoh");
+    }
+
+    @Test
+    void shouldAddUser() {
+        Area area = new Area();
+        area.setAreaName("test area");
+        Area actual = repository.add(area);
+        assertNotNull(actual);
+        assertEquals("test area", actual.getAreaName());
+    }
+
+    @Test
+    void shouldDeleteArea() {
+        assertTrue(repository.deleteById(2));
+    }
+}

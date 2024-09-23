@@ -1,4 +1,5 @@
 package org.lonic.data;
 
-public class AreaEncounterJDBCRepository {
+public class AreaEncounterJDBCRepository implements AreaEncounterRepository{
+
 }
