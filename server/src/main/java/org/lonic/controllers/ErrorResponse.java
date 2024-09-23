@@ -1,2 +1,4 @@
-package org.lonic.controllers;public class ErrorResponse {
+package org.lonic.controllers;
+
+public class ErrorResponse {
 }

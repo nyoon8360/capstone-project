@@ -1,2 +1,4 @@
-package org.lonic.data;public interface AreaRepository {
+package org.lonic.data;
+
+public interface AreaRepository {
 }

@@ -1,2 +1,4 @@
-package org.lonic.data;public class AppUserJDBCRepository {
+package org.lonic.data;
+
+public class AppUserJDBCRepository {
 }
