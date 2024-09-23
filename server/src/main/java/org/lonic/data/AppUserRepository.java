@@ -1,7 +1,6 @@
 package org.lonic.data;
 
 import org.lonic.models.AppUser;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
