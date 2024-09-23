@@ -45,15 +45,19 @@
 * [ ] [Assigned To: ] Implement AppUserService class
     1. Add any validation rules that can't be handled through annotations for app users
     2. Should take an AppUserRepository isntance as a dependency
+* [ ] [Assigned To: ] Implement tests for AppUserService
 * [ ] [Assigned To: ] Implement PokemonInstanceService class
     1. Add any validation rules that can't be handled through annotations for pokemon instances
     2. Should take a PokemonInstanceRepository instance as a dependency
+* [ ] [Assigned To: ] Implement tests for PokemonInstanceService
 * [ ] [Assigned To: ] Implement AreaService class
     1. Add any validation rules that can't be handled through annotations for areas
     2. Should take an AreaRepository instance as a dependency
+* [ ] [Assigned To: ] Implement tests for AreaService
 * [ ] [Assigned To: ] Implement AreaEncounterService class
     1. Add any validation rules that can't be handled through annotations for area encounters
     2. Should take an AreaEncounterRepository instance as a dependency
+* [ ] [Assigned To: ] Implement tests for AreaEncounterService
 * [ ] [Assigned To: ] Implement AppUserController class
 * [ ] [Assigned To: ] Implement AppUserController tests
 * [ ] [Assigned To: ] Implement PokemonInstanceController class

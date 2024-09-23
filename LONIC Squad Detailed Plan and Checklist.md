@@ -279,25 +279,29 @@ Area
 14. Implement AppUserService class
     1. Add any validation rules that can't be handled through annotations for app users
     2. Should take an AppUserRepository isntance as a dependency
-15. Implement PokemonInstanceService class
+15. Implement AppUserService tests
+16. Implement PokemonInstanceService class
     1. Add any validation rules that can't be handled through annotations for pokemon instances
     2. Should take a PokemonInstanceRepository instance as a dependency
-16. Implement AreaService class
+17. Implement PokemonInstanceService tests
+18. Implement AreaService class
     1. Add any validation rules that can't be handled through annotations for areas
     2. Should take an AreaRepository instance as a dependency
-17. Implement AreaEncounterService class
+19. Implement AreaService tests
+20. Implement AreaEncounterService class
     1. Add any validation rules that can't be handled through annotations for area encounters
     2. Should take an AreaEncounterRepository instance as a dependency
-18. Implement AppUserController class
-19. Implement AppUserController tests
-20. Implement PokemonInstanceController class
-21. Implement PokemonInstanceController tests
-22. Implement AreaController class
-23. Implement AreaController tests
-24. Implement AreaEncounterController class
-25. Implement AreaEncounterController tests
-26. Implement token based authentication for requests
-27. Create App class
+21. Implement AreaEncounterService tests
+22. Implement AppUserController class
+23. Implement AppUserController tests
+24. Implement PokemonInstanceController class
+25. Implement PokemonInstanceController tests
+26. Implement AreaController class
+27. Implement AreaController tests
+28. Implement AreaEncounterController class
+29. Implement AreaEncounterController tests
+30. Implement token based authentication for requests
+31. Create App class
     1. Instantiate all required classes with valid arguments, dependency injection. run controller
 
 ## Steps Front-End 📋
