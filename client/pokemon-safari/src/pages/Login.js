@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import styles from '../assets/styles/Login.module.css';
+import styles from '../assets/styles/pages/Login.module.css';
+import StyledButton from '../components/StyledButton';
 
 function Login() {
     //states
     const [view, setView] = useState('main');
-    const [errors, setErrors] = useState();
+    const [errors, setErrors] = useState([]);
 
     //==============
     //EVENT HANDLERS
@@ -26,7 +27,7 @@ function Login() {
         //if view is being updated with its own value then just return and do nothing.
         if (view === viewString) return;
 
-        let background = document.getElementById('backgroundContainer');
+        let background = document.getElementById('background');
 
         //check if transition is from main view or from login/register view
         if (view === 'main') {
@@ -49,8 +50,8 @@ function Login() {
             case 'main':
                 return (
                     <div className={styles.buttonContainer}>
-                        <button className={styles.optionButton} onClick={() => updateView('login')}>Login</button>
-                        <button className={styles.optionButton} onClick={() => updateView('register')}>Create Account</button>
+                        <StyledButton style={{width: '20%'}} onClick={() => updateView('login')}>Login</StyledButton>
+                        <StyledButton style={{width: '20%'}} onClick={() => updateView('register')}>Create Account</StyledButton>
                     </div>)
 
             case 'login':
@@ -80,13 +81,12 @@ function Login() {
                             </fieldset>
 
                             <div className={styles.formButtonsContainer}>
-                                <button className={styles.formButton}>{view === 'login' ? 'Login' : 'Register'}</button>
-                                <button className={styles.formButton} onClick={() => updateView('main')}>Cancel</button>
+                                <StyledButton style={{width: '30%'}}>{view === 'login' ? 'Login' : 'Register'}</StyledButton>
+                                <StyledButton style={{width: '30%'}} onClick={() => updateView('main')}>Cancel</StyledButton>
                             </div>
                         </form>
                     </div>
                 )
-
             default:
                 return (<></>)
         }
@@ -94,7 +94,7 @@ function Login() {
 
     return(
     <section className={styles.mainContainer}>
-        <div id='backgroundContainer' className={styles.backgroundContainer}/>
+        <div id='background' className={styles.background}/>
         
         {renderView()}
     </section>)

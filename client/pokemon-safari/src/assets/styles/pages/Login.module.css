@@ -6,12 +6,12 @@
     overflow: hidden;
 }
 
-.backgroundContainer {
+.background {
     height: 100%;
     width: 100%;
     position: absolute;
 
-    background-image: url('../images/landing_background.png');
+    background-image: url('/src/assets/images/landing_background.png');
     background-position: center;
     background-size: cover;
 
@@ -30,17 +30,6 @@
     justify-content: space-around;
     
     bottom: 5%;
-}
-
-.optionButton {
-    height: 100%;
-    width: 20%;
-
-    font-size: 1.5rem;
-    text-wrap: nowrap;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 /*form component styling*/
@@ -87,7 +76,8 @@
 }
 
 .credentialInput {
-    font-size: 1.5rem
+    font-size: 1.5rem;
+    padding: .5rem;
 }
 
 .formButtonsContainer {
@@ -95,15 +85,4 @@
 
     display: flex;
     justify-content: space-between;
-}
-
-.formButton {
-    height: 100%;
-    width: 30%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    font-size: 1.5rem;
-    overflow: hidden;
 }

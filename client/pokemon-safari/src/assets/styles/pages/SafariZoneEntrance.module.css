@@ -1,0 +1,41 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    background-image: url('/src/assets/images/safari_zone_entrance.png');
+    background-position: center;
+    background-size: cover;
+
+    filter: blur(4px);
+}
+
+.contentContainer {
+    position: absolute;
+    height: 90%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.heading {
+    font-size: 3rem;
+    text-align: center;
+    font-weight: bold;
+
+    margin: .25rem;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3rem;
+}
