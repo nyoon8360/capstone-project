@@ -1,2 +1,3 @@
-package org.lonic.data;public class DataException {
+package org.lonic.data;
+public class DataAccessException {
 }
