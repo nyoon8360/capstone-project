@@ -57,4 +57,5 @@ html {
 
 #root {
   aspect-ratio: 16 / 9;
+  max-height: 100vh;
 }

@@ -2,10 +2,16 @@ import { useState } from 'react';
 import styles from '../assets/styles/pages/Login.module.css';
 import StyledButton from '../components/StyledButton';
 
+const CREDENTIALS_DEFAULT = {
+    username: '',
+    password: ''
+}
+
 function Login() {
     //states
     const [view, setView] = useState('main');
     const [errors, setErrors] = useState([]);
+    const [credentials, setCredentials] = useState(CREDENTIALS_DEFAULT);
 
     //==============
     //EVENT HANDLERS
@@ -16,6 +22,15 @@ function Login() {
         event.preventDefault();
 
         //TODO: Implement registration and authorization
+    }
+    
+    //update fields of credentials state when input fields are changed
+    const handleChange = (event) => {
+        const newCredentials = {...credentials};
+
+        newCredentials[event.target.name] = event.target.value;
+
+        setCredentials(newCredentials);
     }
 
     //=================
@@ -50,7 +65,7 @@ function Login() {
             case 'main':
                 return (
                     <div className={styles.buttonContainer}>
-                        <StyledButton style={{width: '20%'}} onClick={() => updateView('login')}>Login</StyledButton>
+                        <StyledButton style={{width: '20%'}} onClick={() => updateView('login')}>Log In</StyledButton>
                         <StyledButton style={{width: '20%'}} onClick={() => updateView('register')}>Create Account</StyledButton>
                     </div>)
 
@@ -72,7 +87,7 @@ function Login() {
 
                             <fieldset className={styles.fieldSet}>
                                 <label className={styles.credentialLabel} htmlFor='username'>Username</label>
-                                <input className={styles.credentialInput} type='text' name='username'></input>
+                                <input className={styles.credentialInput} type='text' name='username' onChange={handleChange}></input>
                             </fieldset>
                             
                             <fieldset className={styles.fieldSet}>
@@ -81,7 +96,7 @@ function Login() {
                             </fieldset>
 
                             <div className={styles.formButtonsContainer}>
-                                <StyledButton style={{width: '30%'}}>{view === 'login' ? 'Login' : 'Register'}</StyledButton>
+                                <StyledButton style={{width: '30%'}}>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
                                 <StyledButton style={{width: '30%'}} onClick={() => updateView('main')}>Cancel</StyledButton>
                             </div>
                         </form>
