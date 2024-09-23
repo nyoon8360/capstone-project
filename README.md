@@ -7,10 +7,11 @@
 * [ ] Create a react app in client dir
 * [ ] Clean folders to only have needed files (remove cruft).
 * [ ] Add dependencies (React Dom Router, Fetch API)
+* [ ] Implement AppUser, PokemonInstance, AreaEncounter, and Area models
 
 ## Back-End
-* [ ] [Assigned To: ] Implement AppUser, PokemonInstance, and Area models
-    1. Add validation annotations to all fields
+* [ ] [Assigned To: ] Write SQL schema file
+* [ ] [Assigned To: ] Add validation annotations to all fields
 * [ ] [Assigned To: ] Create data layer’s custom DataException class
 * [ ] [Assigned To: ] Implement AppUserJdbcTemplateRepository class alongside its interface
     1. Methods should throw DataAccessException

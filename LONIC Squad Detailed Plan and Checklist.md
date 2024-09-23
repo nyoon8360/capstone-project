@@ -244,7 +244,7 @@ Area
 1. Create a Maven project.
 2. Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security, Spring Boot Starter Validation, and Spring Boot Starter Web as maven dependencies and refresh Maven
 3. Create packages
-4. Implement AppUser, PokemonInstance, and Area models
+4. Implement AppUser, PokemonInstance, AreaEncounter, and Area models
     1. Add validation annotations to all fields
 5. Create data layer’s custom DataAccessException class
 6. Implement AppUserJdbcTemplateRepository class alongside its interface
