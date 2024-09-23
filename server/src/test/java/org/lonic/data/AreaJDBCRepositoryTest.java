@@ -42,6 +42,14 @@ public class AreaJDBCRepositoryTest {
     }
 
     @Test
+    void shouldUpdate(){
+        List<Area> areas= repository.findAll();
+        Area area = areas.get(1);
+        area.setAreaName("testing");
+        assertTrue(repository.update(area));
+    }
+
+    @Test
     void shouldDeleteArea() {
         assertTrue(repository.deleteById(2));
     }
