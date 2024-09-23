@@ -26,21 +26,30 @@ Create a browser based pokemon game designed around the safari zone minigame. Im
 - Players are able to leave areas or search for pokemon
 - Players can trigger encounters by searching for pokemon in areas
 - Encounters select a random pokemon from the list of available pokemon in the area and allow players a chance to catch them by performing different available actions
-    - The Throw Bait action reduces pokemon catch rate but lowers their chance to flee
-    - The Throw Mud action increases pokemon catch rate but increases their chance to flee
-    - The Throw Pokeball action attempts to catch the pokemon using the current catch rate
-    - The Run Away action ends the encounter without catching the pokemon and returns the player to the area option screen
+    - For balance purposes, pokemon's base catch rate is capped at 128 before applying action modifiers.
+    - The Throw Bait action halves the pokemon's catch rate rounded down and halves their flee chance rounded down.
+    - The Throw Mud action doubles pokemon catch rate rounded down and doubles their flee chance rounded down
+    - The Throw Pokeball action attempts to catch the pokemon using the current catch rate. A random number from 0 to 255 is generated and if it's equal to or below the final calculated catch rate then the pokemon is caught. If not then the pokemon escapes the ball.
+    - At the end of each turn, a random number from 0 to 255 is generated and if it's equal to or below the final calculated flee rate then the pokemon flees from the battle.
+    - The Run Away action ends the encounter without catching the pokemon and returns the player to the area option screen.
+    - Final Catch Rate Formula: FLOOR(MIN(baseCatchRate, 128) * actionModifier * ballModifier)
+    - Final Flee Rate Formula: FLOOR(baseFleeRate * actionModifier)
+    - All rate calculations are rounded DOWN to the nearest integer
 
 ## Project Structure 🌳
 ![project file structure](./projectFileTree.png)
 
 ## Data 📚
 app_role
+- app_role_id: Unique role id
 - role_name: Name of the role
+
+user_role_assignment
+- app_role_id: Id of role to apply to user
+- app_user_id: Id of user to apply role to
 
 app_user
 - app_user_id: User unique id
-- role_name: The user’s role
 - username: User’s username for logging in
 - password: User’s password for logging in
 
@@ -63,6 +72,7 @@ area_encounter
 - area_id: Id of the area that this encounter applies to
 - pokemon_name: name of the pokemon for this encounter
 - encounter_rate: the possibility of triggering this encounter
+- flee_rate: the possibility of the pokemon fleeing per turn
 
 ## Validation 💳
 app_role
@@ -102,6 +112,8 @@ area_encounter
     - Combination must be unique
 - encounter_rate
     - Must be greater than 1
+- flee_rate
+    - Must be greater than 0 and less than 100
 
 ## Java Class Details ☕
 App
@@ -186,6 +198,7 @@ AppUser
 - private String roleName
 - private String username
 - private String password
+- private String[] roles
 - Full getters and setters
 
 PokemonInstance
@@ -204,6 +217,7 @@ AreaEncounter
 - private int areaId
 - private String pokemonName
 - private int encounterRate
+- private int flee_rate
 - Full getters and setters
 
 Area
@@ -213,8 +227,9 @@ Area
 
 ## React Component Details 🧩
 - Login – Main landing page for website where users can login or create accounts
-- SafariZoneEntrance – Main menu for player users that allows them to open their pc box, open the account menu, or travel to an area
-- Area – Area sub menu that allows players to search for pokemon or go back to safari zone entrance
+- SafariZoneEntrance – Main menu for player users that allows them to open their pc box, open the account menu, or board the shuttle
+- Shuttle - Menu for selecting which area to travel to
+- Area – Area sub menu that allows players to search for pokemon or go back to shuttle
 - Encounter – Component that renders an encounter for the player to play through and attempt to catch a pokemon
 - PCBox – Component that lists all pokemon in a players inventory
 - Account – Menu that allows players to delete their own account
@@ -227,70 +242,122 @@ Area
 
 ## Steps Back-End 📋
 1. Create a Maven project.
-2. Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security and Spring Boot Starter Web as maven dependencies and refresh Maven
+2. Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security, Spring Boot Starter Validation, and Spring Boot Starter Web as maven dependencies and refresh Maven
 3. Create packages
 4. Implement AppUser, PokemonInstance, and Area models
-5. Create data layer’s custom DataException class
+    1. Add validation annotations to all fields
+5. Create data layer’s custom DataAccessException class
 6. Implement AppUserJdbcTemplateRepository class alongside its interface
-a. All methods should catch IOExceptions and throw custom DataException
+    1. Methods should throw DataAccessException
+    2. Get all AppUsers
+    3. Get AppUsers by username
+    4. Add AppUser
+    5. Delete AppUser by Id
+    6. Any retrievals of AppUsers should also query for their roles and attach them to the created AppUser object instance
 7. Create tests for AppUserJdbcTemplateRepository
 8. Implement PokemonInstanceJdbcTemplateRepository class alongside its interface
-a. All methods should catch IOExceptions and throw custom DataException
+    1. Methods should throw DataAccessException
+    2. Get all PokemonInstances with a matching app_user_id
+    3. Add a PokemonInstance
+    4. Update a PokemonInstance by Id
+    5. Delete a PokemonInstance by Id
 9. Create tests for PokemonInstanceJdbcTemplateRepository
 10. Implement AreaJdbcTemplateRepository class alongside its interface
-a. All methods should catch IOExceptions and throw custom DataException
+    1. Methods should throw DataAccessException
+    2. Get all Areas
+    3. Add an Area
+    4. Update an Area by Id
+    5. Delete an Area by Id
 11. Create tests for AreaJdbcTemplateRepository
 12. Implement AreaEncounterJdbcTemplateRepository class alongside its interface
-a. All methods should catch IOExceptions and throw custom DataException
+    1. Methods should throw DataAccessException
+    2. Get all AreaEncounters with a matching area_id
+    3. Add an AreaEncounter
+    4. Update an AreaEncounter by Id
+    5. Delete an AreaEncounter by Id
 13. Create tests for AreaEncounterJdbcTemplateRepository
 14. Implement AppUserService class
-a. Add all listed validation rules for app users
-b. Should take an AppUserRepository isntance as a dependency
+    1. Add any validation rules that can't be handled through annotations for app users
+    2. Should take an AppUserRepository isntance as a dependency
 15. Implement PokemonInstanceService class
-a. Add all listed validation rules for pokemon instances
-b. Should take a PokemonInstanceRepository instance as a dependency
+    1. Add any validation rules that can't be handled through annotations for pokemon instances
+    2. Should take a PokemonInstanceRepository instance as a dependency
 16. Implement AreaService class
-a. Add all listed validation rules for areas
-b. Should take an AreaRepository instance as a dependency
+    1. Add any validation rules that can't be handled through annotations for areas
+    2. Should take an AreaRepository instance as a dependency
 17. Implement AreaEncounterService class
-a. Add all listed validation rules for area encounters
-b. Should take an AreaEncounterRepository instance as a dependency
+    1. Add any validation rules that can't be handled through annotations for area encounters
+    2. Should take an AreaEncounterRepository instance as a dependency
 18. Implement AppUserController class
-18. Implement AppUserController tests
-19. Implement PokemonInstanceController class
-20. Implement PokemonInstanceController tests
-21. Implement AreaController class
-22. Implement AreaController tests
-23. Implement AreaEncounterController class
-24. Implement AreaEncounterController tests
-25. Create App class
-a. Instantiate all required classes with valid arguments, dependency injection. run controller
+19. Implement AppUserController tests
+20. Implement PokemonInstanceController class
+21. Implement PokemonInstanceController tests
+22. Implement AreaController class
+23. Implement AreaController tests
+24. Implement AreaEncounterController class
+25. Implement AreaEncounterController tests
+26. Implement token based authentication for requests
+27. Create App class
+    1. Instantiate all required classes with valid arguments, dependency injection. run controller
 
 ## Steps Front-End 📋
 1. Create a react app
-2. Clean folders to only have needed files.
+2. Clean folders to only have needed files (remove cruft).
 3. Add dependencies (React Dom Router, Fetch API, )
 4. Implement a Login component with buttons to login or create account
-a. Login takes to login page with info
-b. Create account allows for user input for account creation
-5. Implement a SarfariZoneEntrance component to look at team or go catch
-6. Implement Area component for looking for pokemon
-a. Have a page for each area we implement
-b. Make sure pokemon are tied to the correct areas
-7. Implement Encounter component
-a. Add the buttons for each “move” user is allowed to do.
-b. See buttons work correctly with moves
-8. Implement PCBox component to create a list of pokemon with each user
-a. Implement release button for users
-9. Implement Account.js
-10. Implement AdminPanelHome component
-11. Implement AdminPanelPlayers component
-a. Refresh component on load and when player data changes
-12. Implement AdminPanelAreas component
-a. Refresh component on load and when area data changes
-13. Implement AdminPanelPlayerForm component
-14. Implement AdminPanelAreaForm component
-15. Implement NotFound component
+    1. Login takes to login page with info
+    2. Create account allows for user input for account creation
+5. Implement a SarfariZoneEntrance component to look at team or board shuttle
+6. Implement Shuttle component for selecting area to travel to
+    1. Fetch list of all available areas
+    2. Display list of all available areas as buttons
+7. Implement Area component for looking for pokemon
+    1. Conditionally render area component based on which area was chosen
+    2. Fetch list of all area_encounters for current area
+8. Implement Encounter component
+    1. Add the buttons for each “move” user is allowed to do.
+    2. See buttons work correctly with moves
+9. Implement PCBox component to create a list of pokemon with each user
+    1. Implement release button for users
+    2. Fetch list of all PokemonInstances owned by user and display them
+10. Implement Account.js
+    1. Add button to allow deletion of own account and all related PokemonInstances
+    2. Use window.confirm() to prompt confirmation for the user before deletion
+    3. Return user to Login page upon successful deletion
+11. Implement AdminPanelHome component
+    1. Implement Areas button that will navigate to AdminPanelAreas component
+    2. Implement Players button that will navigate to AdminPanelPlayers component
+    3. Implement Logout button that will log user out of account and navigate to Login component.
+12. Implement AdminPanelPlayers component
+    1. Fetch all players
+    2. Implement delete option for player accounts
+    3. Prompt user for confirmation before deleting player account
+    4. Refresh component on load and when player data changes
+    5. Implement EditPCBox button that will navigate to AdminPanelPlayerForm page
+    6. Implement Back button that will navigate to AdminPanelHome page
+13. Implement AdminPanelAreas component
+    1. Fetch all areas
+    2. Implement delete option for areas
+    3. Prompt user for confirmation before deleting area
+    4. Add and edit area buttons will navigate to AdminPanelAreaForm page
+    5. Back button will navigate to AdminPanelHome page
+    6. Refresh component on load and when area data changes
+14. Implement AdminPanelPlayerForm component
+    1. Fetch player PCBox data to prefill table with all player owned pokemon
+    2. Make all stat fields of pokemon in table directly editable
+    3. Add pokemon button will not actually perform a POST request. Instead it will add new pokemon to table.
+    4. Upon submission, perform PUT request with all data in table
+    5. Cancel button will navigate to AdminPanelPlayers page without performing any http requests.
+    6. Prompt user to confirm Canceling the submission and notify that all changes won't be applied including added pokemon
+15. Implement AdminPanelAreaForm component
+    1. Fetch all PokemonEncounters for the current area to display
+    2. Implement Add Pokemon Encounter button that wont actually perform a POST request but instead will add the new PokemonEncounter to the table.
+    3. Make Encounter Rate field in table editable
+    4. Upon submission, perform PUT request with all data in table and in Environment Name input field.
+    5. Implement cancel button that will navigate to AdminPanelAreas component.
+    6. Prompt user to confirm Canceling the submission and notify that all changes won't be applied including added pokemon encounters
+16. Implement NotFound component
+    1. Add some fun custom styling and graphics just to make not found page unique.
 
 ## Technologies 🤖
 ### Front-end
