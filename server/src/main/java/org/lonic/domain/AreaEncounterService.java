@@ -1,2 +1,4 @@
-package org.lonic.domain;public class AreaEncounterService {
+package org.lonic.domain;
+
+public class AreaEncounterService {
 }

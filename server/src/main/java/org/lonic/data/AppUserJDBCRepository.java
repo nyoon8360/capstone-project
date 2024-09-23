@@ -36,15 +36,15 @@ public class AppUserJDBCRepository implements AppUserRepository{
 
     //find by username
     @Override
-    public List<AppUser> findByUsername(String username){
+    public AppUser findByUsername(String username){
         final String sql = "select app_user_id, username, password "
                 +"from app_user "
                 +"where username = ?;";
-        List<AppUser> list = jdbcTemplate.query(sql, new AppUserMapper(), username);
-        for (AppUser appUser: list){
-            addRoles(appUser);
+        AppUser result = jdbcTemplate.queryForObject(sql,new Object[]{username}, new AppUserMapper());
+        if(result != null) {
+            addRoles(result);
         }
-        return list;
+        return result;
     }
 
     //add method
@@ -71,7 +71,13 @@ public class AppUserJDBCRepository implements AppUserRepository{
     // delete function
     @Override
     public boolean deleteById(int appUserId) {
-        return jdbcTemplate.update("delete from app_user where app_user_id = ?;", appUserId) > 0;
+        // First, delete dependent records in the pokemon_instance table
+        String deleteDependentRecordsSql = "DELETE FROM pokemon_instance WHERE app_user_id = ?";
+        jdbcTemplate.update(deleteDependentRecordsSql, appUserId);
+
+        // Now, delete the user from the app_user table
+        String deleteUserSql = "DELETE FROM app_user WHERE app_user_id = ?";
+        return jdbcTemplate.update(deleteUserSql, appUserId) > 0;
     }
 
     //helper method for roles

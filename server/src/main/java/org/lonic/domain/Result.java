@@ -1,2 +1,4 @@
-package org.lonic.domain;public class Result {
+package org.lonic.domain;
+
+public class Result {
 }

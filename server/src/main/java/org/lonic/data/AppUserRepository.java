@@ -10,7 +10,7 @@ public interface AppUserRepository {
 
     //find by username
 
-    List<AppUser> findByUsername(String Username);
+    AppUser findByUsername(String Username);
 
     //add method
     AppUser add(AppUser appUser);

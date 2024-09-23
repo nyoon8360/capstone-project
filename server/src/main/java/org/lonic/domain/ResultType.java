@@ -1,2 +1,4 @@
-package org.lonic.domain;public class ResultType {
+package org.lonic.domain;
+
+public class ResultType {
 }
