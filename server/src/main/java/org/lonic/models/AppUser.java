@@ -1,5 +1,4 @@
 package org.lonic.models;
-
 import java.util.List;
 
 public class AppUser {
