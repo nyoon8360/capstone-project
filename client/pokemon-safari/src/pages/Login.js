@@ -22,6 +22,7 @@ function Login() {
         event.preventDefault();
 
         //TODO: Implement registration and authorization
+        //TODO: Set errors if any occur
     }
     
     //update fields of credentials state when input fields are changed

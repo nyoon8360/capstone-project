@@ -6,11 +6,18 @@ import StyledButton from '../components/StyledButton';
 function SafariZoneEntrance() {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        //TODO: log out of account
+    //==============
+    //EVENT HANDLERS
+    //==============
 
-        //after logout, navigate to main menu
-        navigate('/');
+    //confirm then execute logging out of account
+    const handleLogout = () => {
+        if (window.confirm("Are you sure you want to log out?")) {
+            //TODO: prompt confirmation then log out of account
+
+            //after logout, navigate to main menu
+            navigate('/');
+        }
     }
 
     return(
