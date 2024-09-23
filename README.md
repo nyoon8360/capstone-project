@@ -1,9 +1,14 @@
 # Tasks
 
+## Setup (Done as group)
+* [ ] Create client and server directories
+* [ ] Create a Maven project in server dir.
+* [ ] Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security, Spring Boot Starter Validation, and Spring Boot Starter Web as maven dependencies and refresh Maven
+* [ ] Create a react app in client dir
+* [ ] Clean folders to only have needed files (remove cruft).
+* [ ] Add dependencies (React Dom Router, Fetch API)
+
 ## Back-End
-* [ ] [Assigned To: ] Create a Maven project.
-* [ ] [Assigned To: ] Add jUnit5 Jupiter, Spring Boot JDBC, Spring Boot Devtools, MySQL Connector, Spring Security, Spring Boot Starter Validation, and Spring Boot Starter Web as maven dependencies and refresh Maven
-* [ ] [Assigned To: ] Create packages
 * [ ] [Assigned To: ] Implement AppUser, PokemonInstance, and Area models
     1. Add validation annotations to all fields
 * [ ] [Assigned To: ] Create data layer’s custom DataException class
@@ -60,12 +65,10 @@
     1. Instantiate all required classes with valid arguments, dependency injection. run controller
 
 ## Front-End
-* [ ] [Assigned To: ] Create a react app
-* [ ] [Assigned To: ] Clean folders to only have needed files (remove cruft).
-* [ ] [Assigned To: ] Add dependencies (React Dom Router, Fetch API, )
 * [ ] [Assigned To: ] Implement a Login component with buttons to login or create account
     1. Login takes to login page with info
     2. Create account allows for user input for account creation
+    3. When login or register buttons are pressed, blur background and slightly zoom out.
 * [ ] [Assigned To: ] Implement a SarfariZoneEntrance component to look at team or board shuttle
 * [ ] [Assigned To: ] Implement Shuttle component for selecting area to travel to
     1. Fetch list of all available areas
