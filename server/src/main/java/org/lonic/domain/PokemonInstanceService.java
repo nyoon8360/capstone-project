@@ -1,2 +1,4 @@
-package org.lonic.domain;public class PokemonInstanceService {
+package org.lonic.domain;
+
+public class PokemonInstanceService {
 }

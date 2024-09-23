@@ -1,2 +1,4 @@
-package org.lonic.data;public interface AppUserRepository {
+package org.lonic.data;
+
+public interface AppUserRepository {
 }

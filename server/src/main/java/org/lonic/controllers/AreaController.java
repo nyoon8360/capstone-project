@@ -1,2 +1,4 @@
-package org.lonic.controllers;public class AreaController {
+package org.lonic.controllers;
+
+public class AreaController {
 }

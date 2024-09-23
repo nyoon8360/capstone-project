@@ -1,2 +1,4 @@
-package org.lonic.controllers;public class AppUserController {
+package org.lonic.controllers;
+
+public class AppUserController {
 }

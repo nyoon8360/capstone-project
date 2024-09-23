@@ -1,2 +1,4 @@
-package org.lonic.controllers;public class GlobalExceptionHandler {
+package org.lonic.controllers;
+
+public class GlobalExceptionHandler {
 }
