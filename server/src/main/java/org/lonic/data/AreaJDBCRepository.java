@@ -1,2 +1,4 @@
-package org.lonic.data;public class AreaJDBCRepository {
+package org.lonic.data;
+
+public class AreaJDBCRepository {
 }

@@ -1,2 +1,4 @@
-package org.lonic.domain;public class AppUserService {
+package org.lonic.domain;
+
+public class AppUserService {
 }

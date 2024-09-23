@@ -1,2 +1,4 @@
-package org.lonic;public class App {
+package org.lonic;
+
+public class App {
 }

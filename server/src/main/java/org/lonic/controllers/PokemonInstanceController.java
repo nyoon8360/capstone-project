@@ -1,2 +1,4 @@
-package org.lonic.controllers;public class PokemonInstanceController {
+package org.lonic.controllers;
+
+public class PokemonInstanceController {
 }

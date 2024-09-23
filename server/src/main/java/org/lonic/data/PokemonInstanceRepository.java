@@ -1,2 +1,4 @@
-package org.lonic.data;public class PokemonInstanceRepository {
+package org.lonic.data;
+
+public interface PokemonInstanceRepository {
 }
