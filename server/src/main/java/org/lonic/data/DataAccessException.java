@@ -1,6 +1,6 @@
 package org.lonic.data;
 
-public class DataException extends Exception {
+public class DataAccessException extends Exception {
 
     public DataException(String message) {
         super(message);
