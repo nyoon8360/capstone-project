@@ -13,6 +13,6 @@ public interface AppUserRepository {
     //add method
     AppUser add(AppUser appUser);
 
-    // delete function
+    // deleteById function
     boolean deleteById(int appUserId);
 }

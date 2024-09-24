@@ -7,7 +7,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -21,6 +20,7 @@ public class PokemonInstanceJDBCRepository implements PokemonInstanceRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<PokemonInstance> getByUserId(int userId) {
         final String sql = "select pokemon_instance_id, pokemon_name, app_user_id, max_hp, attack, defense, special_attack, special_defense, speed "
                 + "from pokemon_instance " +
@@ -28,6 +28,7 @@ public class PokemonInstanceJDBCRepository implements PokemonInstanceRepository{
         return jdbcTemplate.query(sql, new PokemonInstanceMapper(), userId);
     }
 
+    @Override
     public PokemonInstance add(PokemonInstance pokemonInstance) {
         final String sql = "insert into pokemon_instance (pokemon_name, app_user_id, max_hp, attack, defense, special_attack, special_defense, speed) "
                 + " values (?,?,?,?,?,?,?,?);";
@@ -54,10 +55,12 @@ public class PokemonInstanceJDBCRepository implements PokemonInstanceRepository{
         return pokemonInstance;
     }
 
+    @Override
     public boolean deleteById(int instanceId) {
-        return jdbcTemplate.update("delete from pokemon_instance where pokemon_instance_id = ?;", instanceId) > 0;
+        return jdbcTemplate.update("deleteById from pokemon_instance where pokemon_instance_id = ?;", instanceId) > 0;
     }
 
+    @Override
     public boolean update(PokemonInstance pokemonInstance) {
 
         final String sql = "update pokemon_instance set "

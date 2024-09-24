@@ -68,7 +68,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
         appUser.setAppUserId(keyHolder.getKey().intValue());
         return appUser;
     }
-    // delete function
+    // deleteById function
     @Override
     public boolean deleteById(int appUserId) {
         // First, delete dependent records in the pokemon_instance table
