@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Encounter.module.css'
 import { useNavigate } from 'react-router-dom';
 
+const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
+
 function Encounter() {
+    const [pokemon, setPokemon] = useState({pokemonName: 'pikachu'});
 
     const navigate = useNavigate();
 
-    //play encounter start animation
+    //fetch pokemon stats and sprites
     useEffect(() => {
-
+        getSprite();
     }, []);
 
     //==============
@@ -27,6 +30,31 @@ function Encounter() {
 
     }
 
+    //============
+    //HTTP METHODS
+    //============
+    function getSprite() {
+        const newPokemon = {...pokemon};
+
+        return fetch(`${basePokeApiUrl}/${pokemon.pokemonName}`).then(data => {
+            return data.json();
+        })
+        .then(dataJson => {
+            newPokemon.sprite = dataJson.sprites.front_default;
+
+            //set pokemon size based on fetched height
+            let pokemonHeight = dataJson.height;
+
+            newPokemon.size = 
+                pokemonHeight <= 6 ? '40%' : 
+                pokemonHeight <= 14 ? '60%' :
+                pokemonHeight <= 26 ? '80%' :
+                '100%';
+            
+            setPokemon(newPokemon);
+        })
+    }
+
     //end encounter and return to previous area
     const handleRunAway = () => {
         //TODO: end encounter in backend
@@ -38,7 +66,10 @@ function Encounter() {
     return(
         <div className={styles.mainContainer}>
             <div className={styles.background}>
-
+                <img className={styles.trainer} alt='pokemon trainer' src={require(('../assets/images/trainer_encounter_sprite.png'))}/>
+                <div className={styles.pokemonContainer}>
+                    <img className={styles.pokemon} alt={pokemon.pokemonName} style={{height: pokemon.size}} src={pokemon.sprite}/>
+                </div>
             </div>
             <div className={styles.actionBar}>
                 <div className={styles.actionBarTextWindowContainer}>
