@@ -1,0 +1,75 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.background {
+    position: relative;
+    height: 75%;
+    width: 100%;
+
+    background-size: 100% 100%;
+    background-image: url("/src/assets/images/encounter.png");
+}
+
+.actionBar {
+    position: relative;
+    width: 100%;
+    height: 25%;
+
+    background-color: black;
+
+    box-sizing: border-box;
+    border: 2px solid black;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 2px;
+}
+
+.actionBarTextWindowContainer {
+    background-color: rgb(204, 196, 78);
+    position: relative;
+}
+
+.actionBarTextWindow {
+    background-color: rgb(255, 255, 255);
+
+    position: absolute;
+
+    border-radius: 1rem 0 0 1rem;
+
+    padding: 1vw 0 1vw 1vw;
+
+    top: 1vw;
+    bottom: 1vw;
+    left: 1vw;
+    right: 0;
+}
+
+.actionBarButtonContainer {
+    background-color: rgb(41, 142, 224);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.actionBarButton {
+    margin: .25rem;
+    box-sizing: border-box;
+
+    font-size: 1rem;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-radius: .5rem;
+}

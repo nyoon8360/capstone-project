@@ -1,4 +1,4 @@
-package org.lonic.domain;
+package org.lonic.security;
 
 import org.lonic.data.AppUserRepository;
 import org.lonic.models.AppUser;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class AppUserService implements UserDetailsService {

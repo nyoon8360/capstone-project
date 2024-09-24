@@ -1,0 +1,88 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    background-image: url('/src/assets/images/landing_background.png');
+    background-position: center;
+    background-size: cover;
+
+    transform: scale(1.1);
+    transition: .8s;
+}
+
+
+/*landing option component styling*/
+.buttonContainer {
+    height: 7%;
+    width: 100%;
+
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    
+    bottom: 5%;
+}
+
+/*form component styling*/
+.credentialsFormContainer {
+    position: relative;
+    height: 70%;
+    width: 40%;
+    top: 5%;
+
+    background-color: rgba(0, 0, 0, .5);
+    margin: auto;
+    padding: 5%;
+}
+
+.credentialsForm {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.errorContainer {
+    background-color: rgba(255, 0, 0, 0.5);
+    padding: .5rem;
+    border-radius: .5rem;
+    font-weight: bold;
+}
+
+.errorList {
+    list-style: inside;
+}
+
+.fieldSet {
+    display: flex;
+    flex-direction: column;
+}
+
+.credentialLabel {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: .5rem;
+}
+
+.credentialInput {
+    font-size: 1.5rem;
+    padding: .5rem;
+}
+
+.formButtonsContainer {
+    height: 10%;
+
+    display: flex;
+    justify-content: space-between;
+}

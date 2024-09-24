@@ -1,6 +1,6 @@
 package org.lonic.controllers;
 
-import org.lonic.domain.AppUserService;
+import org.lonic.security.AppUserService;
 import org.lonic.models.AppUser;
 import org.lonic.security.JwtConverter;
 import org.springframework.dao.DuplicateKeyException;
