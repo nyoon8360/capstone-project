@@ -68,14 +68,14 @@ public class AppUserJDBCRepository implements AppUserRepository{
         appUser.setAppUserId(keyHolder.getKey().intValue());
         return appUser;
     }
-    // delete function
+    // deleteById function
     @Override
     public boolean deleteById(int appUserId) {
-        // First, delete dependent records in the pokemon_instance table
+        // First, deleteById dependent records in the pokemon_instance table
         String deleteDependentRecordsSql = "DELETE FROM pokemon_instance WHERE app_user_id = ?";
         jdbcTemplate.update(deleteDependentRecordsSql, appUserId);
 
-        // Now, delete the user from the app_user table
+        // Now, deleteById the user from the app_user table
         String deleteUserSql = "DELETE FROM app_user WHERE app_user_id = ?";
         return jdbcTemplate.update(deleteUserSql, appUserId) > 0;
     }
