@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from '../assets/styles/pages/Login.module.css';
 import StyledButton from '../components/StyledButton';
+import { useNavigate } from 'react-router-dom';
 
 const CREDENTIALS_DEFAULT = {
     username: '',
@@ -12,6 +13,7 @@ function Login() {
     const [view, setView] = useState('main');
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState(CREDENTIALS_DEFAULT);
+    const navigate = useNavigate();
 
     //==============
     //EVENT HANDLERS
@@ -23,6 +25,9 @@ function Login() {
 
         //TODO: Implement registration and authorization
         //TODO: Set errors if any occur
+
+        //TODO: testing purposes delete this
+        navigate('/entrance');
     }
     
     //update fields of credentials state when input fields are changed
