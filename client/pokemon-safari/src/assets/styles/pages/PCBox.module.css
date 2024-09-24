@@ -28,16 +28,27 @@
     overflow: hidden;
 }
 
+.heading {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 .box {
     width: 70%;
 
     background: linear-gradient(.25turn, rgb(31, 25, 194) 5%, rgb(29, 137, 225) 25%, rgb(29, 137, 225) 75%, rgb(31, 25, 194) 95%);
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .boxGrid {
     display: flex;
     flex-wrap: wrap;
+
+    flex-grow: 1;
 }
 
 .slot {

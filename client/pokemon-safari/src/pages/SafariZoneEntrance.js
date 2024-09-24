@@ -24,7 +24,7 @@ function SafariZoneEntrance() {
     <section className={styles.mainContainer}>
         <div className={styles.background}/>
         <div className={styles.contentContainer}>
-            <h2 className={styles.heading}>Safari Zone Entrance</h2>
+            <h1 className={styles.heading}>Safari Zone Entrance</h1>
             <div className={styles.buttonContainer}>
                 <StyledLink style={{width: '18%'}} to={'/pcbox'}>View PC Box</StyledLink>
                 <StyledLink style={{width: '18%'}} to={'/shuttle'}>Board Shuttle</StyledLink>

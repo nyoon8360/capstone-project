@@ -104,11 +104,11 @@ function PCBox() {
     return(
         <section className={styles.mainContainer}>
             <div className={styles.sidebar}>
-                <h3 className={styles.sidebarTitle}>
+                <h2 className={styles.sidebarTitle}>
                     {selectedPokemon.pokemonName ? 
                     selectedPokemon.pokemonName.charAt(0).toUpperCase() + selectedPokemon.pokemonName.slice(1) 
                     : '???'}
-                </h3>
+                </h2>
                 <div className={styles.sidebarImageContainer}>
                     {selectedPokemon.sprite ? 
                         <img 
@@ -159,6 +159,7 @@ function PCBox() {
                 </div>
             </div>
             <div id='box' className={styles.box}>
+                <h1 className={styles.heading}>PC Box</h1>
                 <div className={styles.boxGrid}>
                     {isLoading  ? <></> : pokemon.map(instance => (
                         <div className={styles.slot} onClick={() => setSelectedPokemon(instance)}>
