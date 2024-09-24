@@ -11,7 +11,8 @@ create table app_role (
 create table app_user (
 	app_user_id int primary key auto_increment,
     username varchar(25),
-    password varchar(25)
+    password varchar(25),
+    disabled boolean not null default(0)
 );
 
 create table user_role_assignment (
@@ -56,16 +57,21 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
-    delete from app_role;
-    alter table app_role auto_increment = 1;
-    delete from app_user;
-    alter table app_user auto_increment = 1;
+    -- Clear all tables in the required order
+    delete from pokemon_instance; 
     delete from user_role_assignment;
-    delete from pokemon_instance;
+    delete from area_encounter; 
+    delete from app_role; 
+    delete from area; 
+    delete from app_user;
+
+    -- Reset auto-increment values
     alter table pokemon_instance auto_increment = 1;
-    delete from `area`;
-    alter table `area` auto_increment = 1;
-    delete from area_encounter;
+    alter table user_role_assignment auto_increment = 1;
+    alter table area_encounter auto_increment = 1;
+    alter table app_role auto_increment = 1;
+    alter table area auto_increment = 1;
+    alter table app_user auto_increment = 1;
 	
     insert into app_role(role_name) values
 		('admin'),
