@@ -1,0 +1,172 @@
+@url = http://localhost:8080/pokemon/
+
+### GET
+### Happy
+GET {{url}}user/2 HTTP/1.1
+
+### Non ExistentUser
+GET {{url}}user/22 HTTP/1.1
+
+
+### POST
+### Happy
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 0,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 22,
+    "attack": 22,
+    "defense": 22,
+    "specialAttack": 22,
+    "specialDefense": 22,
+    "speed": 22
+}
+
+###
+GET {{url}}user/2 HTTP/1.1
+
+### Missing/Out of Range Fields/
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 0,
+    "pokemonName": "",
+    "appUserId": 2,
+    "maxHp": 22,
+    "attack": 22,
+    "defense": 22,
+    "specialAttack": 22,
+    "specialDefense": 22,
+    "speed": 22
+}
+### 
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 0,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 33,
+    "attack": 22,
+    "defense": 22,
+    "specialAttack": 22,
+    "specialDefense": 22,
+    "speed": 22
+}
+
+### Preset pokemonInstanceId
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 3,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 22,
+    "attack": 22,
+    "defense": 22,
+    "specialAttack": 22,
+    "specialDefense": 22,
+    "speed": 22
+}
+
+### PUT
+### HAPPY
+PUT {{url}}7 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 7,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 11,
+    "attack": 11,
+    "defense": 11,
+    "specialAttack": 11,
+    "specialDefense": 11,
+    "speed": 11
+}
+
+###
+GET {{url}}user/2 HTTP/1.1
+
+### UNHAPPY
+### CONFLICT
+PUT {{url}}7 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 3,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 11,
+    "attack": 11,
+    "defense": 11,
+    "specialAttack": 11,
+    "specialDefense": 11,
+    "speed": 11
+}
+
+### Missing/Out Of Range Fields
+PUT {{url}}7 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 7,
+    "pokemonName": "",
+    "appUserId": 2,
+    "maxHp": 11,
+    "attack": 11,
+    "defense": 11,
+    "specialAttack": 11,
+    "specialDefense": 11,
+    "speed": 11
+}
+
+### 
+PUT {{url}}7 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 7,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 33,
+    "attack": 11,
+    "defense": 11,
+    "specialAttack": 11,
+    "specialDefense": 11,
+    "speed": 11
+}
+
+### Not Found
+PUT {{url}}123 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pokemonInstanceId": 123,
+    "pokemonName": "Test",
+    "appUserId": 2,
+    "maxHp": 11,
+    "attack": 11,
+    "defense": 11,
+    "specialAttack": 11,
+    "specialDefense": 11,
+    "speed": 11
+}
+
+### DELETE
+### Happy
+DELETE  {{url}}7 HTTP/1.1
+
+###
+GET {{url}}user/2 HTTP/1.1
+
+### Unhappy
+### Not Found
+DELETE  {{url}}7 HTTP/1.1

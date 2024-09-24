@@ -58,11 +58,11 @@ public class AreaJDBCRepository implements AreaRepository{
     @Override
     public boolean deleteById(int areaId){
         // First, deleteById dependent records in the area_encounter table
-        String deleteDependentRecordsSql = "deleteById from area_encounter where area_id = ?";
+        String deleteDependentRecordsSql = "delete from area_encounter where area_id = ?";
         jdbcTemplate.update(deleteDependentRecordsSql, areaId);
 
         // Now, deleteById the area from the area table
-        String deleteAreaSql = "deleteById from area where area_id = ?";
+        String deleteAreaSql = "delete from area where area_id = ?";
         return jdbcTemplate.update(deleteAreaSql, areaId) > 0;
     }
 }

@@ -38,7 +38,7 @@ public class AreaEncounterJDBCRepository implements AreaEncounterRepository{
             ps.setInt(1, areaEncounter.getAreaId()); // Set area_id
             ps.setString(2, areaEncounter.getPokemonName()); // Set pokemon_name
             ps.setInt(3, areaEncounter.getEncounterRate()); // Set encounter_rate
-            ps.setInt(4, areaEncounter.getFlee_rate()); // Set flee_rate
+            ps.setInt(4, areaEncounter.getFleeRate()); // Set flee_rate
             return ps;
         }, keyHolder);
 
@@ -53,13 +53,13 @@ public class AreaEncounterJDBCRepository implements AreaEncounterRepository{
     public boolean update(AreaEncounter areaEncounter) {
         final String sql = "update area_encounter set encounter_rate = ?, flee_rate = ? WHERE area_id = ? AND pokemon_name = ?";
 
-        return  jdbcTemplate.update(sql, areaEncounter.getEncounterRate(), areaEncounter.getFlee_rate(), areaEncounter.getAreaId(), areaEncounter.getPokemonName()) > 0;// returns true if the update was successful
+        return  jdbcTemplate.update(sql, areaEncounter.getEncounterRate(), areaEncounter.getFleeRate(), areaEncounter.getAreaId(), areaEncounter.getPokemonName()) > 0;// returns true if the update was successful
     }
 
     @Override
     public boolean delete(int areaId, String pokemonName) {
-        final String sql = "deleteById from area_encounter where area_id = ? and pokemon_name = ?";
+        final String sql = "delete from area_encounter where area_id = ? and pokemon_name = ?";
 
-        return jdbcTemplate.update(sql, areaId, pokemonName) > 0;
+        return jdbcTemplate.update(sql, areaId, pokemonName + "-" + areaId) > 0;
     }
 }

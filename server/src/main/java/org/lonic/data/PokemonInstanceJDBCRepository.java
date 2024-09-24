@@ -57,7 +57,7 @@ public class PokemonInstanceJDBCRepository implements PokemonInstanceRepository{
 
     @Override
     public boolean deleteById(int instanceId) {
-        return jdbcTemplate.update("deleteById from pokemon_instance where pokemon_instance_id = ?;", instanceId) > 0;
+        return jdbcTemplate.update("delete from pokemon_instance where pokemon_instance_id = ?;", instanceId) > 0;
     }
 
     @Override

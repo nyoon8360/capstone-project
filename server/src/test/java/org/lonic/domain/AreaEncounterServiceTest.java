@@ -54,7 +54,7 @@ class AreaEncounterServiceTest {
     @Test
     void shouldNotAddOutOfRangeFleeRate() {
         AreaEncounter encounter = makeAreaEncounter();
-        encounter.setFlee_rate(100);
+        encounter.setFleeRate(100);
         Result<AreaEncounter> result = service.add(encounter);
 
         assertFalse(result.isSuccess());
@@ -84,7 +84,7 @@ class AreaEncounterServiceTest {
     @Test
     void shouldNotUpdateOutOfRangeFleeRate() {
         AreaEncounter encounter = makeAreaEncounter();
-        encounter.setFlee_rate(100);
+        encounter.setFleeRate(100);
         Result<AreaEncounter> result = service.update(encounter);
 
         assertFalse(result.isSuccess());
@@ -107,7 +107,7 @@ class AreaEncounterServiceTest {
     private AreaEncounter makeAreaEncounter() {
         AreaEncounter encounter = new AreaEncounter();
         encounter.setEncounterRate(2);
-        encounter.setFlee_rate(2);
+        encounter.setFleeRate(2);
         encounter.setPokemonName("Pikachu");
         return encounter;
     }

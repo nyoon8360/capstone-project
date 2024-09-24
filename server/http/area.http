@@ -1,0 +1,71 @@
+@url = http://localhost:8080/area/
+
+### GET
+### Happy
+GET {{url}} HTTP/1.1
+
+### POST
+### Happy
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaName": "Test"
+}
+
+###
+GET {{url}} HTTP/1.1
+
+### Unhappy
+### Missing/Out of Range Fields/
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": ""
+}
+
+### 
+GET {{url}} HTTP/1.1
+
+### PUT
+### Happy
+PUT {{url}}4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 4,
+    "areaName": "Test2"
+}
+
+### 
+GET {{url}} HTTP/1.1
+
+### Unhappy
+### Missing/Out of Range Fields/
+PUT {{url}}4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 4,
+    "name": ""
+}
+### NonExistent ID
+PUT {{url}}6 HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 6,
+    "areaName": "Test2"
+}
+
+### DELETE
+### Happy
+DELETE  {{url}}4 HTTP/1.1
+
+###
+GET {{url}} HTTP/1.1
+
+### Unhappy
+### Not Found
+DELETE  {{url}}4 HTTP/1.1
