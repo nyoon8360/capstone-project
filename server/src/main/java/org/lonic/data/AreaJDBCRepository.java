@@ -27,7 +27,7 @@ public class AreaJDBCRepository implements AreaRepository{
     }
 
     @Override
-    public Area add(Area area) {
+    public Area add(Area area){
 
         final String sql = "insert into area (area_name) "
                 + " values (?);";
