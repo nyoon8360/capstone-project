@@ -31,7 +31,11 @@
     text-align: center;
     font-weight: bold;
 
-    margin: 2rem;
+    padding: 2%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .buttonContainer {

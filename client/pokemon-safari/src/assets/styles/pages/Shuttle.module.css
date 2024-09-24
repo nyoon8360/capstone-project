@@ -16,6 +16,22 @@
     background-image: url('/src/assets/images/shuttle_background.png');
     background-position: center;
     background-size: cover;
+
+    scale: 1.1;
+
+    animation: .5s ease-out .1s 1 normal forwards running blurZoomBackground;
+}
+
+@keyframes blurZoomBackground {
+    0% {
+        filter: blur(0);
+        scale: 1.1;
+    }
+
+    100% {
+        filter: blur(4px);
+        scale: 1;
+    }
 }
 
 .contentContainer {

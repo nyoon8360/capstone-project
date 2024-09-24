@@ -71,7 +71,7 @@ function Login() {
             case 'main':
                 return (
                     <div className={styles.buttonContainer}>
-                        <StyledButton style={{width: '20%'}} onClick={() => updateView('login')}>Log In</StyledButton>
+                        <StyledButton style={{width: '20%'}} type='success' onClick={() => updateView('login')}>Log In</StyledButton>
                         <StyledButton style={{width: '20%'}} onClick={() => updateView('register')}>Create Account</StyledButton>
                     </div>)
 
@@ -98,12 +98,12 @@ function Login() {
                             
                             <fieldset className={styles.fieldSet}>
                                 <label className={styles.credentialLabel} htmlFor='password'>Password</label>
-                                <input className={styles.credentialInput} type='password' name='password'></input>
+                                <input className={styles.credentialInput} type='password' name='password' onChange={handleChange}></input>
                             </fieldset>
 
                             <div className={styles.formButtonsContainer}>
-                                <StyledButton style={{width: '30%'}}>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
-                                <StyledButton style={{width: '30%'}} onClick={() => updateView('main')}>Cancel</StyledButton>
+                                <StyledButton style={{width: '30%'}} type='success'>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
+                                <StyledButton style={{width: '30%'}} type='danger' onClick={() => updateView('main')}>Cancel</StyledButton>
                             </div>
                         </form>
                     </div>
