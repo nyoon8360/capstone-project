@@ -10,6 +10,7 @@ const DEFAULT_TYPE_STYLES = {
 function StyledLink({ children, style, to, type, size }) {
     const [typeStyles, setTypeStyles] = useState(DEFAULT_TYPE_STYLES);
 
+    //use different colors for links based on passed type value
     useEffect(() => {
         switch (type) {
             case 'danger':

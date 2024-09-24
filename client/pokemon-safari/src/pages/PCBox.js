@@ -70,6 +70,9 @@ function PCBox() {
     //EVENT HANDLERS
     //==============
 
+    const handleRelease = () => {
+        //TODO: implement releasing pokemon and deleting them from database
+    }
     
     //==============
     //HTTP FUNCTIONS
@@ -151,7 +154,7 @@ function PCBox() {
                     </tbody>
                 </table>
                 <div className={styles.buttonContainer}>
-                    <StyledButton size='1' type='danger' style={{width: '40%'}}>Release</StyledButton>
+                    <StyledButton onClick={handleRelease} size='1' type='danger' style={{width: '40%'}}>Release</StyledButton>
                     <StyledLink to={'/entrance'} size='1' style={{width: '40%'}}>Back</StyledLink>
                 </div>
             </div>

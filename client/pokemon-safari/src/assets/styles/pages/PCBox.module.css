@@ -82,10 +82,6 @@
 }
 
 .sidebarStatsTable {
-    display: table;
-    flex-direction: column;
-
-    justify-content: space-between;
     margin-top: 1rem;
 
     flex-grow: 1;

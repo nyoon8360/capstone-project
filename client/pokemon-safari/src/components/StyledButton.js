@@ -9,6 +9,7 @@ const DEFAULT_TYPE_STYLES = {
 function StyledButton({ children, style, onClick, size, type }) {
     const [typeStyles, setTypeStyles] = useState(DEFAULT_TYPE_STYLES);
 
+    //use different colors for buttons based on passed type value
     useEffect(() => {
         switch (type) {
             case 'danger':
