@@ -30,7 +30,7 @@ public class AreaService {
     public Result<Area> add(Area area) {
         Result<Area> result = new Result<>();
 
-        if (area.getAreaName().isBlank() || area.getAreaName().isEmpty() || area.getAreaName() == null) {
+        if (Validations.isNullOrBlank(area.getAreaName())) {
             result.addMessage("Area name cannot be blank.", ResultType.INVALID);
             return result;
         }
@@ -42,7 +42,7 @@ public class AreaService {
     public Result<Area> update(Area area) {
         Result<Area> result = new Result<>();
 
-        if(area.getAreaName().isBlank() || area.getAreaName().isEmpty() || area.getAreaName() == null) {
+        if(Validations.isNullOrBlank(area.getAreaName())) {
             result.addMessage("Area name cannot be blank.", ResultType.INVALID);
             return result;
         } else if(!repository.update(area)) {

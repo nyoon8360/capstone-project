@@ -66,7 +66,7 @@ public class PokemonInstanceService {
             return result;
         }
 
-        if(pokemonInstance.getPokemonName() == null || pokemonInstance.getPokemonName().isEmpty() || pokemonInstance.getPokemonName().isBlank()) {
+        if(Validations.isNullOrBlank(pokemonInstance.getPokemonName())) {
             result.addMessage("Pokemon Name can't be blank", ResultType.INVALID);
         }if(pokemonInstance.getAttack() > 31 || pokemonInstance.getAttack() < 1) {
             result.addMessage("Attack must be between 1 and 31.", ResultType.INVALID);
