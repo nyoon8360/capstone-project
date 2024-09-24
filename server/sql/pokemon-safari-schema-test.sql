@@ -11,7 +11,8 @@ create table app_role (
 create table app_user (
 	app_user_id int primary key auto_increment,
     username varchar(25),
-    password varchar(25)
+    password varchar(25),
+    disabled boolean not null default(0)
 );
 
 create table user_role_assignment (

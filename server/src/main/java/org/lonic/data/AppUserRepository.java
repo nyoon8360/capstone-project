@@ -1,18 +1,18 @@
 package org.lonic.data;
 
 import org.lonic.models.AppUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface AppUserRepository {
-    List<AppUser> findAll();
 
-    //find by username
-    AppUser findByUsername(String Username);
+    @Transactional
+    AppUser findByUsername(String username);
 
-    //add method
-    AppUser add(AppUser appUser);
+    @Transactional
+    AppUser create(AppUser user);
 
-    // deleteById function
-    boolean deleteById(int appUserId);
+    @Transactional
+    void update(AppUser user);
 }

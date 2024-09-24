@@ -58,7 +58,7 @@ public class AreaEncounterJDBCRepository implements AreaEncounterRepository{
 
     @Override
     public boolean delete(int areaId, String pokemonName) {
-        final String sql = "deleteById from area_encounter where area_id = ? and pokemon_name = ?";
+        final String sql = "delete from area_encounter where area_id = ? and pokemon_name = ?";
 
         return jdbcTemplate.update(sql, areaId, pokemonName) > 0;
     }
