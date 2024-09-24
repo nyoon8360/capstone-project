@@ -2,6 +2,7 @@ package org.lonic.models;
 import java.util.List;
 
 public class AppUser {
+
     public int getAppUserId() {
         return appUserId;
     }

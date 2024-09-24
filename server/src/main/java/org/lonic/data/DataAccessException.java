@@ -2,11 +2,11 @@ package org.lonic.data;
 
 public class DataAccessException extends Exception {
 
-    public DataException(String message) {
+    public DataAccessException(String message) {
         super(message);
     }
 
-    public DataException(String message, Throwable cause) {
+    public DataAccessException(String message, Throwable cause) {
         super(message, cause);
     }
 }
