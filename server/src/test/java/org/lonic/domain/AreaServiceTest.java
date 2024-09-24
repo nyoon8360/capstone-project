@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
 class AreaServiceTest {
 
     @Autowired
@@ -25,14 +25,14 @@ class AreaServiceTest {
         Result<Area> result = service.add(input);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Area Name cannot be blank"));
+        assertTrue(result.getMessages().contains("Area name cannot be blank."));
         assertEquals(ResultType.INVALID, result.getType());
 
         input.setAreaName("");
         result = service.add(input);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Area Name cannot be blank"));
+        assertTrue(result.getMessages().contains("Area name cannot be blank."));
         assertEquals(ResultType.INVALID, result.getType());
     }
 
@@ -43,14 +43,14 @@ class AreaServiceTest {
         Result<Area> result = service.update(input);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Area Name cannot be blank"));
+        assertTrue(result.getMessages().contains("Area name cannot be blank."));
         assertEquals(ResultType.INVALID, result.getType());
 
         input.setAreaName("");
         result = service.update(input);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Area Name cannot be blank"));
+        assertTrue(result.getMessages().contains("Area name cannot be blank.`"));
         assertEquals(ResultType.INVALID, result.getType());
     }
 }
