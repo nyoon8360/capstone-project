@@ -1,0 +1,106 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    position: relative;
+
+    background-color: rgb(31, 25, 194);
+
+    display: flex;
+}
+
+.sidebar {
+    width: 30%;
+    box-sizing: border-box;
+    background-color: beige;
+
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+
+    border: .5rem solid black;
+    border-left: 0;
+
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+
+    overflow: hidden;
+}
+
+.heading {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.box {
+    width: 70%;
+
+    background: linear-gradient(.25turn, rgb(31, 25, 194) 5%, rgb(29, 137, 225) 25%, rgb(29, 137, 225) 75%, rgb(31, 25, 194) 95%);
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.boxGrid {
+    display: flex;
+    flex-wrap: wrap;
+
+    flex-grow: 1;
+}
+
+.slot {
+    height: 100px;
+    width: 100px;
+
+    box-sizing: border-box;
+    border: .2rem solid black;
+    border-radius: .5rem;
+    background-color: beige;
+
+    margin: 1rem;
+
+    cursor: pointer;
+}
+
+.slotImage {
+    height: 100%;
+    width: 100%;
+}
+
+.sidebarImageContainer {
+    width: 100%;
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    border: .2rem solid black;
+    border-radius: .5rem;
+
+    margin: 0 auto;
+}
+
+.sidebarImage {
+    height: 100%;
+    width: 100%;
+}
+
+.sidebarTitle {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.sidebarStatsTable {
+    margin-top: 1rem;
+
+    flex-grow: 1;
+}
+
+.buttonContainer {
+    display: flex;
+    margin-top: 1rem;
+
+    justify-content: space-around;
+}

@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import SafariZoneEntrance from "./pages/SafariZoneEntrance";
+import NotFound from "./pages/NotFound";
+import PCBox from "./pages/PCBox";
+import Shuttle from "./pages/Shuttle";
+import Account from "./pages/Account";
+import Area from "./pages/Area";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <Router>
+    <Routes>
+      <Route path="/" element={<Login/>}/>
+      <Route path="/entrance" element={<SafariZoneEntrance/>}/>
+      <Route path="/pcbox" element={<PCBox/>}/>
+      <Route path="/shuttle" element={<Shuttle/>}/>
+      <Route path="/myaccount" element={<Account/>}/>
+      <Route path="/area/:areaId" element={<Area/>}/>
+      <Route path="*" element={<NotFound/>}/>
+    </Routes>
+  </Router>)
 }
 
 export default App;

@@ -1,0 +1,53 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    position: relative;
+
+    
+}
+
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-image: url('/src/assets/images/shuttle_background.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.contentContainer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    box-sizing: border-box;
+    padding: 0 10% 10% 10%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.areaGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 3rem;
+    flex-grow: 1;
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading {
+    height: 4rem;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: bold;
+    line-height: 4rem;
+}
