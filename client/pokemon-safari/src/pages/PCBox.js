@@ -120,36 +120,36 @@ function PCBox() {
                     : <></>}
                 </div>
                 <table className={styles.sidebarStatsTable}>
-                    <thead hidden>
-                        <tr>
-                            <th>Stat Name</th>
-                            <th>Stat Value</th>
+                    <thead key='header' hidden>
+                        <tr key='headerRow'>
+                            <th key='statName'>Stat Name</th>
+                            <th key='statValue'>Stat Value</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Max HP:</td>
-                            <td>{selectedPokemon.maxhp}</td>
+                    <tbody key='body'>
+                        <tr key='statMaxHp'>
+                            <td key='statMaxHpLabel'>Max HP:</td>
+                            <td key='statMaxHpValue'>{selectedPokemon.maxhp}</td>
                         </tr>
-                        <tr>
-                            <td>Attack:</td>
-                            <td>{selectedPokemon.attack}</td>
+                        <tr key='statAttack'>
+                            <td key='statAttackLabel'>Attack:</td>
+                            <td key='statAttackValue'>{selectedPokemon.attack}</td>
                         </tr>
-                        <tr>
-                            <td>Defense:</td>
-                            <td>{selectedPokemon.defense}</td>
+                        <tr key='statDefense'>
+                            <td key='statDefenseLabel'>Defense:</td>
+                            <td key='statDefenseValue'>{selectedPokemon.defense}</td>
                         </tr>
-                        <tr>
-                            <td>Sp. Attack:</td>
-                            <td>{selectedPokemon.specialAttack}</td>
+                        <tr key='statSpecialAttack'>
+                            <td key='statSpecialAttackLabel'>Sp. Attack:</td>
+                            <td key='statSpecialAttackValue'>{selectedPokemon.specialAttack}</td>
                         </tr>
-                        <tr>
-                            <td>Sp. Defense:</td>
-                            <td>{selectedPokemon.specialDefense}</td>
+                        <tr key='statSpecialDefense'>
+                            <td key='statDefenseLabel'>Sp. Defense:</td>
+                            <td key='statSpecialDefenseValue'>{selectedPokemon.specialDefense}</td>
                         </tr>
-                        <tr>
-                            <td>Speed:</td>
-                            <td>{selectedPokemon.speed}</td>
+                        <tr key='statSpeed'>
+                            <td key='statSpeedLabel'>Speed:</td>
+                            <td key='statSpeedValue'>{selectedPokemon.speed}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -162,7 +162,7 @@ function PCBox() {
                 <h1 className={styles.heading}>PC Box</h1>
                 <div className={styles.boxGrid}>
                     {isLoading  ? <></> : pokemon.map(instance => (
-                        <div className={styles.slot} onClick={() => setSelectedPokemon(instance)}>
+                        <div key={instance.pokemonName} className={styles.slot} onClick={() => setSelectedPokemon(instance)}>
                             <img className={styles.slotImage} src={instance.sprite} alt={instance.pokemonName} width={200} height={200}></img>
                         </div>
                     ))}

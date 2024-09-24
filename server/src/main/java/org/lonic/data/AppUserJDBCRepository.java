@@ -71,12 +71,12 @@ public class AppUserJDBCRepository implements AppUserRepository{
     // deleteById function
     @Override
     public boolean deleteById(int appUserId) {
-        // First, deleteById dependent records in the pokemon_instance table
-        String deleteDependentRecordsSql = "DELETE FROM pokemon_instance WHERE app_user_id = ?";
+        // First, delete dependent records in the pokemon_instance table
+        String deleteDependentRecordsSql = "delete from pokemon_instance where app_user_id = ?";
         jdbcTemplate.update(deleteDependentRecordsSql, appUserId);
 
-        // Now, deleteById the user from the app_user table
-        String deleteUserSql = "DELETE FROM app_user WHERE app_user_id = ?";
+        // Now, delete the user from the app_user table
+        String deleteUserSql = "delete from app_user where app_user_id = ?";
         return jdbcTemplate.update(deleteUserSql, appUserId) > 0;
     }
 

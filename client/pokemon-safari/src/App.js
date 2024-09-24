@@ -7,6 +7,7 @@ import PCBox from "./pages/PCBox";
 import Shuttle from "./pages/Shuttle";
 import Account from "./pages/Account";
 import Area from "./pages/Area";
+import Encounter from "./pages/Encounter";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/shuttle" element={<Shuttle/>}/>
       <Route path="/myaccount" element={<Account/>}/>
       <Route path="/area/:areaId" element={<Area/>}/>
+      <Route path="/encounter" element={<Encounter/>}/>
       <Route path="*" element={<NotFound/>}/>
     </Routes>
   </Router>)

@@ -18,7 +18,7 @@ function StyledButton({ children, style, onClick, size, type, disabled = false }
                     faceBackgroundColor: 'rgb(214, 1, 1)'
                 })
                 break;
-            case 'confirm':
+            case 'success':
                 setTypeStyles({
                     backgroundColor: 'rgb(56, 140, 36)',
                     faceBackgroundColor: 'rgb(92, 232, 60)'

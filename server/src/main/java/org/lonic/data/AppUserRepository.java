@@ -8,7 +8,6 @@ public interface AppUserRepository {
     List<AppUser> findAll();
 
     //find by username
-
     AppUser findByUsername(String Username);
 
     //add method

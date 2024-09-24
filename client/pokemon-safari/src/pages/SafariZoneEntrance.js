@@ -29,7 +29,7 @@ function SafariZoneEntrance() {
                 <StyledLink style={{width: '18%'}} to={'/pcbox'}>View PC Box</StyledLink>
                 <StyledLink style={{width: '18%'}} to={'/shuttle'}>Board Shuttle</StyledLink>
                 <StyledLink style={{width: '18%'}} to={'/myaccount'}>Account Options</StyledLink>
-                <StyledButton style={{width: '18%'}} onClick={handleLogout}>Log Out</StyledButton>
+                <StyledButton style={{width: '18%'}} type='danger' onClick={handleLogout}>Log Out</StyledButton>
             </div>
         </div>
     </section>)
