@@ -1,0 +1,40 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    position: relative;
+
+    
+}
+
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-image: url('/src/assets/images/shuttle_background.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.contentContainer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    box-sizing: border-box;
+    padding: 10%;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 3rem;
+    
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

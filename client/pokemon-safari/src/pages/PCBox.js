@@ -102,7 +102,7 @@ function PCBox() {
     //=================
 
     return(
-        <div className={styles.mainContainer}>
+        <section className={styles.mainContainer}>
             <div className={styles.sidebar}>
                 <h3 className={styles.sidebarTitle}>
                     {selectedPokemon.pokemonName ? 
@@ -167,7 +167,7 @@ function PCBox() {
                     ))}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

@@ -21,7 +21,7 @@ function SafariZoneEntrance() {
     }
 
     return(
-    <div className={styles.mainContainer}>
+    <section className={styles.mainContainer}>
         <div className={styles.background}/>
         <div className={styles.contentContainer}>
             <h2 className={styles.heading}>Safari Zone Entrance</h2>
@@ -32,7 +32,7 @@ function SafariZoneEntrance() {
                 <StyledButton style={{width: '18%'}} onClick={handleLogout}>Log Out</StyledButton>
             </div>
         </div>
-    </div>)
+    </section>)
 }
 
 export default SafariZoneEntrance;
