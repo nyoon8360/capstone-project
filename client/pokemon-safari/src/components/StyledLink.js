@@ -7,7 +7,7 @@ const DEFAULT_TYPE_STYLES = {
     faceBackgroundColor: 'rgb(0, 204, 255)'
 }
 
-function StyledLink({ children, style, to, type, size }) {
+function StyledLink({ children, style, to, type, size, disabled = false }) {
     const [typeStyles, setTypeStyles] = useState(DEFAULT_TYPE_STYLES);
 
     //use different colors for links based on passed type value
@@ -26,10 +26,18 @@ function StyledLink({ children, style, to, type, size }) {
                 })
                 break;
         }
-    },[]);
+
+        //if disabled is true then overwrite colors
+        if (disabled) {
+            setTypeStyles({
+                backgroundColor: 'rgb(79, 79, 79)',
+                faceBackgroundColor: 'rgb(140, 140, 140)'
+            })
+        }
+    },[disabled]);
 
     return (
-        <Link className={styles.buttonContainer} style={style} to={to}>
+        <Link className={styles.buttonContainer} style={{...style, pointerEvents: disabled ? 'none' : 'auto'}} to={to}>
             <button className={styles.button} style={{backgroundColor: typeStyles.backgroundColor}}>
                 <span 
                     className={styles.buttonFace} 

@@ -6,7 +6,7 @@ const DEFAULT_TYPE_STYLES = {
         faceBackgroundColor: 'rgb(0, 204, 255)'
 }
 
-function StyledButton({ children, style, onClick, size, type }) {
+function StyledButton({ children, style, onClick, size, type, disabled = false }) {
     const [typeStyles, setTypeStyles] = useState(DEFAULT_TYPE_STYLES);
 
     //use different colors for buttons based on passed type value
@@ -25,10 +25,18 @@ function StyledButton({ children, style, onClick, size, type }) {
                 })
                 break;
         }
-    },[]);
+
+        //if disabled is true then overwrite colors
+        if (disabled) {
+            setTypeStyles({
+                backgroundColor: 'rgb(79, 79, 79)',
+                faceBackgroundColor: 'rgb(140, 140, 140)'
+            })
+        }
+    },[disabled]);
 
     return (
-        <div className={styles.buttonContainer} style={style} onClick={onClick}>
+        <div className={styles.buttonContainer} style={{...style, pointerEvents: disabled ? 'none' : 'auto'}} onClick={onClick}>
             <button className={styles.button} style={{backgroundColor: typeStyles.backgroundColor}}>
                 <span 
                     className={styles.buttonFace} 

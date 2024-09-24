@@ -24,12 +24,17 @@
     width: 100%;
 
     box-sizing: border-box;
-    padding: 10%;
+    padding: 0 10% 10% 10%;
 
+    display: flex;
+    flex-direction: column;
+}
+
+.areaGrid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 3rem;
-    
+    flex-grow: 1;
 }
 
 .itemContainer {
@@ -37,4 +42,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.heading {
+    height: 4rem;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: bold;
+    line-height: 4rem;
 }

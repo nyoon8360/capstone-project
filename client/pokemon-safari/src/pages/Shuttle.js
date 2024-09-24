@@ -11,6 +11,7 @@ const TEST_DATA_DELETE_LATER = [
 ];
 
 function Shuttle() {
+    //TODO: replace default with empty array once area fetching is implemented
     const [area, setArea] = useState(TEST_DATA_DELETE_LATER);
 
     useEffect(() => {
@@ -21,15 +22,17 @@ function Shuttle() {
         <section className={styles.mainContainer}>
             <div className={styles.background}/>
             <div className={styles.contentContainer}>
-                <div className={styles.itemContainer}>
-                    <StyledLink to={'/entrance'} type='danger' style={{width: '100%'}}>Entrance</StyledLink>
-                </div>
-
-                {area.map(ar => (
+                <h1 className={styles.heading}>Shuttle</h1>
+                <div className={styles.areaGrid}>
                     <div className={styles.itemContainer}>
-                        <StyledLink to={`/area/${ar.areaId}`} style={{width: '100%'}}>{ar.areaName}</StyledLink>
+                        <StyledLink to={'/entrance'} type='danger' style={{width: '100%'}}>Entrance</StyledLink>
                     </div>
-                ))}
+                    {area.map(ar => (
+                        <div className={styles.itemContainer}>
+                            <StyledLink to={`/area/${ar.areaId}`} style={{width: '100%'}}>{ar.areaName}</StyledLink>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     )
