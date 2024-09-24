@@ -6,8 +6,7 @@ function NotFound() {
     return (
         <section className={styles.mainContainer}>
             <div className={styles.background}/>
-            <StyledLink to={'/'} style={{position: 'absolute', bottom: '5%', marginLeft: '3rem'}}>Back To Home</StyledLink>
-            {/* <Link className={styles.homeButton} to={'/'} type='button'>Back To Home</Link> */}
+            <StyledLink to={'/'} type='danger' style={{position: 'absolute', bottom: '5%', marginLeft: '3rem'}}>Back To Home</StyledLink>
         </section>
     )
 }

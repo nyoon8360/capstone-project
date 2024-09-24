@@ -28,7 +28,7 @@ function Shuttle() {
                         <StyledLink to={'/entrance'} type='danger' style={{width: '100%'}}>Entrance</StyledLink>
                     </div>
                     {area.map(ar => (
-                        <div className={styles.itemContainer}>
+                        <div key={ar.areaId} className={styles.itemContainer}>
                             <StyledLink to={`/area/${ar.areaId}`} style={{width: '100%'}}>{ar.areaName}</StyledLink>
                         </div>
                     ))}
