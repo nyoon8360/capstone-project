@@ -128,3 +128,80 @@
         right: 70%;
     }
 }
+
+.mud {
+    position: absolute;
+
+    bottom: 13%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s ease-out 0s 1 normal forwards running smearMud;
+}
+
+@keyframes smearMud {
+    0% {
+        transform: translate(-1600%, 500%);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scaleY(1) translateY(0) translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleY(1.5) translateY(50%);
+    }
+}
+
+.bait {
+    position: absolute;
+
+    bottom: 10%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s linear 0s 1 normal forwards running tossBait;
+}
+
+@keyframes tossBait {
+    0% {
+        transform: translateY(-300%) translateX(-200%);
+    }
+
+    10% {
+        transform: translateY(0) translateX(-100%);
+    }
+
+    25% {
+        transform: translateY(-70%) translateX(-60%);
+    }
+
+    30% {
+        transform: translateY(-70%) translateX(-50%);
+    }
+
+    35% {
+        transform: translateY(-70%) translateX(-40%);
+    }
+
+    60% {
+        transform: translateY(0) translateX(0%);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0) translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) translateX(0%);
+        opacity: 0;
+    }
+}

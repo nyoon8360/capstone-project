@@ -32,7 +32,7 @@ function Area() {
                 <h1 className={styles.heading}>{area.areaName}</h1>
                 <div className={styles.buttonContainer}>
                     <StyledLink to={'/encounter'} style={{width: '40%'}} type='success'>Search for Pokemon</StyledLink>
-                    <StyledLink to={'/shuttle'} style={{width: '40%'}} type='danger'>Back to Shuttle</StyledLink>
+                    <StyledLink to={'/shuttle'} style={{width: '40%'}}>Back to Shuttle</StyledLink>
                 </div>
             </div>
         </div>
