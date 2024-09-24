@@ -1,13 +1,35 @@
+.background {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    background-image: url('/src/assets/images/safari_zone_entrance.png');
+    background-position: center;
+    background-size: cover;
+}
+
 .mainContainer {
     height: 100%;
     width: 100%;
 
     overflow: hidden;
-    position: relative;
+    position: absolute;
 
     background-color: rgb(31, 25, 194);
 
     display: flex;
+
+    animation: .5s ease-out 0s 1 normal forwards running slideInPCBox;
+}
+
+@keyframes slideInPCBox{
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .sidebar {

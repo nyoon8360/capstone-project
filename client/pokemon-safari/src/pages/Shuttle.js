@@ -13,6 +13,7 @@ const TEST_DATA_DELETE_LATER = [
 function Shuttle() {
     //TODO: replace default with empty array once area fetching is implemented
     const [area, setArea] = useState(TEST_DATA_DELETE_LATER);
+    const [navHidden, setNavHidden] = useState(true);
 
     useEffect(() => {
         //TODO: get all areas and update area state with them
@@ -20,8 +21,8 @@ function Shuttle() {
 
     return (
         <section className={styles.mainContainer}>
-            <div className={styles.background}/>
-            <div className={styles.contentContainer}>
+            <div className={styles.background} onAnimationEnd={() => setNavHidden(false)}/>
+            <div className={styles.contentContainer} style={{visibility: navHidden ? 'hidden' : 'visible'}}>
                 <h1 className={styles.heading}>Shuttle</h1>
                 <div className={styles.areaGrid}>
                     <div className={styles.itemContainer}>

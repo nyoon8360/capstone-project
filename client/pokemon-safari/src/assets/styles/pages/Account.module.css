@@ -1,0 +1,93 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    background-image: url('/src/assets/images/safari_zone_entrance.png');
+    background-position: center;
+    background-size: cover;
+
+    filter: blur(4px);
+}
+
+.contentContainer {
+    position: absolute;
+    height: 90%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    font-size: 3rem;
+    text-align: center;
+    font-weight: bold;
+
+    padding: 2%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.formContainer {
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: center;
+}
+
+.accountForm {
+    width: 70%;
+
+    box-sizing: border-box;
+    padding: 2%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    align-items: center;
+
+    animation: .5s ease-out 0s 1 normal forwards running slideInForm;
+}
+
+@keyframes slideInForm {
+    0% {
+        transform: translateY(140%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.fieldSet {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 50%;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.credentialLabel {
+    margin-bottom: .2rem;
+}
+
+.credentialInput {
+    padding: .25rem;
+}

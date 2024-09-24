@@ -98,7 +98,7 @@ function Login() {
                             
                             <fieldset className={styles.fieldSet}>
                                 <label className={styles.credentialLabel} htmlFor='password'>Password</label>
-                                <input className={styles.credentialInput} type='password' name='password'></input>
+                                <input className={styles.credentialInput} type='password' name='password' onChange={handleChange}></input>
                             </fieldset>
 
                             <div className={styles.formButtonsContainer}>
