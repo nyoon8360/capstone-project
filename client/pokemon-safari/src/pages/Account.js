@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Account.module.css';
 import StyledLink from '../components/StyledLink';
 import StyledButton from '../components/StyledButton';
+import { useNavigate } from 'react-router-dom';
 
 const CREDENTIALS_DEFAULT = {
     username: '',
@@ -12,6 +13,14 @@ const CREDENTIALS_DEFAULT = {
 
 function Account() {
     const [credentials, setCredentials] = useState(CREDENTIALS_DEFAULT);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+    },[]);
 
     const handleSubmit = (event) => {
         event.preventDefault();

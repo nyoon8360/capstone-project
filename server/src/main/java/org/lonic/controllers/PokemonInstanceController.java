@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin()
-@RequestMapping("/pokemon")
+@RequestMapping("/api/pokemon")
 public class PokemonInstanceController {
     private final PokemonInstanceService service;
 

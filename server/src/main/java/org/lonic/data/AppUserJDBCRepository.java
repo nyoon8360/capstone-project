@@ -82,7 +82,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
 
     private void updateRoles(AppUser user) {
         // delete all roles, then re-add
-        jdbcTemplate.update("delete from app_role_assignment where app_user_id = ?;", user.getAppUserId());
+        jdbcTemplate.update("delete from user_role_assignment where app_user_id = ?;", user.getAppUserId());
 
         Collection<GrantedAuthority> authorities = user.getAuthorities();
 
@@ -91,7 +91,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
         }
 
         for (String role : AppUser.convertAuthoritiesToRoles(authorities)) {
-            String sql = "insert into app_role_assignment (app_user_id, app_role_id) "
+            String sql = "insert into user_role_assignment (app_user_id, app_role_id) "
                     + "select ?, app_role_id from app_role where role_name = ?;";
             jdbcTemplate.update(sql, user.getAppUserId(), role);
         }

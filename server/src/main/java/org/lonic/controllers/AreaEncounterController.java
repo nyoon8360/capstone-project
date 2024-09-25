@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@CrossOrigin()
-@RequestMapping("/areaEncounter")
+@RequestMapping("/api/areaEncounter")
 public class AreaEncounterController {
     private final AreaEncounterService service;
 
@@ -30,7 +29,7 @@ public class AreaEncounterController {
         return ErrorResponse.build(result);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Object> add(@RequestBody AreaEncounter areaEncounter) {
         Result<AreaEncounter> result = service.add(areaEncounter);
 

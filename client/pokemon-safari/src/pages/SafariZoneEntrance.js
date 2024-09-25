@@ -2,10 +2,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from '../assets/styles/pages/SafariZoneEntrance.module.css';
 import StyledLink from '../components/StyledLink';
 import StyledButton from '../components/StyledButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function SafariZoneEntrance() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+    }, []);
 
     //==============
     //EVENT HANDLERS
@@ -14,9 +21,7 @@ function SafariZoneEntrance() {
     //confirm then execute logging out of account
     const handleLogout = () => {
         if (window.confirm("Are you sure you want to log out?")) {
-            //TODO: prompt confirmation then log out of account
-
-            //after logout, navigate to main menu
+            document.cookie = 'Authorization=;expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/';
             navigate('/');
         }
     }
