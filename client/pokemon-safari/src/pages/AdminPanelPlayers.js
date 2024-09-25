@@ -24,7 +24,7 @@ function AdminPanelPlayers() {
             }
         }
 
-        fetch(`${baseUrl}/area`, init)
+        fetch(`${baseUrl}/user`, init)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();

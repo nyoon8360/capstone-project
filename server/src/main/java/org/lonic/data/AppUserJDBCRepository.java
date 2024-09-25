@@ -91,14 +91,14 @@ public class AppUserJDBCRepository implements AppUserRepository{
     @Transactional
     public boolean delete(int userId) {
 
-        jdbcTemplate.update("delete from app_role_assignment where app_user_id = ?;", userId); //delete from app_role_assignment
+        jdbcTemplate.update("delete from user_role_assignment where app_user_id = ?;", userId); //delete from user_role_assignment
         jdbcTemplate.update("delete from pokemon_instance where app_user_id = ?;", userId); //delete from pokemon_instance
         return jdbcTemplate.update("delete from app_user where app_user_id = ?;", userId) > 0;
     }
 
     private void updateRoles(AppUser user) {
         // delete all roles, then re-add
-        jdbcTemplate.update("delete from app_role_assignment where app_user_id = ?;", user.getAppUserId());
+        jdbcTemplate.update("delete from user_role_assignment where app_user_id = ?;", user.getAppUserId());
 
         Collection<GrantedAuthority> authorities = user.getAuthorities();
         if (authorities == null) {
@@ -106,7 +106,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
         }
 
         for (String role : AppUser.convertAuthoritiesToRoles(authorities)) {
-            String sql = "insert into app_role_assignment (app_user_id, app_role_id) "
+            String sql = "insert into user_role_assignment (app_user_id, app_role_id) "
                     + "select ?, app_role_id from app_role where role_name = ?;";
             jdbcTemplate.update(sql, user.getAppUserId(), role);
         }
@@ -115,7 +115,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
     private List<String> getRolesByUsername(String username) {
         final String sql = "select ar.role_name "
                 +"from app_user au "
-                +"inner join app_role_assignment ura on au.app_user_id = ura.app_user_id "
+                +"inner join user_role_assignment ura on au.app_user_id = ura.app_user_id "
                 +"inner join app_role ar on ura.app_role_id = ar.app_role_id "
                 + "where au.username = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("role_name"), username);

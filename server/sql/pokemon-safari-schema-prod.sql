@@ -15,7 +15,7 @@ create table app_user (
     disabled boolean not null default(0)
 );
 
-create table app_role_assignment (
+create table user_role_assignment (
     app_role_id int not null,
     app_user_id varchar(25) not null,
     constraint pk_app_role_assignment
