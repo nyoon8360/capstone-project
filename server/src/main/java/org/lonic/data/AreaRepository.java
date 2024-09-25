@@ -7,6 +7,8 @@ import java.util.List;
 public interface AreaRepository {
     List<Area> findAll();
 
+    Area findById(int areaId);
+
     Area add(Area area);
 
     boolean update(Area area);

@@ -31,7 +31,12 @@ public class AreaJDBCRepositoryTest {
         assertNotNull(areas);
         assertEquals(areas.get(0).getAreaName(),"Sinnoh");
     }
-
+    @Test
+    void shouldFindById(){
+        Area actual = repository.findById(1);
+        assertNotNull(actual);
+        assertEquals(actual.getAreaName(),"Sinnoh");
+    }
     @Test
     void shouldAddUser() {
         Area area = new Area();

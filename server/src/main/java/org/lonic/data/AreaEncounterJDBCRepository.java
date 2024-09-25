@@ -60,6 +60,6 @@ public class AreaEncounterJDBCRepository implements AreaEncounterRepository{
     public boolean delete(int areaId, String pokemonName) {
         final String sql = "delete from area_encounter where area_id = ? and pokemon_name = ?";
 
-        return jdbcTemplate.update(sql, areaId, pokemonName + "-" + areaId) > 0;
+        return jdbcTemplate.update(sql, areaId, pokemonName) > 0;
     }
 }
