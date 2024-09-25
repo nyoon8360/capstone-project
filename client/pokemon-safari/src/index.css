@@ -60,3 +60,7 @@ html {
   max-height: 100vh;
   overflow: hidden;
 }
+
+button {
+	font-size: 1rem;
+}

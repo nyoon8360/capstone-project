@@ -41,7 +41,9 @@ public class AreaEncounterController {
 
     @PutMapping("/{areaId}/{pokemonName}")
     public ResponseEntity<Object> update(@PathVariable int areaId,  @PathVariable String pokemonName, @RequestBody AreaEncounter areaEncounter) {
-        if(areaId != areaEncounter.getAreaId() || !areaEncounter.getPokemonName().equals(pokemonName + "-" + areaId)){
+        if(areaId != areaEncounter.getAreaId() || !areaEncounter.getPokemonName().equals(pokemonName)){
+            System.out.println(areaEncounter.getAreaId());
+            System.out.println(areaEncounter.getPokemonName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

@@ -8,6 +8,9 @@ import java.util.List;
 public interface AppUserRepository {
 
     @Transactional
+    List<AppUser> findAll();
+
+    @Transactional
     AppUser findByUsername(String username);
 
     @Transactional
@@ -15,4 +18,7 @@ public interface AppUserRepository {
 
     @Transactional
     void update(AppUser user);
+
+    @Transactional
+    boolean delete(int userId);
 }
