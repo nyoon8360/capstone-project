@@ -95,9 +95,9 @@ function AdminPanelAreas() {
                 <table className={styles.areaTable}>
                     <thead>
                         <tr>
-                            <th className={styles.tableHeading}>Area Id</th>
-                            <th className={styles.tableHeading}>Area Name</th>
-                            <th className={styles.tableHeading}>Actions</th>
+                            <th>Area Id</th>
+                            <th>Area Name</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>

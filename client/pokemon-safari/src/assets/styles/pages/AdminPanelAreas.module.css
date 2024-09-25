@@ -16,19 +16,23 @@
 
     box-sizing: border-box;
     border: 2px solid black;
+
+    z-index: 2;
+
+    pointer-events: none;
 }
 
 .contentContainer {
     position: absolute;
     width: 90%;
-    height: 79%;
+    height: 78%;
 
     bottom: 0;
 
     overflow-y: auto;
 
     box-sizing: border-box;
-    margin: 11% 5% 5% 5%;
+    margin: 12% 5% 5% 5%;
 }
 
 .heading {
