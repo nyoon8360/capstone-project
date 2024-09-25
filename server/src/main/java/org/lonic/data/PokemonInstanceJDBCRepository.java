@@ -20,8 +20,18 @@ public class PokemonInstanceJDBCRepository implements PokemonInstanceRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+
     @Override
     public List<PokemonInstance> getByUserId(int userId) {
+        final String sql = "select pokemon_instance_id, pokemon_name, app_user_id, max_hp, attack, defense, special_attack, special_defense, speed "
+                + "from pokemon_instance " +
+                "where app_user_id = ?;";
+        return jdbcTemplate.query(sql, new PokemonInstanceMapper(), userId);
+    }
+
+    @Override
+    public List<PokemonInstance> getByUserIdAdmin(int userId) {
         final String sql = "select pokemon_instance_id, pokemon_name, app_user_id, max_hp, attack, defense, special_attack, special_defense, speed "
                 + "from pokemon_instance " +
                 "where app_user_id = ?;";

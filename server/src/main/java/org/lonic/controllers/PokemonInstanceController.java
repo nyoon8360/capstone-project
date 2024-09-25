@@ -3,8 +3,10 @@ package org.lonic.controllers;
 import org.lonic.domain.PokemonInstanceService;
 import org.lonic.domain.Result;
 import org.lonic.models.PokemonInstance;
+import org.lonic.security.JwtConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,19 @@ public class PokemonInstanceController {
         this.service = service;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Object> getByUserId(@PathVariable int userId) {
+    @GetMapping("/user")
+    public ResponseEntity<Object> getByUserId(@RequestBody String token) {
+        JwtConverter converter = new JwtConverter();
+        Result<List<PokemonInstance>> result = service.getByUserId(userId);
+
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @GetMapping("/admin/{userId}")
+    public ResponseEntity<Object> getByUserIdAdmin(@PathVariable int userId) {
         Result<List<PokemonInstance>> result = service.getByUserId(userId);
 
         if(result.isSuccess()) {

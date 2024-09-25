@@ -16,7 +16,7 @@ public class PokemonInstanceService {
 
     public Result<List<PokemonInstance>> getByUserId(int userId) {
         Result<List<PokemonInstance>> result = new Result<>();
-        result.setPayload(repository.getByUserId(userId));
+        result.setPayload(repository.getByUserIdAdmin(userId));
 
         if(result.getPayload().isEmpty()) {
             result.addMessage("No pokemon found for this user ID.", ResultType.NOT_FOUND);
