@@ -22,7 +22,9 @@ public class AppUser extends User {
         super(username, password, !disabled,
                 true, true, true,
                 convertRolesToAuthorities(roles));
+
         this.appUserId = appUserId;
+
     }
 
     private List<String> roles = new ArrayList<>();

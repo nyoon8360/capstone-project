@@ -26,7 +26,7 @@ class PokemonInstanceServiceTest {
     void shouldGetByUserId() {
         PokemonInstance pokemonInstance = makePokemonInstance();
 
-        when(repository.getByUserIdAdmin(2)).thenReturn(List.of(pokemonInstance)); //set mock output
+        when(repository.getByUserId(2)).thenReturn(List.of(pokemonInstance)); //set mock output
         Result<List<PokemonInstance>> result = service.getByUserId(2);
 
         assertEquals(pokemonInstance, result.getPayload().get(0));
@@ -35,7 +35,7 @@ class PokemonInstanceServiceTest {
     void shouldReturnEmptyForNonExistentUserId() {
         List<PokemonInstance> output = new ArrayList<>();
 
-        when(repository.getByUserIdAdmin(55)).thenReturn(output); //Set mock unhappy output
+        when(repository.getByUserId(55)).thenReturn(output); //Set mock unhappy output
         Result<List<PokemonInstance>> result = service.getByUserId(2);
 
         assertFalse(result.isSuccess());

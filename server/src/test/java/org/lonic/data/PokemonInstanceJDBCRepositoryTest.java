@@ -25,12 +25,12 @@ class PokemonInstanceJDBCRepositoryTest {
     @Test
     void shouldFindByUserId() {
 
-        List<PokemonInstance> actual = repository.getByUserIdAdmin(3);
+        List<PokemonInstance> actual = repository.getByUserId(3);
         assertEquals(3, actual.size());
     }
     @Test
     void shouldReturnEmptyForUserWithNoPokemon() {
-        List<PokemonInstance> actual = repository.getByUserIdAdmin(1);
+        List<PokemonInstance> actual = repository.getByUserId(1);
         assertTrue(actual.isEmpty());
     }
 
@@ -44,7 +44,7 @@ class PokemonInstanceJDBCRepositoryTest {
     @Test
     void shouldDeletePokemonInstance() {
         assertTrue(repository.deleteById(5));
-        assertEquals(2, repository.getByUserIdAdmin(3).size());
+        assertEquals(2, repository.getByUserId(3).size());
     }
 
     @Test
@@ -54,7 +54,7 @@ class PokemonInstanceJDBCRepositoryTest {
         newInstance.setSpeed(111);
 
         assertTrue(repository.update(newInstance));
-        assertEquals(111, repository.getByUserIdAdmin(3).get(0).getSpeed());
+        assertEquals(111, repository.getByUserId(3).get(0).getSpeed());
     }
     private PokemonInstance makePokemonInstance() {
         PokemonInstance instance = new PokemonInstance();
