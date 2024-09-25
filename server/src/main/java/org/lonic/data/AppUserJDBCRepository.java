@@ -91,7 +91,6 @@ public class AppUserJDBCRepository implements AppUserRepository{
         jdbcTemplate.update("delete from app_role_assignment where app_user_id = ?;", user.getAppUserId());
 
         Collection<GrantedAuthority> authorities = user.getAuthorities();
-        System.out.println(authorities);
         if (authorities == null) {
             return;
         }
