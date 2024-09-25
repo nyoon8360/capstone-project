@@ -4,7 +4,7 @@ public class AreaEncounter {
     private int areaId;
     private String pokemonName;
     private int encounterRate;
-    private int flee_rate;
+    private int fleeRate;
 
     public int getAreaId() {
         return areaId;
@@ -30,11 +30,11 @@ public class AreaEncounter {
         this.encounterRate = encounterRate;
     }
 
-    public int getFlee_rate() {
-        return flee_rate;
+    public int getFleeRate() {
+        return fleeRate;
     }
 
-    public void setFlee_rate(int flee_rate) {
-        this.flee_rate = flee_rate;
+    public void setFleeRate(int fleeRate) {
+        this.fleeRate = fleeRate;
     }
 }

@@ -41,7 +41,7 @@ public class AreaEncounterService {
         if(areaEncounter.getEncounterRate() <= 1) {
             result.addMessage("Encounter Rate must be greater than 1.", ResultType.INVALID);
         }
-        if(areaEncounter.getFlee_rate() <= 0 || areaEncounter.getFlee_rate() >= 100) {
+        if(areaEncounter.getFleeRate() <= 0 || areaEncounter.getFleeRate() >= 100) {
             result.addMessage("Flee Rate must be between 0 and 100.", ResultType.INVALID);
         }
 
@@ -52,7 +52,7 @@ public class AreaEncounterService {
 
     }
 
-    public Result<AreaEncounter> update(AreaEncounter areaEncounter) {
+    public Result<AreaEncounter> update(String pokemonName, AreaEncounter areaEncounter) {
         Result<AreaEncounter> result = new Result<>();
 
         if(areaEncounter == null) {
@@ -65,9 +65,14 @@ public class AreaEncounterService {
         if(areaEncounter.getEncounterRate() <= 1) {
             result.addMessage("Encounter Rate must be greater than 1.", ResultType.INVALID);
         }
-        if(areaEncounter.getFlee_rate() <= 0 || areaEncounter.getFlee_rate() >= 100) {
+        if(areaEncounter.getFleeRate() <= 0 || areaEncounter.getFleeRate() >= 100) {
             result.addMessage("Flee Rate must be between 0 and 100.", ResultType.INVALID);
         }
+
+//        if(isDuplicate(areaEncounter, pokemonName)){   <-- Needed if we plan to allow name change
+//            result.addMessage("Cannot add duplicate Pokemon to area.", ResultType.INVALID);
+//            return result;
+//        }
 
         if(!result.isSuccess()) {
             return result;
@@ -98,5 +103,12 @@ public class AreaEncounterService {
         return repository.findAllWithId(areaEncounter.getAreaId()).stream()
                 .anyMatch(ae -> ae.getPokemonName().equals(areaEncounter.getPokemonName()));
     }
+
+//Needed if we plan to allow name change
+//    private boolean isDuplicate(AreaEncounter areaEncounter, String pokemonName) {
+//        return repository.findAllWithId(areaEncounter.getAreaId()).stream()
+//                .filter(ae -> !ae.getPokemonName().equals(pokemonName))
+//                .anyMatch(ae -> ae.getPokemonName().equals(areaEncounter.getPokemonName()));
+//    }
 
 }
