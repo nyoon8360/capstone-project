@@ -24,6 +24,10 @@ public class AppUserService implements UserDetailsService {
         this.encoder = encoder;
     }
 
+    public AppUser findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appUser = repository.findByUsername(username);
@@ -41,9 +45,13 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, false, List.of("User"));
+        AppUser appUser = new AppUser(0, username, password, false, List.of("user"));
 
         return repository.create(appUser);
+    }
+
+    public boolean delete(int userId) {
+        return repository.delete(userId);
     }
 
     private void validate(String username) {
