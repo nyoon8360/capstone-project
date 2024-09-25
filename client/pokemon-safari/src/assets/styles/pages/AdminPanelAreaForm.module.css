@@ -150,9 +150,15 @@
 .errorContainer {
     width: 100%;
     background-color: rgba(190, 0, 0, 0.5);
+
+    box-sizing: border-box;
+    padding: .5rem;
 }
 
 .successContainer {
     width: 100%;
     background-color: rgba(172, 255, 47, 0.5);
+
+    box-sizing: border-box;
+    padding: .5rem;
 }

@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelAreaForm.module.css";
 
-const DEFAULT_AREA = {
-    areaName: ''
-}
-
 const DEFAULT_POKEMON = {
     pokemonName: '',
     encounterRate: 0,
     fleeRate: 0
+}
+
+const DEFAULT_AREA = {
+    areaId: 0,
+    areaName: ''
 }
 
 const baseUrl = 'http://localhost:8080/api';
@@ -32,9 +33,6 @@ function AdminPanelAreaForm() {
             navigate('/')
         }
 
-        //TODO: get area by id
-
-        //fetch all area encounter information
         const init = {
             method: 'GET',
             headers: {
@@ -43,6 +41,16 @@ function AdminPanelAreaForm() {
             }
         }
 
+        //fetch area and set state with it
+        fetch(`${baseUrl}/area/${areaId}`, init)
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                setArea(data);
+            })
+
+        //fetch all area encounter information
         fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
             .then(response => {
                 if (response.status === 200) {
@@ -52,7 +60,6 @@ function AdminPanelAreaForm() {
                 }
             })
             .then(data => {
-                console.log(data);
                 setEncounters(data);
             })
             .catch(console.log);
@@ -101,26 +108,70 @@ function AdminPanelAreaForm() {
                 }
                 setEditError(newErrors);
                 setEditSuccess(newSuccesses);
+            }).then(() => {
+                //fetch all area encounter information
+                const init = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie('Authorization')
+                    }
+                }
+
+                fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                    .then(response => {
+                        if (response.status === 200) {
+                            return response.json();
+                        } else {
+                            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                        }
+                    })
+                    .then(data => {
+                        setEncounters(data);
+                    })
+                    .catch(console.log);
             })
     }
 
     const handleDeleteEncounter = (areaId, pokemonName) => {
         if (window.confirm('Delete this pokemon encounter?')) {
-            //remove encounter from encounters state
+            //if encounter is NOT new then it exists in database and we must perform a delete request
+            let foundEncounter = encounters.find(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
+            if (foundEncounter && foundEncounter.isNew === undefined) {
+                //perform DELETE request
+                const init = {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie('Authorization')
+                    }
+                }
+        
+                fetch(`${baseUrl}/areaEncounter/${areaId}/${pokemonName}`, init)
+                    .then(response => {
+                        if (response.status !== 204) {
+                            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                        }
+                    })
+                    .catch(console.log);
+            }
 
-            //TODO: perform delete if isNew NOT true
+            //update encounters state to reflect deletion
             const newEncounters = encounters.filter(encounter => encounter.areaId != areaId || encounter.pokemonName != pokemonName);
-
             setEncounters(newEncounters);
         }   
     }
 
     const handleEncounterRateChange = (event, areaId, pokemonName) => {
-        console.log(`${areaId} ${pokemonName} ${event.target.textContent}`);
-
         //no need to rerender so dont need to use setstate
         let index = encounters.findIndex(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
         encounters[index].encounterRate = parseInt(event.target.textContent);
+    }
+
+    const handleFleeRateChange = (event, areaId, pokemonName) => {
+        //no need to rerender so dont need to use setstate
+        let index = encounters.findIndex(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
+        encounters[index].fleeRate = parseInt(event.target.textContent);
     }
 
     const handleNewPokemonChange = (event) => {
@@ -129,7 +180,7 @@ function AdminPanelAreaForm() {
         if (event.target.name == 'pokemonName') { 
             newPokemon[event.target.name] = event.target.value;
         } else {
-            newPokemon[event.target.name] = parseInt(event.target.value);
+            newPokemon[event.target.name] = parseInt(event.target.value) ? parseInt(event.target.value) : 0;
         }
 
         setPokemon(newPokemon);
@@ -141,9 +192,37 @@ function AdminPanelAreaForm() {
         }
     }
 
+    const handleAreaNameChange = (event) => {
+        const newArea = {...area};
+        newArea.areaName = event.target.value;
+        setArea(newArea);
+    }
+
     //start bulk put/update calls on data in table
     const bulkAddUpdate = () => {
         const promises = [];
+
+        //edit area name
+        const nameInit = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('Authorization')
+            },
+            body: JSON.stringify(area)
+        }
+
+        console.log(area);
+        promises.push(fetch(`${baseUrl}/area/${area.areaId}`, nameInit)
+        .then(response => {
+            if (response.status === 204) {
+                return ({success: true, msg: "Area name was successfully updated!"});
+            } else if (response.status === 400) {
+                return ({success: false, msg: "Area name could NOT be updated!"});
+            } else {
+                return Promise.reject(`Unexpected Status Code: ${response.status}`);
+            }
+        }));
 
         for (const encounter of encounters) {
             if (encounter.isNew) {
@@ -188,7 +267,6 @@ function AdminPanelAreaForm() {
 
                 promises.push(fetch(`${baseUrl}/areaEncounter/${encounter.areaId}/${encounter.pokemonName}`, init)
                     .then(response => {
-                        console.log(response);
                         if (response.status === 201 || response.status === 400) {
                             return response.json();
                         } else {
@@ -237,7 +315,9 @@ function AdminPanelAreaForm() {
             <div className={styles.contentContainer}>
                 <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
 
-                <div className={styles.errorContainer}></div>
+                <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
+                    {addError}
+                </div>
 
                 <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
                     <div className={styles.pokemonFormFieldContainer}>
@@ -259,7 +339,7 @@ function AdminPanelAreaForm() {
                 <form onSubmit={handleEditSubmit}>
                     <fieldset className={styles.fieldSet}>
                         <label className={styles.fieldLabel} htmlFor="areaName">Area Name</label>
-                        <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName}/>
+                        <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName} onChange={handleAreaNameChange}/>
                     </fieldset>
 
                     <fieldset>
@@ -279,7 +359,9 @@ function AdminPanelAreaForm() {
                                         <td contentEditable 
                                             onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
                                                 {encounter.encounterRate}</td>
-                                        <td contentEditable>{encounter.fleeRate}</td>
+                                        <td contentEditable
+                                            onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                {encounter.fleeRate}</td>
                                         <td>
                                             <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
                                         </td>
@@ -289,12 +371,16 @@ function AdminPanelAreaForm() {
                         </table>
                     </fieldset>
 
-                    <div className={styles.errorContainer}>{editError.map(error => (
-                        <p>{error}</p>
-                    ))}</div>
-                    <div className={styles.successContainer}>{editSuccess.map(success => (
-                        <p>{success}</p>
-                    ))}</div>
+                    <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden'}}>
+                        {editError.map(error => (
+                            <p>{error}</p>
+                        ))}
+                    </div>
+                    <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden'}}>
+                        {editSuccess.map(success => (
+                            <p>{success}</p>
+                        ))}
+                    </div>
 
                     <div className={styles.buttonContainer}>
                         <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
