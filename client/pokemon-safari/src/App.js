@@ -29,7 +29,8 @@ function App() {
       <Route path="/admin/players" element={<AdminPanelPlayers/>}/>
       <Route path="/admin/players/form/:areaId" element={<AdminPanelPlayerForm/>}/>
       <Route path="/admin/areas" element={<AdminPanelAreas/>}/>
-      <Route path="/admin/areas/form" element={<AdminPanelAreaForm/>}/>
+      <Route path="/admin/areas/form/" element={<AdminPanelAreaForm/>}/>
+      <Route path="/admin/areas/form/:areaId" element={<AdminPanelAreaForm/>}/>
       <Route path="*" element={<NotFound/>}/>
     </Routes>
   </Router>)
