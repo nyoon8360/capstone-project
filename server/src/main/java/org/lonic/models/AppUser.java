@@ -23,7 +23,9 @@ public class AppUser extends User {
         super(username, password, !disabled,
                 true, true, true,
                 convertRolesToAuthorities(roles));
+
         this.appUserId = appUserId;
+
     }
 
     private List<String> roles = new ArrayList<>();
@@ -36,9 +38,9 @@ public class AppUser extends User {
         this.appUserId = appUserId;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
 
     public void setPassword(String password) {
         this.password = password;  // Set the new password

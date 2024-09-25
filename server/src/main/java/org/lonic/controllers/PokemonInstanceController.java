@@ -2,25 +2,51 @@ package org.lonic.controllers;
 
 import org.lonic.domain.PokemonInstanceService;
 import org.lonic.domain.Result;
+import org.lonic.models.AppUser;
 import org.lonic.models.PokemonInstance;
+import org.lonic.security.AppUserService;
+import org.lonic.security.JwtConverter;
+import org.lonic.security.JwtRequestFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin()
 @RequestMapping("/api/pokemon")
 public class PokemonInstanceController {
     private final PokemonInstanceService service;
+    private final JwtConverter converter;
+    private final AppUserService userService;
 
-    public PokemonInstanceController(PokemonInstanceService service) {
+
+    public PokemonInstanceController(PokemonInstanceService service, JwtConverter converter, AppUserService userService) {
         this.service = service;
+        this.converter = converter;
+        this.userService = userService;
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Object> getByUserId(@PathVariable int userId) {
+    @GetMapping("/")
+    public ResponseEntity<Object> getByUserId(@RequestBody String token) {
+        User user = converter.getUserFromToken(token);
+        AppUser appUser = userService.findByUsername(user.getUsername());
+
+        Result<List<PokemonInstance>> result = service.getByUserId(appUser.getAppUserId());
+
+        if(result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @GetMapping("/admin/{userId}")
+    public ResponseEntity<Object> getByUserIdAdmin(@PathVariable int userId) {
         Result<List<PokemonInstance>> result = service.getByUserId(userId);
 
         if(result.isSuccess()) {
