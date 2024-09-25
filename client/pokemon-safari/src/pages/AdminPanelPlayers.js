@@ -33,6 +33,7 @@ function AdminPanelPlayers() {
                 }
             })
             .then(data => {
+                console.log(data);
                 setPlayers(data);
             })
             .catch(console.log);

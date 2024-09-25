@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppUserService implements UserDetailsService {
@@ -25,7 +26,11 @@ public class AppUserService implements UserDetailsService {
     }
 
     public List<AppUser> findAll(){
-        return repository.findAll();
+        List<AppUser> allUsers = repository.findAll().stream().map(user -> {
+            return new AppUser(user.getAppUserId(), user.getUsername(), "", false, List.of());
+        }).collect(Collectors.toList());
+
+        return allUsers;
     }
 
     public AppUser findByUsername(String username) {
