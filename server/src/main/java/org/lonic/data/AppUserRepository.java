@@ -8,6 +8,9 @@ import java.util.List;
 public interface AppUserRepository {
 
     @Transactional
+    List<AppUser> findAll();
+
+    @Transactional
     AppUser findByUsername(String username);
 
     @Transactional
