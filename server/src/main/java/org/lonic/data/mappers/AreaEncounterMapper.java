@@ -13,7 +13,7 @@ public class AreaEncounterMapper implements RowMapper<AreaEncounter> {
         areaEncounter.setAreaId(rs.getInt("area_id"));
         areaEncounter.setPokemonName(rs.getString("pokemon_name"));
         areaEncounter.setEncounterRate(rs.getInt("encounter_rate"));
-        areaEncounter.setFlee_rate(rs.getInt("flee_rate"));
+        areaEncounter.setFleeRate(rs.getInt("flee_rate"));
         return areaEncounter;
     }
 }

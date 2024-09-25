@@ -2,7 +2,6 @@ package org.lonic.data;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.lonic.models.Area;
 import org.lonic.models.AreaEncounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +34,7 @@ public class AreaEncounterJDBCRepositoryTest {
     @Test
     void shouldAddAreaEncounter() {
         AreaEncounter areaEncounter = new AreaEncounter();
-        areaEncounter.setFlee_rate(1);
+        areaEncounter.setFleeRate(1);
         areaEncounter.setAreaId(1);
         areaEncounter.setEncounterRate(1);
         areaEncounter.setPokemonName("Piplup");
@@ -49,7 +48,7 @@ public class AreaEncounterJDBCRepositoryTest {
 
         List<AreaEncounter> areaEncounters = repository.findAllWithId(1);
         AreaEncounter areaEncounter = areaEncounters.get(0);
-        areaEncounter.setFlee_rate(100);
+        areaEncounter.setFleeRate(100);
         assertTrue(repository.update(areaEncounter));
     }
 

@@ -1,0 +1,96 @@
+@url = http://localhost:8080/areaEncounter/
+
+### GET
+### Happy
+GET {{url}}2 HTTP/1.1
+
+### POST
+### Happy
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 2,
+    "pokemonName": "Test-2",
+    "encounterRate": 2,
+    "fleeRate": 2
+}
+
+###
+GET {{url}}2 HTTP/1.1
+
+### Unhappy
+### Missing/Out of Range Fields/
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 2,
+    "pokemonName": "",
+    "encounterRate": 2,
+    "fleeRate": 2
+}
+
+### 
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 2,
+    "pokemonName": "Test",
+    "encounterRate": 2,
+    "fleeRate": 123
+}
+
+### 
+GET {{url}}2 HTTP/1.1
+
+### PUT
+### Happy
+PUT {{url}}2/Pikachu HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 2,
+    "pokemonName": "Pikachu-2",
+    "encounterRate": 3,
+    "fleeRate": 3
+}
+
+### 
+GET {{url}}2 HTTP/1.1
+
+### Unhappy
+### Missing/Out of Range Fields/
+PUT {{url}}2/Pikachu HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 2,
+    "pokemonName": "Pikachu-2",
+    "encounterRate": 0,
+    "fleeRate": 3
+}
+
+### NonExistent ID
+PUT {{url}}6/Pikachu HTTP/1.1
+Content-Type: application/json
+
+{
+    "areaId": 6,
+    "pokemonName": "Pikachu-6",
+    "encounterRate": 3,
+    "fleeRate": 3
+}
+
+### DELETE
+### Happy
+DELETE  {{url}}2/Test HTTP/1.1
+
+###
+GET {{url}}2 HTTP/1.1
+
+### Unhappy
+### Not Found
+DELETE  {{url}}2/Test-3 HTTP/1.1

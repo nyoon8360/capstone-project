@@ -39,6 +39,7 @@ public class AreaService {
         return result;
 
     }
+
     public Result<Area> update(Area area) {
         Result<Area> result = new Result<>();
 
