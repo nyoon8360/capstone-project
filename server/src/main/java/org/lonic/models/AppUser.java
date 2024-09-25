@@ -16,6 +16,7 @@ public class AppUser extends User {
     private static final String AUTHORITY_PREFIX = "ROLE_";
 
     private int appUserId;
+    private String password;
 
     public AppUser(int appUserId, String username, String password,
                    boolean disabled, List<String> roles) {
@@ -37,6 +38,13 @@ public class AppUser extends User {
         this.appUserId = appUserId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;  // Set the new password
+    }
 
     public static List<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
@@ -56,4 +64,5 @@ public class AppUser extends User {
                 .map(a -> a.getAuthority().substring(AUTHORITY_PREFIX.length()))
                 .collect(Collectors.toList());
     }
+
 }

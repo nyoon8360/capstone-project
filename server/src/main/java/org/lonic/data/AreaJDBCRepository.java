@@ -27,6 +27,15 @@ public class AreaJDBCRepository implements AreaRepository{
     }
 
     @Override
+    public Area findById(int areaId){
+        final String sql = "select area_id,area_name " +
+                "from area " +
+                "where area_id = ?;";
+        return jdbcTemplate.query(sql, new AreaMapper(), areaId).stream()
+                .findFirst().orElse(null);
+    }
+
+    @Override
     public Area add(Area area){
 
         final String sql = "insert into area (area_name) "

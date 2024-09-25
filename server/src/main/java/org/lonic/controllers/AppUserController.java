@@ -1,5 +1,6 @@
 package org.lonic.controllers;
 
+import org.lonic.models.PasswordUpdateRequest;
 import org.lonic.security.AppUserService;
 import org.lonic.models.AppUser;
 import org.lonic.security.JwtConverter;
@@ -11,9 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,4 +124,28 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
+    @PutMapping("/update-password/{username}")
+    public ResponseEntity<?> updatePassword(
+            @PathVariable String username,
+            @RequestBody PasswordUpdateRequest passwordUpdateRequest,
+            Principal principal) {
+
+        try {
+
+            // Only allow the logged-in user to update their own password
+            if (!appUserService.isAuthorized(username)) {
+                return new ResponseEntity<>("Unauthorized", HttpStatus.FORBIDDEN);
+            }
+
+            boolean passwordUpdated = appUserService.updatePassword(username, passwordUpdateRequest);
+
+            if (passwordUpdated) {
+                return new ResponseEntity<>("Password updated successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Invalid current password", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to update password: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

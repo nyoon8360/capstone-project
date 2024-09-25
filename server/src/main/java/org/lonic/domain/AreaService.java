@@ -17,6 +17,8 @@ public class AreaService {
     //Pass Through Methods
     public List<Area> findAll() { return repository.findAll(); }
 
+    public Area findById(int areaId) {return repository.findById(areaId);}
+
     public Result<Area> delete(int areaId) {
         Result<Area> result = new Result<>();
 
