@@ -116,11 +116,15 @@ function AdminPanelAreaForm() {
     }
 
     const handleEncounterRateChange = (event, areaId, pokemonName) => {
-        console.log(`${areaId} ${pokemonName} ${event.target.textContent}`);
-
         //no need to rerender so dont need to use setstate
         let index = encounters.findIndex(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
         encounters[index].encounterRate = parseInt(event.target.textContent);
+    }
+
+    const handleFleeRateChange = (event, areaId, pokemonName) => {
+        //no need to rerender so dont need to use setstate
+        let index = encounters.findIndex(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
+        encounters[index].fleeRate = parseInt(event.target.textContent);
     }
 
     const handleNewPokemonChange = (event) => {
@@ -129,7 +133,7 @@ function AdminPanelAreaForm() {
         if (event.target.name == 'pokemonName') { 
             newPokemon[event.target.name] = event.target.value;
         } else {
-            newPokemon[event.target.name] = parseInt(event.target.value);
+            newPokemon[event.target.name] = parseInt(event.target.value) ? parseInt(event.target.value) : 0;
         }
 
         setPokemon(newPokemon);
@@ -237,7 +241,9 @@ function AdminPanelAreaForm() {
             <div className={styles.contentContainer}>
                 <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
 
-                <div className={styles.errorContainer}></div>
+                <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
+                    {addError}
+                </div>
 
                 <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
                     <div className={styles.pokemonFormFieldContainer}>
@@ -279,7 +285,9 @@ function AdminPanelAreaForm() {
                                         <td contentEditable 
                                             onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
                                                 {encounter.encounterRate}</td>
-                                        <td contentEditable>{encounter.fleeRate}</td>
+                                        <td contentEditable
+                                            onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                {encounter.fleeRate}</td>
                                         <td>
                                             <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
                                         </td>
@@ -289,12 +297,16 @@ function AdminPanelAreaForm() {
                         </table>
                     </fieldset>
 
-                    <div className={styles.errorContainer}>{editError.map(error => (
-                        <p>{error}</p>
-                    ))}</div>
-                    <div className={styles.successContainer}>{editSuccess.map(success => (
-                        <p>{success}</p>
-                    ))}</div>
+                    <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden'}}>
+                        {editError.map(error => (
+                            <p>{error}</p>
+                        ))}
+                    </div>
+                    <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden'}}>
+                        {editSuccess.map(success => (
+                            <p>{success}</p>
+                        ))}
+                    </div>
 
                     <div className={styles.buttonContainer}>
                         <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
