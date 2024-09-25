@@ -20,6 +20,7 @@ import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/user")
@@ -36,7 +37,7 @@ public class AppUserController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Map<String, Object>> authenticate(@RequestBody Map<String, String> credentials) {
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
@@ -46,9 +47,14 @@ public class AppUserController {
 
             if (authentication.isAuthenticated()) {
                 String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal());
+                AppUser appUser = (AppUser) authentication.getPrincipal();
 
-                HashMap<String, String> map = new HashMap<>();
+                List<String> roles = AppUser.convertAuthoritiesToRoles(appUser.getAuthorities());
+                boolean isAdmin = roles.contains("admin");
+
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("jwt_token", jwtToken);
+                map.put("is_admin", isAdmin);
 
                 return new ResponseEntity<>(map, HttpStatus.OK);
             }
