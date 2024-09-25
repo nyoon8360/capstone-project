@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Shuttle.module.css';
 import StyledLink from '../components/StyledLink';
+import { useNavigate } from 'react-router-dom';
 
 const TEST_DATA_DELETE_LATER = [
     {areaId: '1', areaName: 'Area 1'},
@@ -15,7 +16,14 @@ function Shuttle() {
     const [area, setArea] = useState(TEST_DATA_DELETE_LATER);
     const [navHidden, setNavHidden] = useState(true);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+
         //TODO: get all areas and update area state with them
     }, []);
 

@@ -8,7 +8,10 @@ function SafariZoneEntrance() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(document.cookie);
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
     }, []);
 
     //==============

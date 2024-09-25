@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "../assets/styles/pages/Area.module.css"
 import StyledButton from "../components/StyledButton";
 import StyledLink from "../components/StyledLink";
@@ -14,11 +14,17 @@ const DEFAULT_AREA = {
 
 function Area() {
     const { areaId } = useParams();
-
     const [area, setArea] = useState(DEFAULT_AREA);
+
+    const navigate = useNavigate();
 
     //fetch info about area
     useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+
         //TODO: fetch area information and display it on ui
     }, []);
 
