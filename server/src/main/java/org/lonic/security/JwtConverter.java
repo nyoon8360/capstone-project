@@ -20,7 +20,13 @@ public class JwtConverter {
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     // 2. "Configurable" constants
     private final String ISSUER = "pokemon-safari";
-    private final int EXPIRATION_MINUTES = 15;
+
+    /*
+    this is NOT best practice to have a long token lifetime but implementing refresh tokens, reauth,
+    revoking refresh tokens, etc would greatly increase the workload and would not be feasible
+    in the timeframe given for the project
+    */
+    private final int EXPIRATION_MINUTES = 720;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
 
     public String getTokenFromUser(User user) {

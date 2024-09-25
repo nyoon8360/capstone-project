@@ -58,9 +58,9 @@ function Login() {
                     console.log(data);
 
                     if (data.jwt_token) {
-                        //create a new cookie with an expiration of 1 day
+                        //create a new cookie with an expiration of half a day
                         const date = new Date();
-                        date.setTime(date.getTime() + (24*60*60*1000));
+                        date.setTime(date.getTime() + (12*60*60*1000));
 
                         let expires = "expires=" + date.toUTCString();
                         document.cookie = `Authorization=Bearer ${data.jwt_token}; ${expires}; path=/`;
