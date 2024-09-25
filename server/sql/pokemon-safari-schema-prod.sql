@@ -4,7 +4,7 @@ use pokemon_safari;
 
 -- Create Tables
 create table app_role (
-    app_role_id int primary key,
+    app_role_id int primary key auto_increment,
     role_name varchar(25) not null
 );
 
@@ -51,3 +51,7 @@ create table area_encounter (
 		foreign key(area_id)
         references `area`(area_id)
 );
+
+insert into app_role(role_name) values
+	('admin'),
+	('user');
