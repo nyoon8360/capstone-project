@@ -71,6 +71,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
 
         final String sql = "update app_user set "
                 + "username = ?, "
+                + "password = ?,"
                 + "disabled = ? "
                 + "where app_user_id = ?";
 
