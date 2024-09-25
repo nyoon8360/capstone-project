@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Encounter.module.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
 
@@ -9,7 +9,8 @@ const baitImages = require.context('../assets/images/baits', true);
 const baitImageList = baitImages.keys().map(image => baitImages(image));
 
 function Encounter() {
-    const [pokemon, setPokemon] = useState({pokemonName: 'pikachu'});
+    const location = useLocation();
+    const [pokemon, setPokemon] = useState({pokemonName: location.state.pokemonName});
 
     const navigate = useNavigate();
 

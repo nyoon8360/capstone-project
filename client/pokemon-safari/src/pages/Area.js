@@ -41,7 +41,6 @@ function Area() {
                 if (response.status === 200) {
                     return response.json();
                 } else {
-                    console.log(response);
                     return Promise.reject(`Unexpected Status Code: ${response.status}`);
                 }
             })
@@ -51,9 +50,60 @@ function Area() {
             .catch(console.log);
     }, []);
 
+    const handleRandomEncounter = () => {
+        const init = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('Authorization')
+            }
+        }
+
+        fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => {
+                let pokemonNames = [];
+                let encounterRates = [];
+
+                //divide data into two arrays of pokemon name and encounter rates
+                for (const encounter of data) {
+                    pokemonNames.push(encounter.pokemonName);
+                    encounterRates.push(encounter.encounterRate);
+                }
+
+                //navigate to encounter page, passing state containing the random encountered pokemon
+                navigate('/encounter', {state: {pokemonName: randomFromWeighted(pokemonNames, encounterRates)}});
+            })
+            .catch(console.log);
+
+        
+    }
+
     //=================
     //UTILITY FUNCTIONS
     //=================
+
+    //return a random pokemon name taking into account the weight (encounter rate) of each pokemon
+    const randomFromWeighted = (pokemonNames, pokemonWeights) => {
+        let i;
+
+        for (i = 1; i < pokemonWeights.length; i++)
+            pokemonWeights[i] += pokemonWeights[i - 1];
+        
+        var random = Math.random() * pokemonWeights[pokemonWeights.length - 1];
+        
+        for (i = 0; i < pokemonWeights.length; i++)
+            if (pokemonWeights[i] > random)
+                break;
+        
+        return pokemonNames[i];
+    }
 
     //returns value of cookie with key cookieName
     const getCookie = (cookieName) => {
@@ -81,7 +131,7 @@ function Area() {
             <div className={styles.contentContainer}>
                 <h1 className={styles.heading}>{area.areaName}</h1>
                 <div className={styles.buttonContainer}>
-                    <StyledLink to={'/encounter'} style={{width: '40%'}} type='success'>Search for Pokemon</StyledLink>
+                    <StyledButton onClick={handleRandomEncounter} style={{width: '40%'}} type='success'>Search for Pokemon</StyledButton>
                     <StyledLink to={'/shuttle'} style={{width: '40%'}}>Back to Shuttle</StyledLink>
                 </div>
             </div>
