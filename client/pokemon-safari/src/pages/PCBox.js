@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/PCBox.module.css'
 import StyledButton from '../components/StyledButton';
 import StyledLink from '../components/StyledLink';
+import { useNavigate } from 'react-router-dom';
 
 const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
 
@@ -60,7 +61,14 @@ function PCBox() {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedPokemon, setSelectedPokemon] = useState(DEFAULT_SELECTED_POKEMON);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+
         populateSprites()
         //set loading state to false so pokemon slots can render
         .then(() => setIsLoading(false));

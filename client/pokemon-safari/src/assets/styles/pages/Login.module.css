@@ -82,7 +82,23 @@
 
 .formButtonsContainer {
     height: 10%;
+    margin-bottom: 1rem;
 
     display: flex;
     justify-content: space-between;
+}
+
+.toast {
+    background-color: rgba(191, 253, 99, 0.5);
+
+    width: 100%;
+
+    padding: 1%;
+
+    transform: none;
+    transition: none;
+
+    position: absolute;
+
+    font-weight: bold;
 }

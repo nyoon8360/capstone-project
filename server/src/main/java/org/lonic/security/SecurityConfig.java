@@ -1,6 +1,7 @@
 package org.lonic.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/user/authenticate").permitAll()
                 .antMatchers("/api/user/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/area").hasAnyRole("user", "admin")
+                .antMatchers(HttpMethod.POST, "/api/area").hasRole("admin")
+                .antMatchers(HttpMethod.PUT, "/api/area/*").hasRole("admin")
+                .antMatchers(HttpMethod.DELETE, "/api/area/*").hasRole("admin")
+                .antMatchers(HttpMethod.GET, "/api/areaEncounter/*").hasAnyRole("user", "admin")
+                .antMatchers(HttpMethod.POST, "/api/areaEncounter/*").hasRole("admin")
+                .antMatchers(HttpMethod.PUT, "/api/areaEncounter/*").hasRole("admin")
+                .antMatchers(HttpMethod.DELETE, "/api/areaEncounter/*").hasRole("admin")
+                .antMatchers(HttpMethod.POST, "/api/pokemonEncounter/*").hasRole("admin")
+                .antMatchers(HttpMethod.PUT, "/api/pokemonEncounter/*").hasRole("admin")
+                .antMatchers(HttpMethod.DELETE, "/api/pokemonEncounter/*").hasRole("admin")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))

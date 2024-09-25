@@ -11,7 +11,7 @@ create table app_role (
 create table app_user (
 	app_user_id int primary key auto_increment,
     username varchar(25),
-    password varchar(25),
+    password varchar(200),
     disabled boolean not null default(0)
 );
 
@@ -101,18 +101,19 @@ begin
         ('Unova');
         
 	insert into area_encounter(area_id, pokemon_name, encounter_rate, flee_rate) values
-		(1, 'Pikachu-1', 87.3, 3),
-        (2, 'Pikachu-2', 87.3, 3),
-        (1, 'Spidops-1', 6, 13),
-        (1, 'Tyrantrum-1', 2, 10),
-        (3, 'Tyrantrum-3', 2, 10),
-        (1, 'Trumbeak-1', 31, 22),
-        (2, 'Trumbeak-2', 31, 22),
-        (3, 'Trumbeak-3', 31, 22),
-        (1, 'Feeroseed-1', 52, 6),
-        (1, 'Feeroseed-1', 52, 6),
-        (2, 'Fearow-2', 14, 31),
-        (3, 'Fearow-3', 14, 31);
+		(1, 'pikachu', 87.3, 3),
+        (2, 'pikachu', 87.3, 3),
+        (1, 'spidops', 6, 13),
+        (1, 'tyrantrum', 2, 10),
+        (3, 'tyrantrum', 2, 10),
+        (1, 'trumbeak', 31, 22),
+        (2, 'trumbeak', 31, 22),
+        (3, 'trumbeak', 31, 22),
+        (1, 'feeroseed', 52, 6),
+        (1, 'feeroseed', 52, 6),
+        (2, 'fearow', 14, 31),
+        (3, 'fearow', 14, 31);
 
 end //
 delimiter ;
+

@@ -15,6 +15,11 @@ function Encounter() {
 
     //fetch pokemon stats and sprites
     useEffect(() => {
+        //if no auth token then navigate to home page
+        if (!document.cookie) {
+            navigate('/')
+        }
+
         getSprite();
     }, []);
 

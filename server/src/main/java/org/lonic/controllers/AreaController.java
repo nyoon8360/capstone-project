@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin()
-@RequestMapping("/area")
+@RequestMapping("/api/area")
 public class AreaController {
     private final AreaService service;
 
