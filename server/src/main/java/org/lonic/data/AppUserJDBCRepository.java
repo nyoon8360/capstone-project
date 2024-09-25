@@ -81,7 +81,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
         updateRoles(user);
     }
 
-    private void updateRoles(AppUser user) {
+        private void updateRoles(AppUser user) {
         // delete all roles, then re-add
         jdbcTemplate.update("delete from user_role_assignment where app_user_id = ?;", user.getAppUserId());
 
