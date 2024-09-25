@@ -1,7 +1,9 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AdminPanelAreaForm() {
+    const { areaId } = useParams();
+
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -15,12 +15,17 @@ function Login() {
     const [view, setView] = useState('main');
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState(CREDENTIALS_DEFAULT);
+    const [toast, setToast] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         //redirect if logged in already
         if (document.cookie) {
-            navigate('/entrance');
+            if (getCookie('IsAdmin') === 'true') {
+                navigate('/admin');
+            } else {
+                navigate('/entrance');
+            }
         }
     },[]);
 
@@ -64,9 +69,14 @@ function Login() {
 
                         let expires = "expires=" + date.toUTCString();
                         document.cookie = `Authorization=Bearer ${data.jwt_token}; ${expires}; path=/`;
-
+                        document.cookie = `IsAdmin=${data.is_admin ? 'true' : 'false'}; ${expires}; path=/`;
+                        
                         //navigate to entrance component
-                        navigate('/entrance');
+                        if (data.is_admin) {
+                            navigate('/admin');
+                        } else {
+                            navigate('/entrance');
+                        }
                     } else {
                         setErrors(data);
                     }                    
@@ -95,7 +105,9 @@ function Login() {
                 })
                 .then(data => {
                     if (data.appUserId) {
-                        
+                        //swap view THEN set toast to prevent toast from being deleted.
+                        updateView('main');
+                        setToast('Successfully Registered!');
                     } else {
                         setErrors(data);
                     }
@@ -124,6 +136,9 @@ function Login() {
 
         let background = document.getElementById('background');
 
+        //clear any toast
+        setToast('');
+
         //check if transition is from main view or from login/register view
         if (view === 'main') {
             //apply zoom out and blur
@@ -141,6 +156,23 @@ function Login() {
             
             setView(viewString);
         }
+    }
+
+    //returns value of cookie with key cookieName
+    const getCookie = (cookieName) => {
+        let name = cookieName + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let cookieArr = decodedCookie.split(';');
+        for(let index = 0; index < cookieArr.length; index++) {
+          let curCookie = cookieArr[index];
+          while (curCookie.charAt(0) === ' ') {
+            curCookie = curCookie.substring(1);
+          }
+          if (curCookie.indexOf(name) === 0) {
+            return curCookie.substring(name.length, curCookie.length);
+          }
+        }
+        return "";
     }
 
     //render the current view of the login page
@@ -194,7 +226,7 @@ function Login() {
     return(
     <section className={styles.mainContainer}>
         <div id='background' className={styles.background}/>
-        
+        <div className={styles.toast} style={{visibility: toast ? 'visible' : 'hidden'}}>{toast}</div>
         {renderView()}
     </section>)
 }

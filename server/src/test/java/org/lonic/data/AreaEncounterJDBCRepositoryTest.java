@@ -54,6 +54,6 @@ public class AreaEncounterJDBCRepositoryTest {
 
     @Test
     void shouldDelete(){
-        assertTrue(repository.delete(1,"Pikachu-1"));
+        assertTrue(repository.delete(1,"pikachu"));
     }
 }

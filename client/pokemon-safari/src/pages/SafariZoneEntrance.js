@@ -22,6 +22,7 @@ function SafariZoneEntrance() {
     const handleLogout = () => {
         if (window.confirm("Are you sure you want to log out?")) {
             document.cookie = 'Authorization=;expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/';
+            document.cookie = 'IsAdmin=;expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/';
             navigate('/');
         }
     }
