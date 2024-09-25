@@ -77,8 +77,11 @@ function Area() {
                     encounterRates.push(encounter.encounterRate);
                 }
 
+                let randomPokemon = randomFromWeighted(pokemonNames, encounterRates);
+                let fleeRate = data.find(mon => mon.pokemonName == randomPokemon).fleeRate;
+
                 //navigate to encounter page, passing state containing the random encountered pokemon
-                navigate('/encounter', {state: {pokemonName: randomFromWeighted(pokemonNames, encounterRates)}});
+                navigate('/encounter', {state: {pokemonName: randomPokemon, fleeRate: fleeRate}});
             })
             .catch(console.log);
 
