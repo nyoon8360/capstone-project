@@ -52,7 +52,6 @@ function AdminPanelAreaForm() {
                 }
             })
             .then(data => {
-                console.log(data);
                 setEncounters(data);
             })
             .catch(console.log);
@@ -101,16 +100,56 @@ function AdminPanelAreaForm() {
                 }
                 setEditError(newErrors);
                 setEditSuccess(newSuccesses);
+            }).then(() => {
+                //fetch all area encounter information
+                const init = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie('Authorization')
+                    }
+                }
+
+                fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                    .then(response => {
+                        if (response.status === 200) {
+                            return response.json();
+                        } else {
+                            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                        }
+                    })
+                    .then(data => {
+                        setEncounters(data);
+                    })
+                    .catch(console.log);
             })
     }
 
     const handleDeleteEncounter = (areaId, pokemonName) => {
         if (window.confirm('Delete this pokemon encounter?')) {
-            //remove encounter from encounters state
+            //if encounter is NOT new then it exists in database and we must perform a delete request
+            let foundEncounter = encounters.find(encounter => encounter.areaId == areaId && encounter.pokemonName == pokemonName);
+            if (foundEncounter && foundEncounter.isNew === undefined) {
+                //perform DELETE request
+                const init = {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie('Authorization')
+                    }
+                }
+        
+                fetch(`${baseUrl}/areaEncounter/${areaId}/${pokemonName}`, init)
+                    .then(response => {
+                        if (response.status !== 204) {
+                            return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                        }
+                    })
+                    .catch(console.log);
+            }
 
-            //TODO: perform delete if isNew NOT true
+            //update encounters state to reflect deletion
             const newEncounters = encounters.filter(encounter => encounter.areaId != areaId || encounter.pokemonName != pokemonName);
-
             setEncounters(newEncounters);
         }   
     }
