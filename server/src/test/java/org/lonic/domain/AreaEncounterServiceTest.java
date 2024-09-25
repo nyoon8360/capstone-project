@@ -65,7 +65,7 @@ class AreaEncounterServiceTest {
     void shouldNotUpdateEmptyOrNullName() {
         AreaEncounter encounter = makeAreaEncounter();
         encounter.setPokemonName("");
-        Result<AreaEncounter> result = service.update(encounter);
+        Result<AreaEncounter> result = service.update("",encounter);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessages().contains("Pokemon Name cannot be blank."));
@@ -75,7 +75,7 @@ class AreaEncounterServiceTest {
     void shouldNotUpdateOutOfRangeEncounterRate() {
         AreaEncounter encounter = makeAreaEncounter();
         encounter.setEncounterRate(1);
-        Result<AreaEncounter> result = service.update(encounter);
+        Result<AreaEncounter> result = service.update("pikachu",encounter);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessages().contains("Encounter Rate must be greater than 1."));
@@ -85,7 +85,7 @@ class AreaEncounterServiceTest {
     void shouldNotUpdateOutOfRangeFleeRate() {
         AreaEncounter encounter = makeAreaEncounter();
         encounter.setFleeRate(100);
-        Result<AreaEncounter> result = service.update(encounter);
+        Result<AreaEncounter> result = service.update("pikachu",encounter);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessages().contains("Flee Rate must be between 0 and 100."));

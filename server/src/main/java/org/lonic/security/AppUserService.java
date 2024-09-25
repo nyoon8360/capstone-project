@@ -2,6 +2,7 @@ package org.lonic.security;
 
 import org.lonic.data.AppUserRepository;
 import org.lonic.models.AppUser;
+import org.lonic.models.PasswordUpdateRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -55,11 +56,38 @@ public class AppUserService implements UserDetailsService {
         }
     }
 
+    public boolean updatePassword(String username, PasswordUpdateRequest passwordUpdateRequest) {
+        AppUser appUser = repository.findByUsername(username);
+
+        if (appUser == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+
+        if (!encoder.matches(passwordUpdateRequest.getCurrentPassword(), appUser.getPassword())) {
+            return false;
+        }
+
+
+        validatePassword(passwordUpdateRequest.getNewPassword());
+
+
+        String encodedNewPassword = encoder.encode(passwordUpdateRequest.getNewPassword());
+        appUser.setPassword(encodedNewPassword);
+
+
+        repository.update(appUser);
+
+        return true;
+    }
+
     private void validatePassword(String password) {
         if (password == null || password.length() < 6 || password.length() >40) {
             throw new ValidationException("password must be between 8 and 40 characters");
         }
-
-
+    }
+    public boolean isAuthorized(String username) {
+        AppUser appUser = repository.findByUsername(username);
+        return appUser != null && appUser.getUsername().equals(username);
     }
 }

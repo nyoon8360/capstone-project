@@ -24,6 +24,16 @@ public class AreaController {
         List<Area> all = service.findAll();
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
+    @GetMapping("/{areaId}")
+    public ResponseEntity<Area> getAreaById(@PathVariable int areaId) {
+        Area area = service.findById(areaId); // Call to the service layer
+
+        if (area == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if not found
+        }
+
+        return new ResponseEntity<>(area, HttpStatus.OK); // Return the area object
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Area area) {
@@ -55,4 +65,5 @@ public class AreaController {
         }
         return ErrorResponse.build(result);
     }
+
 }

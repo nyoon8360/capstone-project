@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -17,6 +19,7 @@ class AreaServiceTest {
 
     @MockBean
     AreaRepository repository;
+
 
     @Test
     void shouldNotAddEmptyOrNullName() {
@@ -50,7 +53,9 @@ class AreaServiceTest {
         result = service.update(input);
 
         assertFalse(result.isSuccess());
-        assertTrue(result.getMessages().contains("Area name cannot be blank.`"));
+        assertTrue(result.getMessages().contains("Area name cannot be blank."));
         assertEquals(ResultType.INVALID, result.getType());
     }
+
+
 }
