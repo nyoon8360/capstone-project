@@ -1,6 +1,6 @@
-drop database if exists pokemon_safari;
-create database pokemon_safari;
-use pokemon_safari;
+drop database if exists pokemon_safari_test;
+create database pokemon_safari_test;
+use pokemon_safari_test;
 
 -- Create Tables
 create table app_role (
@@ -11,7 +11,7 @@ create table app_role (
 create table app_user (
 	app_user_id int primary key auto_increment,
     username varchar(25),
-    `password` varchar(200),
+    password varchar(200),
     disabled boolean not null default(0)
 );
 
@@ -109,8 +109,8 @@ begin
         (1, 'trumbeak', 31, 22),
         (2, 'trumbeak', 31, 22),
         (3, 'trumbeak', 31, 22),
-        (1, 'ferroseed', 52, 6),
-        (1, 'ferroseed', 52, 6),
+        (1, 'feeroseed', 52, 6),
+        (1, 'feeroseed', 52, 6),
         (2, 'fearow', 14, 31),
         (3, 'fearow', 14, 31);
 

@@ -4,7 +4,7 @@
 ### User
 GET {{url}} HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6InVzZXIxMjMiLCJhdXRob3JpdGllcyI6IlJPTEVfdXNlciIsImV4cCI6MTcyNzM2Njk3Mn0.yfNnA2EaylSjQl44X99bYCSckB1jDQSjkLmeI1PCWUc
-### Admin
+### Admin 
 GET {{url}}/admin/2 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM2NjkzNH0.OPMZt0Lw-ZJ3dvjNpAGX3bi5DUpLKh2Yxuy6yo_zst0
 ### Admin
