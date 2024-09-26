@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
 const baseUrl = 'http://localhost:8080/api';
 
-const TEST_DATA_DELETE_LATER = [
+const DEFAULT_PC_BOX = [
     {
         pokemonName: 'pikachu',
         maxhp: 28,
@@ -16,33 +16,6 @@ const TEST_DATA_DELETE_LATER = [
         specialAttack: 31,
         specialDefense: 15,
         speed: 22
-    }, 
-    {
-        pokemonName: 'charmander',
-        maxhp: 14,
-        attack: 7,
-        defense: 31,
-        specialAttack: 25,
-        specialDefense: 8,
-        speed: 11
-    }, 
-    {
-        pokemonName: 'bulbasaur',
-        maxhp: 15,
-        attack: 9,
-        defense: 1,
-        specialAttack: 2,
-        specialDefense: 23,
-        speed: 30
-    }, 
-    {
-        pokemonName: 'eternatus',
-        maxhp: 2,
-        attack: 18,
-        defense: 12,
-        specialAttack: 7,
-        specialDefense: 28,
-        speed: 24
     }
 ];
 
@@ -58,7 +31,7 @@ const DEFAULT_SELECTED_POKEMON = {
 }
 
 function PCBox() {
-    const [pokemon, setPokemon] = useState(TEST_DATA_DELETE_LATER);
+    const [pokemon, setPokemon] = useState(DEFAULT_PC_BOX);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedPokemon, setSelectedPokemon] = useState(DEFAULT_SELECTED_POKEMON);
 

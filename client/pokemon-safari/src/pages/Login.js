@@ -212,7 +212,7 @@ function Login() {
                             </fieldset>
                             
                             <div className={styles.formButtonsContainer}>
-                                <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='success'>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
+                                <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='submit'>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
                                 <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='danger' onClick={() => updateView('main')}>Cancel</StyledButton>
                             </div>
                         </form>

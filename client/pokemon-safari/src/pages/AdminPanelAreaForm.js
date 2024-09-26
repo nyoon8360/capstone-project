@@ -33,42 +33,45 @@ function AdminPanelAreaForm() {
             navigate('/')
         }
 
-        const init = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            }
-        }
-
-        //fetch area and set state with it
-        fetch(`${baseUrl}/area/${areaId}`, init)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setArea(data);
-            })
-
-        //fetch all area encounter information
-        fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        //if areaId exists then fetch current data for area
+        if (areaId) {
+            const init = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
                 }
-            })
-            .then(data => {
-                setEncounters(data);
-            })
-            .catch(console.log);
+            }
+    
+            //fetch area and set state with it
+            fetch(`${baseUrl}/area/${areaId}`, init)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    setArea(data);
+                })
+    
+            //fetch all area encounter information
+            fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                    }
+                })
+                .then(data => {
+                    setEncounters(data);
+                })
+                .catch(console.log);
+        }        
     },[]);
 
     const handleAddSubmit = (event) => {
         event.preventDefault();
-        //verify pokemon exists with pokeapi
 
+        //verify pokemon exists with pokeapi
         fetch(`${basePokeApiUrl}/pokemon/${pokemon.pokemonName.toLowerCase()}`).then(response => {
             //if pokemon exists, add pokemon to table
             if (response.status === 200) {
@@ -77,11 +80,13 @@ function AdminPanelAreaForm() {
 
                 const newEncounters = [...encounters];
 
+                console.log(area.areaId);
+
                 newEncounters.push({
                     pokemonName: pokemon.pokemonName.toLowerCase(),
                     encounterRate: pokemon.encounterRate,
                     fleeRate: pokemon.fleeRate, 
-                    areaId: areaId, 
+                    areaId: area.areaId, 
                     isNew: true});
 
                 setEncounters(newEncounters);
@@ -94,8 +99,82 @@ function AdminPanelAreaForm() {
 
     const handleEditSubmit = (event) => {
         event.preventDefault();
-        
-        bulkAddUpdate()
+
+        console.log(area.areaId);
+
+        if (area.areaId == 0 ) {
+            //area does not exist so create new area
+            const init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                },
+                body: JSON.stringify(area)
+            }
+            
+            //fetch area and set state with it
+            fetch(`${baseUrl}/area`, init)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    setArea(data);
+
+                    const newEncounters = [...encounters];
+                    for (const encounter of newEncounters) {
+                        encounter.areaId = data.areaId;
+                    }
+
+                    setEncounters(newEncounters);
+
+                    return {data: data, encounters: newEncounters};
+                })
+                .then((bundle) => {
+                    //perform bulk update now that area has been created
+                    bulkAddUpdate(bundle.data, bundle.encounters, false)
+                    .then(messages => {
+                        let newErrors = [];
+                        let newSuccesses = [];
+                        for (const message of messages) {
+                            if (message.success) {
+                                newSuccesses.push(message.msg);
+                            } else {
+                                newErrors.push(message.msg);
+                            }
+                        }
+                        setEditError(newErrors);
+                        setEditSuccess(newSuccesses);
+                    }).then(() => {
+                        //fetch all area encounter information
+                        const init = {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': getCookie('Authorization')
+                            }
+                        }
+
+                        fetch(`${baseUrl}/areaEncounter/${bundle.data.areaId}`, init)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    return response.json();
+                                } else {
+                                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                                }
+                            })
+                            .then(data => {
+                                setEncounters(data);
+
+                                console.log(data);
+                            })
+                            .catch(console.log);
+                    })
+                });
+            
+        } else {
+            //area exists so update existing area
+            bulkAddUpdate(area, encounters, true)
             .then(messages => {
                 let newErrors = [];
                 let newSuccesses = [];
@@ -118,7 +197,7 @@ function AdminPanelAreaForm() {
                     }
                 }
 
-                fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                fetch(`${baseUrl}/areaEncounter/${area.areaId}`, init)
                     .then(response => {
                         if (response.status === 200) {
                             return response.json();
@@ -131,6 +210,9 @@ function AdminPanelAreaForm() {
                     })
                     .catch(console.log);
             })
+        }
+        
+        
     }
 
     const handleDeleteEncounter = (areaId, pokemonName) => {
@@ -199,32 +281,34 @@ function AdminPanelAreaForm() {
     }
 
     //start bulk put/update calls on data in table
-    const bulkAddUpdate = () => {
+    const bulkAddUpdate = (areaToUse, encountersToUpdate, updateName) => {
         const promises = [];
 
-        //edit area name
-        const nameInit = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            },
-            body: JSON.stringify(area)
-        }
-
-        console.log(area);
-        promises.push(fetch(`${baseUrl}/area/${area.areaId}`, nameInit)
-        .then(response => {
-            if (response.status === 204) {
-                return ({success: true, msg: "Area name was successfully updated!"});
-            } else if (response.status === 400) {
-                return ({success: false, msg: "Area name could NOT be updated!"});
-            } else {
-                return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        if (updateName) {
+            //edit area name
+            const nameInit = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                },
+                body: JSON.stringify(areaToUse)
             }
-        }));
 
-        for (const encounter of encounters) {
+            promises.push(fetch(`${baseUrl}/area/${areaToUse.areaId}`, nameInit)
+            .then(response => {
+                if (response.status === 204) {
+                    return ({success: true, msg: "Area name was successfully updated!"});
+                } else if (response.status === 400) {
+                    return ({success: false, msg: "Area name could NOT be updated!"});
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            }));
+        }
+        
+        for (const encounter of encountersToUpdate) {
+            console.log(encounter);
             if (encounter.isNew) {
                 //send POST request
                 const init = {
