@@ -28,7 +28,6 @@ function AdminPanelAreas() {
                 if (response.status === 200) {
                     return response.json();
                 } else {
-                    console.log(response);
                     return Promise.reject(`Unexpected Status Code: ${response.status}`);
                 }
             })
@@ -37,6 +36,30 @@ function AdminPanelAreas() {
             })
             .catch(console.log);
     },[]);
+
+    const handleDelete = (areaId, areaName) => {
+        if (window.confirm(`Are you sure you want to delete area ${areaName}?`)) {
+            const init = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                }
+            }
+
+            fetch(`${baseUrl}/area/${areaId}`, init)
+            .then(response => {
+                if (response.status === 204) {
+                    const newAreas = areas.filter(area => area.areaId != areaId);
+
+                    setAreas(newAreas);
+                } else {
+                    console.log(response);
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+        }
+    }
 
     //returns value of cookie with key cookieName
     const getCookie = (cookieName) => {
@@ -65,11 +88,11 @@ function AdminPanelAreas() {
                 <h1 className={styles.heading}>Areas</h1>
 
                 <div className={styles.buttonContainer}>
-                    <Link className={styles.buttonLink} to={'/admin/areas/form'}>Add Button</Link>
-                    <Link className={styles.buttonLink} to={'/admin'}>Back</Link>
+                    <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin/areas/form'} style={{marginRight: '5%'}}>Add Area</Link>
+                    <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin'}>Back</Link>
                 </div>
 
-                <table>
+                <table className={styles.areaTable}>
                     <thead>
                         <tr>
                             <th>Area Id</th>
@@ -82,9 +105,11 @@ function AdminPanelAreas() {
                             <tr>
                                 <td>{area.areaId}</td>
                                 <td>{area.areaName}</td>
-                                <td className={styles.actionContainer}>
-                                    <button>Delete</button>
-                                    <Link className={styles.buttonLink} to={`/admin/areas/form/${area.areaId}`}>Edit</Link>
+                                <td>
+                                    <div className={styles.actionContainer}>
+                                        <button className={styles.button} onClick={() => handleDelete(area.areaId, area.areaName)}>Delete</button>
+                                        <Link className={styles.button} to={`/admin/areas/form/${area.areaId}`}>Edit</Link>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

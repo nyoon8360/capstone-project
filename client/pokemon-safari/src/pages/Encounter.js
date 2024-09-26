@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Encounter.module.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
+const basePokeApiUrl = 'https://pokeapi.co/api/v2';
 
 //get all bait images and put them in a list
 const baitImages = require.context('../assets/images/baits', true);
 const baitImageList = baitImages.keys().map(image => baitImages(image));
 
 function Encounter() {
-    const [pokemon, setPokemon] = useState({pokemonName: 'pikachu'});
+    const location = useLocation();
+    const [pokemon, setPokemon] = useState({pokemonName: "ditto"});
+    const [currentMessage, setCurrentMessage] = useState('What will trainer do?');
 
     const navigate = useNavigate();
 
     //fetch pokemon stats and sprites
     useEffect(() => {
-        //if no auth token then navigate to home page
-        if (!document.cookie) {
-            navigate('/')
+        //if no auth token or state then navigate to home page
+        if (!document.cookie || location.state === null) {
+            navigate('/');
+        } else {
+            getPokemonData(location.state.pokemonName).then((data) => {
+                const newPokemon = {...data[0], ...data[1], pokemonName: location.state.pokemonName, fleeRate: location.state.fleeRate};
+                console.log(newPokemon);
+                setPokemon(newPokemon);
+            })
         }
-
-        getSprite();
     }, []);
 
     //==============
@@ -46,7 +52,7 @@ function Encounter() {
 
         pokemonContainer.appendChild(baitElement);
     }
-
+    
     const handleThrowMud = () => {
         //TODO: apply effects of throw mud on catch and flee rate
 
@@ -68,23 +74,21 @@ function Encounter() {
     }
 
     const handleThrowPokeball = () => {
+        
         //TODO: apply effects of throw pokeball
-    }
-
-    const handleMudAnimationEnd = (event) => {
-        event.target.remove();
     }
 
     //============
     //HTTP METHODS
     //============
-    function getSprite() {
-        const newPokemon = {...pokemon};
+    function getPokemonData(pokemonName) {
+        let promises = [];
 
-        return fetch(`${basePokeApiUrl}/${pokemon.pokemonName}`).then(data => {
+        promises.push(fetch(`${basePokeApiUrl}/pokemon/${pokemonName}`).then(data => {
             return data.json();
         })
         .then(dataJson => {
+            const newPokemon = {};
             newPokemon.sprite = dataJson.sprites.front_default;
 
             //set pokemon size based on fetched height
@@ -96,15 +100,21 @@ function Encounter() {
                 pokemonHeight <= 26 ? '80%' :
                 '100%';
             
-            setPokemon(newPokemon);
+            return newPokemon;
+        }));
+
+        promises.push(fetch(`${basePokeApiUrl}/pokemon-species/${pokemonName}`).then(data => {
+            return data.json()
         })
+        .then(dataJson => {
+            return {catchRate: Math.min(dataJson.capture_rate, 128)};
+        }));
+
+        return Promise.all(promises);
     }
 
     //end encounter and return to previous area
     const handleRunAway = () => {
-        //TODO: end encounter in backend
-
-        //navigate back to previous area
         navigate(-1);
     }
 
@@ -119,7 +129,7 @@ function Encounter() {
             <div className={styles.actionBar}>
                 <div className={styles.actionBarTextWindowContainer}>
                     <p className={styles.actionBarTextWindow}>
-                        What will trainer do?
+                        {currentMessage}
                     </p>
                 </div>
                 <div className={styles.actionBarButtonContainer}>

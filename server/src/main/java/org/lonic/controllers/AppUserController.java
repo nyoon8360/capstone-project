@@ -1,6 +1,6 @@
 package org.lonic.controllers;
 
-import org.apache.tomcat.util.http.parser.Authorization;
+import org.lonic.models.Area;
 import org.lonic.models.PasswordUpdateRequest;
 import org.lonic.security.AppUserService;
 import org.lonic.models.AppUser;
@@ -36,6 +36,12 @@ public class AppUserController {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
         this.appUserService = appUserService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Object> findAll() {
+        List<AppUser> all = appUserService.findAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
