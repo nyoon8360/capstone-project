@@ -59,6 +59,11 @@ html {
   aspect-ratio: 16 / 9;
   max-height: 100vh;
   overflow: hidden;
+  margin: auto;
+}
+
+#rootBody {
+
 }
 
 button {

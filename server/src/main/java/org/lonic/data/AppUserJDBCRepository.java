@@ -81,8 +81,15 @@ public class AppUserJDBCRepository implements AppUserRepository{
                 + "disabled = ? "
                 + "where app_user_id = ?";
 
-        jdbcTemplate.update(sql,
-                user.getUsername(), !user.isEnabled(), user.getAppUserId());
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setBoolean(3, false);
+            ps.setInt(4, user.getAppUserId());
+            return ps;
+        }, keyHolder);
 
         updateRoles(user);
     }
