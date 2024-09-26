@@ -91,3 +91,17 @@
 .credentialInput {
     padding: .25rem;
 }
+
+.successNotifContainer {
+    background-color: rgba(0, 128, 0, 0.5);
+    padding: .25rem;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.errorNotifContainer {
+    background-color: rgba(128, 0, 0, 0.5);
+    padding: .25rem;
+    width: 50%;
+    box-sizing: border-box;
+}

@@ -165,6 +165,7 @@ public class AppUserController {
                 return new ResponseEntity<>("Invalid current password", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>("Failed to update password: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { defer, Link, useNavigate, useParams } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelPlayerForm.module.css";
+import Layout from "../components/Layout";
 
 const baseUrl = 'http://localhost:8080/api';
 const basePokeApiUrl = 'https://pokeapi.co/api/v2';
@@ -65,6 +66,11 @@ function AdminPanelPlayerForm() {
     const handleAddSubmit = (event) => {
         event.preventDefault();
 
+        if (pokemon.pokemonName.length != pokemon.pokemonName.replace(/[0-9]/g, '').length) {
+            setAddError(`${pokemon.pokemonName} is not a pokemon!`);
+            return;
+        }
+
         //verify pokemon exists
         fetch(`${basePokeApiUrl}/pokemon/${pokemon.pokemonName.toLowerCase()}`).then(response => {
             //if pokemon exists, add pokemon to table
@@ -120,13 +126,16 @@ function AdminPanelPlayerForm() {
                 let newSuccesses = [];
                 for (const message of messages) {
                     if (message.success) {
-                        newSuccesses.push(message.msg);
+                        newSuccesses.push(...message.msg);
                     } else {
-                        newErrors.push(message.msg);
+                        newErrors.push(...message.msg);
                     }
                 }
                 setEditError(newErrors);
                 setEditSuccess(newSuccesses);
+
+                console.log(newErrors);
+                console.log(newSuccesses);
             }).then(() => {
                 //fetch all pokemon instance information and display it on ui
                 const init = {
@@ -183,7 +192,13 @@ function AdminPanelPlayerForm() {
                         if (data.pokemonInstanceId) {
                             return ({success: true, msg: `${mon.pokemonName} instance was succesfully created!`})
                         } else {
-                            return ({success: false, msg: `${mon.pokemonName} instance add ran into the following issues:\n${data}`});
+                            return (
+                                {success: false, msg: 
+                                    [`${mon.pokemonName} instance update ran into the following issues:`,
+                                        ...data.map(msg => ` - ${msg}`)
+                                    ]
+                                }
+                            );
                         }
                     })
                     .catch(console.log));
@@ -215,7 +230,14 @@ function AdminPanelPlayerForm() {
                         if (!data) {
                             return ({success: true, msg: `${mon.pokemonName} instance was succesfully updated!`})
                         } else {
-                            return ({success: false, msg: `${mon.pokemonName} instance update ran into the following issues:\n${data}`});
+                            return (
+                                {success: false, 
+                                    msg: 
+                                    [`${mon.pokemonName} instance update ran into the following issues:`,
+                                        ...data.map(msg => ` - ${msg}`)
+                                    ]
+                                }
+                            );
                         }
                     })
                     .catch(console.log));
@@ -274,104 +296,107 @@ function AdminPanelPlayerForm() {
     }
 
     return(
-    <section className={styles.mainContainer}>
-        <div className={styles.background}>
-            <div className={styles.topBg}/>
-            <div className={styles.middleBg}/>
-            <div className={styles.bgBall}/>
-        </div>
-        <div className={styles.contentContainer}>
-            <h1 className={styles.heading}>{`Edit User ${appUserId}'s PC Box`}</h1>
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <div className={styles.topBg}/>
+                    <div className={styles.middleBg}/>
+                    <div className={styles.bgBall}/>
+                </div>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>{`Edit User ${appUserId}'s PC Box`}</h1>
 
-            <form onSubmit={handleAddSubmit} className={styles.addPokemonForm}>
-                <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
-                    {addError}
-                </div>
-                <fieldset>
-                    <label htmlFor="pokemonName">Pokemon Name</label>
-                    <input name="pokemonName" type="text" onChange={handleNewPokemonChange} value={pokemon.pokemonName} className={styles.mediumInput}/>
-                </fieldset>
-                <div className={styles.addPokemonStatFieldContainer}>
-                    <fieldset>
-                        <label htmlFor="maxHp">Max HP</label>
-                        <input name="maxHp" type="text" onChange={handleNewPokemonChange} value={pokemon.maxHp}/>
-                    </fieldset>
-                    <fieldset>
-                        <label htmlFor="attack">Attack</label>
-                        <input name="attack" type="text" onChange={handleNewPokemonChange} value={pokemon.attack}/>
-                    </fieldset>
-                    <fieldset>
-                        <label htmlFor="defense">Defense</label>
-                        <input name="defense" type="text" onChange={handleNewPokemonChange} value={pokemon.defense}/>
-                    </fieldset>
-                </div>
-                <div className={styles.addPokemonStatFieldContainer}>
-                    <fieldset>
-                        <label htmlFor="specialAttack">Sp. Attack</label>
-                        <input name="specialAttack" type="text" onChange={handleNewPokemonChange} value={pokemon.specialAttack}/>
-                    </fieldset>
-                    <fieldset>
-                        <label htmlFor="specialDefense">Sp. Defense</label>
-                        <input name="specialDefense" type="text" onChange={handleNewPokemonChange} value={pokemon.specialDefense}/>
-                    </fieldset>
-                    <fieldset>
-                        <label htmlFor="speed">Speed</label>
-                        <input name="speed" type="text" onChange={handleNewPokemonChange} value={pokemon.speed}/>
-                    </fieldset>
-                </div>
-                <button className={`${styles.button} ${styles.optionButton}`} style={{width: '14rem'}} type="submit">Add Pokemon</button>
-            </form>
-            
-            <form className={styles.boxForm} onSubmit={handleEditSubmit}>
-                <table className={styles.instanceTable}>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Max Hp</th>
-                            <th>Atk</th>
-                            <th>Def</th>
-                            <th>Sp. Atk</th>
-                            <th>Sp. Def</th>
-                            <th>Speed</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {pokemonList.map(mon => (
-                            <tr>
-                                <td>{mon.pokemonName}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "maxHp", mon.pokemonInstanceId)}>{mon.maxHp}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "attack", mon.pokemonInstanceId)}>{mon.attack}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "defense", mon.pokemonInstanceId)}>{mon.defense}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "specialAttack", mon.pokemonInstanceId)}>{mon.specialAttack}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "specialDefense", mon.pokemonInstanceId)}>{mon.specialDefense}</td>
-                                <td contentEditable onInput={(event) => handleTableChange(event, "speed", mon.pokemonInstanceId)}>{mon.speed}</td>
-                                <td>
-                                    <button type="button" className={styles.button} onClick={() => handleDelete(mon.pokemonInstanceId)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    <form onSubmit={handleAddSubmit} className={styles.addPokemonForm}>
+                        <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden', marginBottom: '.25rem'}}>
+                            {addError}
+                        </div>
+                        <fieldset>
+                            <label htmlFor="pokemonName">Pokemon Name</label>
+                            <input name="pokemonName" type="text" onChange={handleNewPokemonChange} value={pokemon.pokemonName} className={styles.mediumInput}/>
+                        </fieldset>
+                        <div className={styles.addPokemonStatFieldContainer}>
+                            <fieldset>
+                                <label htmlFor="maxHp">Max HP</label>
+                                <input name="maxHp" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.maxHp}/>
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="attack">Attack</label>
+                                <input name="attack" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.attack}/>
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="defense">Defense</label>
+                                <input name="defense" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.defense}/>
+                            </fieldset>
+                        </div>
+                        <div className={styles.addPokemonStatFieldContainer}>
+                            <fieldset>
+                                <label htmlFor="specialAttack">Sp. Attack</label>
+                                <input name="specialAttack" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.specialAttack}/>
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="specialDefense">Sp. Defense</label>
+                                <input name="specialDefense" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.specialDefense}/>
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="speed">Speed</label>
+                                <input name="speed" type="text" onChange={handleNewPokemonChange} className={styles.input} value={pokemon.speed}/>
+                            </fieldset>
+                        </div>
+                        <button className={`${styles.button} ${styles.optionButton}`} style={{width: '14rem'}} type="submit">Add Pokemon</button>
+                    </form>
+                    
+                    <form className={styles.boxForm} onSubmit={handleEditSubmit}>
+                        <table className={styles.instanceTable}>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Max Hp</th>
+                                    <th>Atk</th>
+                                    <th>Def</th>
+                                    <th>Sp. Atk</th>
+                                    <th>Sp. Def</th>
+                                    <th>Speed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pokemonList.map(mon => (
+                                    <tr>
+                                        <td>{mon.pokemonName}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "maxHp", mon.pokemonInstanceId)}>{mon.maxHp}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "attack", mon.pokemonInstanceId)}>{mon.attack}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "defense", mon.pokemonInstanceId)}>{mon.defense}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "specialAttack", mon.pokemonInstanceId)}>{mon.specialAttack}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "specialDefense", mon.pokemonInstanceId)}>{mon.specialDefense}</td>
+                                        <td contentEditable onInput={(event) => handleTableChange(event, "speed", mon.pokemonInstanceId)}>{mon.speed}</td>
+                                        <td>
+                                            <button type="button" className={styles.button} onClick={() => handleDelete(mon.pokemonInstanceId)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
-                <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden'}}>
-                    {editError.map(error => (
-                        <p>{error}</p>
-                    ))}
-                </div>
-                <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden'}}>
-                    {editSuccess.map(success => (
-                        <p>{success}</p>
-                    ))}
-                </div>
+                        <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden', margin: editError.length > 0 ? '.5rem 0' : '0'}}>
+                            {editError.map(error => (
+                                <p>{error}</p>
+                            ))}
+                        </div>
+                        <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden', margin: editSuccess.length > 0 ? '.5rem 0' : '0'}}>
+                            {editSuccess.map(success => (
+                                <p>{success}</p>
+                            ))}
+                        </div>
 
-                <div className={styles.buttonContainer}>
-                    <button className={`${styles.button} ${styles.optionButton}`} type="submit" style={{marginRight: '2rem'}}>Submit</button>
-                    <button className={`${styles.button} ${styles.optionButton}`} onClick={handleCancel}>Cancel</button>
+                        <div className={styles.buttonContainer}>
+                            <button className={`${styles.button} ${styles.optionButton}`} type="submit" style={{marginRight: '2rem'}}>Submit</button>
+                            <button className={`${styles.button} ${styles.optionButton}`} onClick={handleCancel}>Cancel</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </section>)
+            </section>
+        </Layout>
+    )
 }
 
 export default AdminPanelPlayerForm;

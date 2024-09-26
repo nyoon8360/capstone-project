@@ -3,6 +3,7 @@ import styles from "../assets/styles/pages/Area.module.css"
 import StyledButton from "../components/StyledButton";
 import StyledLink from "../components/StyledLink";
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
 
 //get all images for areas and map them to their url
 const areaImages = require.context('../assets/images/areas', true);
@@ -126,19 +127,22 @@ function Area() {
     }
 
     return(
-        <div className={styles.mainContainer}>
-            <div 
-                className={styles.background} 
-                style={{backgroundImage: `url(${areaImageList[areaId - 1]})`}}
-            />
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>{area.areaName}</h1>
-                <div className={styles.buttonContainer}>
-                    <StyledButton onClick={handleRandomEncounter} style={{width: '40%'}} type='success'>Search for Pokemon</StyledButton>
-                    <StyledLink to={'/shuttle'} style={{width: '40%'}}>Back to Shuttle</StyledLink>
+        <Layout>
+            <div className={styles.mainContainer}>
+                <div 
+                    className={styles.background} 
+                    style={{backgroundImage: `url(${areaImageList[areaId - 1]})`}}
+                />
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>{area.areaName}</h1>
+                    <div className={styles.buttonContainer}>
+                        <StyledButton onClick={handleRandomEncounter} style={{width: '40%'}} type='success'>Search for Pokemon</StyledButton>
+                        <StyledLink to={'/shuttle'} style={{width: '40%'}}>Back to Shuttle</StyledLink>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Layout>
+        
     )
 }
 

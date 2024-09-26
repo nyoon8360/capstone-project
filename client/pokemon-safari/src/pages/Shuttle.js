@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Shuttle.module.css';
 import StyledLink from '../components/StyledLink';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 const baseUrl = 'http://localhost:8080/api';
 
@@ -64,22 +65,25 @@ function Shuttle() {
     }
 
     return (
-        <section className={styles.mainContainer}>
-            <div className={styles.background} onAnimationEnd={() => setNavHidden(false)}/>
-            <div className={styles.contentContainer} style={{visibility: navHidden ? 'hidden' : 'visible'}}>
-                <h1 className={styles.heading}>Shuttle</h1>
-                <div className={styles.areaGrid}>
-                    <div className={styles.itemContainer}>
-                        <StyledLink to={'/entrance'} type='danger' style={{width: '100%'}}>Entrance</StyledLink>
-                    </div>
-                    {area.map(ar => (
-                        <div key={ar.areaId} className={styles.itemContainer}>
-                            <StyledLink to={`/area/${ar.areaId}`} style={{width: '100%'}}>{ar.areaName}</StyledLink>
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background} onAnimationEnd={() => setNavHidden(false)}/>
+                <div className={styles.contentContainer} style={{visibility: navHidden ? 'hidden' : 'visible'}}>
+                    <h1 className={styles.heading}>Shuttle</h1>
+                    <div className={styles.areaGrid}>
+                        <div className={styles.itemContainer}>
+                            <StyledLink to={'/entrance'} type='danger' style={{width: '100%'}}>Entrance</StyledLink>
                         </div>
-                    ))}
+                        {area.map(ar => (
+                            <div key={ar.areaId} className={styles.itemContainer}>
+                                <StyledLink to={`/area/${ar.areaId}`} style={{width: '100%'}}>{ar.areaName}</StyledLink>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </Layout>
+        
     )
 }
 

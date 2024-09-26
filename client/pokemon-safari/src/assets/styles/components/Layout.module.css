@@ -1,0 +1,10 @@
+.innerContainer {
+    aspect-ratio: 16 / 9;
+}
+
+.outerContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

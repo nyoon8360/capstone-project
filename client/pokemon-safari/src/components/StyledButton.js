@@ -18,6 +18,7 @@ function StyledButton({ children, style, onClick, size, type, disabled = false }
                     faceBackgroundColor: 'rgb(214, 1, 1)'
                 })
                 break;
+            case 'submit':
             case 'success':
                 setTypeStyles({
                     backgroundColor: 'rgb(56, 140, 36)',
@@ -37,7 +38,7 @@ function StyledButton({ children, style, onClick, size, type, disabled = false }
 
     return (
         <div className={styles.buttonContainer} style={{...style, pointerEvents: disabled ? 'none' : 'auto'}} onClick={onClick}>
-            <button className={styles.button} style={{backgroundColor: typeStyles.backgroundColor}}>
+            <button className={styles.button} style={{backgroundColor: typeStyles.backgroundColor}} type={type == 'submit' ? 'submit' : 'button'}>
                 <span 
                     className={styles.buttonFace} 
                     style={{fontSize: size ? `${size}rem` : '', backgroundColor: typeStyles.faceBackgroundColor}}

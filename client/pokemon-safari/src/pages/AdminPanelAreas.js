@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelAreas.module.css"
+import Layout from "../components/Layout";
 
 const baseUrl = 'http://localhost:8080/api';
 
@@ -79,44 +80,47 @@ function AdminPanelAreas() {
     }
 
     return(
-        <section className={styles.mainContainer}>
-            <div className={styles.background}>
-                <div className={styles.middleBg}/>
-                <div className={styles.bgBall}/>
-            </div>
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>Areas</h1>
-
-                <div className={styles.buttonContainer}>
-                    <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin/areas/form'} style={{marginRight: '5%'}}>Add Area</Link>
-                    <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin'}>Back</Link>
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <div className={styles.middleBg}/>
+                    <div className={styles.bgBall}/>
                 </div>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>Areas</h1>
 
-                <table className={styles.areaTable}>
-                    <thead>
-                        <tr>
-                            <th>Area Id</th>
-                            <th>Area Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {areas.map(area => (
+                    <div className={styles.buttonContainer}>
+                        <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin/areas/form'} style={{marginRight: '5%'}}>Add Area</Link>
+                        <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin'}>Back</Link>
+                    </div>
+
+                    <table className={styles.areaTable}>
+                        <thead>
                             <tr>
-                                <td>{area.areaId}</td>
-                                <td>{area.areaName}</td>
-                                <td>
-                                    <div className={styles.actionContainer}>
-                                        <button className={styles.button} onClick={() => handleDelete(area.areaId, area.areaName)}>Delete</button>
-                                        <Link className={styles.button} to={`/admin/areas/form/${area.areaId}`}>Edit</Link>
-                                    </div>
-                                </td>
+                                <th>Area Id</th>
+                                <th>Area Name</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                        </thead>
+                        <tbody>
+                            {areas.map(area => (
+                                <tr>
+                                    <td>{area.areaId}</td>
+                                    <td>{area.areaName}</td>
+                                    <td>
+                                        <div className={styles.actionContainer}>
+                                            <button className={styles.button} onClick={() => handleDelete(area.areaId, area.areaName)}>Delete</button>
+                                            <Link className={styles.button} to={`/admin/areas/form/${area.areaId}`}>Edit</Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </Layout>
+        
     )
 }
 

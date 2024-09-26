@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelAreaForm.module.css";
+import Layout from "../components/Layout";
 
 const DEFAULT_POKEMON = {
     pokemonName: '',
@@ -33,42 +34,45 @@ function AdminPanelAreaForm() {
             navigate('/')
         }
 
-        const init = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            }
-        }
-
-        //fetch area and set state with it
-        fetch(`${baseUrl}/area/${areaId}`, init)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setArea(data);
-            })
-
-        //fetch all area encounter information
-        fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        //if areaId exists then fetch current data for area
+        if (areaId) {
+            const init = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
                 }
-            })
-            .then(data => {
-                setEncounters(data);
-            })
-            .catch(console.log);
+            }
+    
+            //fetch area and set state with it
+            fetch(`${baseUrl}/area/${areaId}`, init)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    setArea(data);
+                })
+    
+            //fetch all area encounter information
+            fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                    }
+                })
+                .then(data => {
+                    setEncounters(data);
+                })
+                .catch(console.log);
+        }        
     },[]);
 
     const handleAddSubmit = (event) => {
         event.preventDefault();
-        //verify pokemon exists with pokeapi
 
+        //verify pokemon exists with pokeapi
         fetch(`${basePokeApiUrl}/pokemon/${pokemon.pokemonName.toLowerCase()}`).then(response => {
             //if pokemon exists, add pokemon to table
             if (response.status === 200) {
@@ -77,11 +81,13 @@ function AdminPanelAreaForm() {
 
                 const newEncounters = [...encounters];
 
+                console.log(area.areaId);
+
                 newEncounters.push({
                     pokemonName: pokemon.pokemonName.toLowerCase(),
                     encounterRate: pokemon.encounterRate,
                     fleeRate: pokemon.fleeRate, 
-                    areaId: areaId, 
+                    areaId: area.areaId, 
                     isNew: true});
 
                 setEncounters(newEncounters);
@@ -94,8 +100,82 @@ function AdminPanelAreaForm() {
 
     const handleEditSubmit = (event) => {
         event.preventDefault();
-        
-        bulkAddUpdate()
+
+        console.log(area.areaId);
+
+        if (area.areaId == 0 ) {
+            //area does not exist so create new area
+            const init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                },
+                body: JSON.stringify(area)
+            }
+            
+            //fetch area and set state with it
+            fetch(`${baseUrl}/area`, init)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    setArea(data);
+
+                    const newEncounters = [...encounters];
+                    for (const encounter of newEncounters) {
+                        encounter.areaId = data.areaId;
+                    }
+
+                    setEncounters(newEncounters);
+
+                    return {data: data, encounters: newEncounters};
+                })
+                .then((bundle) => {
+                    //perform bulk update now that area has been created
+                    bulkAddUpdate(bundle.data, bundle.encounters, false)
+                    .then(messages => {
+                        let newErrors = [];
+                        let newSuccesses = [];
+                        for (const message of messages) {
+                            if (message.success) {
+                                newSuccesses.push(message.msg);
+                            } else {
+                                newErrors.push(message.msg);
+                            }
+                        }
+                        setEditError(newErrors);
+                        setEditSuccess(newSuccesses);
+                    }).then(() => {
+                        //fetch all area encounter information
+                        const init = {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': getCookie('Authorization')
+                            }
+                        }
+
+                        fetch(`${baseUrl}/areaEncounter/${bundle.data.areaId}`, init)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    return response.json();
+                                } else {
+                                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                                }
+                            })
+                            .then(data => {
+                                setEncounters(data);
+
+                                console.log(data);
+                            })
+                            .catch(console.log);
+                    })
+                });
+            
+        } else {
+            //area exists so update existing area
+            bulkAddUpdate(area, encounters, true)
             .then(messages => {
                 let newErrors = [];
                 let newSuccesses = [];
@@ -118,7 +198,7 @@ function AdminPanelAreaForm() {
                     }
                 }
 
-                fetch(`${baseUrl}/areaEncounter/${areaId}`, init)
+                fetch(`${baseUrl}/areaEncounter/${area.areaId}`, init)
                     .then(response => {
                         if (response.status === 200) {
                             return response.json();
@@ -131,6 +211,9 @@ function AdminPanelAreaForm() {
                     })
                     .catch(console.log);
             })
+        }
+        
+        
     }
 
     const handleDeleteEncounter = (areaId, pokemonName) => {
@@ -199,32 +282,34 @@ function AdminPanelAreaForm() {
     }
 
     //start bulk put/update calls on data in table
-    const bulkAddUpdate = () => {
+    const bulkAddUpdate = (areaToUse, encountersToUpdate, updateName) => {
         const promises = [];
 
-        //edit area name
-        const nameInit = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            },
-            body: JSON.stringify(area)
-        }
-
-        console.log(area);
-        promises.push(fetch(`${baseUrl}/area/${area.areaId}`, nameInit)
-        .then(response => {
-            if (response.status === 204) {
-                return ({success: true, msg: "Area name was successfully updated!"});
-            } else if (response.status === 400) {
-                return ({success: false, msg: "Area name could NOT be updated!"});
-            } else {
-                return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        if (updateName) {
+            //edit area name
+            const nameInit = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                },
+                body: JSON.stringify(areaToUse)
             }
-        }));
 
-        for (const encounter of encounters) {
+            promises.push(fetch(`${baseUrl}/area/${areaToUse.areaId}`, nameInit)
+            .then(response => {
+                if (response.status === 204) {
+                    return ({success: true, msg: "Area name was successfully updated!"});
+                } else if (response.status === 400) {
+                    return ({success: false, msg: "Area name could NOT be updated!"});
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            }));
+        }
+        
+        for (const encounter of encountersToUpdate) {
+            console.log(encounter);
             if (encounter.isNew) {
                 //send POST request
                 const init = {
@@ -306,89 +391,92 @@ function AdminPanelAreaForm() {
     }
 
     return(
-        <section className={styles.mainContainer}>
-            <div className={styles.background}>
-                <div className={styles.middleBg}/>
-                <div className={styles.bgBall}/>
-            </div>
-
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
-
-                <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
-                    {addError}
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <div className={styles.middleBg}/>
+                    <div className={styles.bgBall}/>
                 </div>
 
-                <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
-                    <div className={styles.pokemonFormFieldContainer}>
-                        <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
-                            <label className={styles.fieldLabel} htmlFor="pokemonName">Pokemon Name</label>
-                            <input className={styles.fieldInput} type="text" name="pokemonName" onChange={handleNewPokemonChange} value={pokemon.pokemonName}/>
-                        </fieldset>
-                        <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
-                            <label className={styles.fieldLabel} htmlFor="encounterRate">Encounter Rate</label>
-                            <input className={styles.fieldInput} type="text" name="encounterRate" onChange={handleNewPokemonChange} value={pokemon.encounterRate}/>
-                        </fieldset>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
+
+                    <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
+                        {addError}
+                    </div>
+
+                    <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
+                        <div className={styles.pokemonFormFieldContainer}>
+                            <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
+                                <label className={styles.fieldLabel} htmlFor="pokemonName">Pokemon Name</label>
+                                <input className={styles.fieldInput} type="text" name="pokemonName" onChange={handleNewPokemonChange} value={pokemon.pokemonName}/>
+                            </fieldset>
+                            <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
+                                <label className={styles.fieldLabel} htmlFor="encounterRate">Encounter Rate</label>
+                                <input className={styles.fieldInput} type="text" name="encounterRate" onChange={handleNewPokemonChange} value={pokemon.encounterRate}/>
+                            </fieldset>
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.fieldLabel} htmlFor="fleeRate">Flee Rate</label>
+                                <input className={styles.fieldInput} type="text" name="fleeRate" onChange={handleNewPokemonChange} value={pokemon.fleeRate}/>
+                            </fieldset>
+                        </div>
+                        <button className={`${styles.button} ${styles.optionButton}`} type="submit">Add Pokemon</button>
+                    </form>
+                    <form onSubmit={handleEditSubmit}>
                         <fieldset className={styles.fieldSet}>
-                            <label className={styles.fieldLabel} htmlFor="fleeRate">Flee Rate</label>
-                            <input className={styles.fieldInput} type="text" name="fleeRate" onChange={handleNewPokemonChange} value={pokemon.fleeRate}/>
+                            <label className={styles.fieldLabel} htmlFor="areaName">Area Name</label>
+                            <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName} onChange={handleAreaNameChange}/>
                         </fieldset>
-                    </div>
-                    <button className={`${styles.button} ${styles.optionButton}`} type="submit">Add Pokemon</button>
-                </form>
-                <form onSubmit={handleEditSubmit}>
-                    <fieldset className={styles.fieldSet}>
-                        <label className={styles.fieldLabel} htmlFor="areaName">Area Name</label>
-                        <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName} onChange={handleAreaNameChange}/>
-                    </fieldset>
 
-                    <fieldset>
-                        <table className={styles.encounterTable}>
-                            <thead>
-                                <tr>
-                                    <th>Pokemon Name</th>
-                                    <th>Encounter Rate</th>
-                                    <th>Flee Rate</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {encounters.map(encounter => (
+                        <fieldset>
+                            <table className={styles.encounterTable}>
+                                <thead>
                                     <tr>
-                                        <td>{encounter.pokemonName}</td>
-                                        <td contentEditable 
-                                            onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
-                                                {encounter.encounterRate}</td>
-                                        <td contentEditable
-                                            onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
-                                                {encounter.fleeRate}</td>
-                                        <td>
-                                            <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
-                                        </td>
+                                        <th>Pokemon Name</th>
+                                        <th>Encounter Rate</th>
+                                        <th>Flee Rate</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </fieldset>
+                                </thead>
+                                <tbody>
+                                    {encounters.map(encounter => (
+                                        <tr>
+                                            <td>{encounter.pokemonName}</td>
+                                            <td contentEditable 
+                                                onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                    {encounter.encounterRate}</td>
+                                            <td contentEditable
+                                                onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                    {encounter.fleeRate}</td>
+                                            <td>
+                                                <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </fieldset>
 
-                    <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden'}}>
-                        {editError.map(error => (
-                            <p>{error}</p>
-                        ))}
-                    </div>
-                    <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden'}}>
-                        {editSuccess.map(success => (
-                            <p>{success}</p>
-                        ))}
-                    </div>
+                        <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden', margin: editError.length > 0 ? '.5rem 0' : '0'}}>
+                            {editError.map(error => (
+                                <p>{error}</p>
+                            ))}
+                        </div>
+                        <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden', margin: editSuccess.length > 0 ? '.5rem 0' : '0'}}>
+                            {editSuccess.map(success => (
+                                <p>{success}</p>
+                            ))}
+                        </div>
 
-                    <div className={styles.buttonContainer}>
-                        <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
-                        <button className={`${styles.button} ${styles.optionButton}`} type="button" onClick={handleCancelForm}>Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </section>
+                        <div className={styles.buttonContainer}>
+                            <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
+                            <button className={`${styles.button} ${styles.optionButton}`} type="button" onClick={handleCancelForm}>Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </Layout>
+        
     )
 }
 

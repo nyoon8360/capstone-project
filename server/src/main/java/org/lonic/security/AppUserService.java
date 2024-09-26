@@ -111,7 +111,7 @@ public class AppUserService implements UserDetailsService {
 
 
         String encodedNewPassword = encoder.encode(passwordUpdateRequest.getNewPassword());
-        appUser = new AppUser(appUser.getAppUserId(), username, passwordUpdateRequest.getNewPassword(), false, List.of("User"));
+        appUser = new AppUser(appUser.getAppUserId(), username, encodedNewPassword, false, List.of("User"));
 
 
         repository.update(appUser);

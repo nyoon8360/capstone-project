@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Login.module.css';
 import StyledButton from '../components/StyledButton';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 const CREDENTIALS_DEFAULT = {
     username: '',
@@ -212,7 +213,7 @@ function Login() {
                             </fieldset>
                             
                             <div className={styles.formButtonsContainer}>
-                                <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='success'>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
+                                <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='submit'>{view === 'login' ? 'Log In' : 'Register'}</StyledButton>
                                 <StyledButton style={{width: '30%', marginBottom: '.5rem'}} type='danger' onClick={() => updateView('main')}>Cancel</StyledButton>
                             </div>
                         </form>
@@ -224,11 +225,14 @@ function Login() {
     }
 
     return(
-    <section className={styles.mainContainer}>
-        <div id='background' className={styles.background}/>
-        <div className={styles.toast} style={{visibility: toast ? 'visible' : 'hidden'}}>{toast}</div>
-        {renderView()}
-    </section>)
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div id='background' className={styles.background}/>
+                <div className={styles.toast} style={{visibility: toast ? 'visible' : 'hidden'}}>{toast}</div>
+                {renderView()}
+            </section>
+        </Layout>
+    )
 }
 
 export default Login;
