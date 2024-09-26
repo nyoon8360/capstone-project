@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelAreaForm.module.css";
+import Layout from "../components/Layout";
 
 const DEFAULT_POKEMON = {
     pokemonName: '',
@@ -390,89 +391,92 @@ function AdminPanelAreaForm() {
     }
 
     return(
-        <section className={styles.mainContainer}>
-            <div className={styles.background}>
-                <div className={styles.middleBg}/>
-                <div className={styles.bgBall}/>
-            </div>
-
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
-
-                <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
-                    {addError}
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <div className={styles.middleBg}/>
+                    <div className={styles.bgBall}/>
                 </div>
 
-                <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
-                    <div className={styles.pokemonFormFieldContainer}>
-                        <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
-                            <label className={styles.fieldLabel} htmlFor="pokemonName">Pokemon Name</label>
-                            <input className={styles.fieldInput} type="text" name="pokemonName" onChange={handleNewPokemonChange} value={pokemon.pokemonName}/>
-                        </fieldset>
-                        <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
-                            <label className={styles.fieldLabel} htmlFor="encounterRate">Encounter Rate</label>
-                            <input className={styles.fieldInput} type="text" name="encounterRate" onChange={handleNewPokemonChange} value={pokemon.encounterRate}/>
-                        </fieldset>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>{areaId ? "Edit Area" : "Add Area"}</h1>
+
+                    <div className={styles.errorContainer} style={{visibility: addError.length > 0 ? 'visible' : 'hidden'}}>
+                        {addError}
+                    </div>
+
+                    <form onSubmit={handleAddSubmit} style={{marginBottom: '4rem'}}>
+                        <div className={styles.pokemonFormFieldContainer}>
+                            <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
+                                <label className={styles.fieldLabel} htmlFor="pokemonName">Pokemon Name</label>
+                                <input className={styles.fieldInput} type="text" name="pokemonName" onChange={handleNewPokemonChange} value={pokemon.pokemonName}/>
+                            </fieldset>
+                            <fieldset className={styles.fieldSet} style={{marginRight: '2rem'}}>
+                                <label className={styles.fieldLabel} htmlFor="encounterRate">Encounter Rate</label>
+                                <input className={styles.fieldInput} type="text" name="encounterRate" onChange={handleNewPokemonChange} value={pokemon.encounterRate}/>
+                            </fieldset>
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.fieldLabel} htmlFor="fleeRate">Flee Rate</label>
+                                <input className={styles.fieldInput} type="text" name="fleeRate" onChange={handleNewPokemonChange} value={pokemon.fleeRate}/>
+                            </fieldset>
+                        </div>
+                        <button className={`${styles.button} ${styles.optionButton}`} type="submit">Add Pokemon</button>
+                    </form>
+                    <form onSubmit={handleEditSubmit}>
                         <fieldset className={styles.fieldSet}>
-                            <label className={styles.fieldLabel} htmlFor="fleeRate">Flee Rate</label>
-                            <input className={styles.fieldInput} type="text" name="fleeRate" onChange={handleNewPokemonChange} value={pokemon.fleeRate}/>
+                            <label className={styles.fieldLabel} htmlFor="areaName">Area Name</label>
+                            <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName} onChange={handleAreaNameChange}/>
                         </fieldset>
-                    </div>
-                    <button className={`${styles.button} ${styles.optionButton}`} type="submit">Add Pokemon</button>
-                </form>
-                <form onSubmit={handleEditSubmit}>
-                    <fieldset className={styles.fieldSet}>
-                        <label className={styles.fieldLabel} htmlFor="areaName">Area Name</label>
-                        <input className={styles.fieldInput} type="text" name="areaName" value={area.areaName} onChange={handleAreaNameChange}/>
-                    </fieldset>
 
-                    <fieldset>
-                        <table className={styles.encounterTable}>
-                            <thead>
-                                <tr>
-                                    <th>Pokemon Name</th>
-                                    <th>Encounter Rate</th>
-                                    <th>Flee Rate</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {encounters.map(encounter => (
+                        <fieldset>
+                            <table className={styles.encounterTable}>
+                                <thead>
                                     <tr>
-                                        <td>{encounter.pokemonName}</td>
-                                        <td contentEditable 
-                                            onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
-                                                {encounter.encounterRate}</td>
-                                        <td contentEditable
-                                            onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
-                                                {encounter.fleeRate}</td>
-                                        <td>
-                                            <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
-                                        </td>
+                                        <th>Pokemon Name</th>
+                                        <th>Encounter Rate</th>
+                                        <th>Flee Rate</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </fieldset>
+                                </thead>
+                                <tbody>
+                                    {encounters.map(encounter => (
+                                        <tr>
+                                            <td>{encounter.pokemonName}</td>
+                                            <td contentEditable 
+                                                onInput={(event) => handleEncounterRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                    {encounter.encounterRate}</td>
+                                            <td contentEditable
+                                                onInput={(event) => handleFleeRateChange(event, encounter.areaId, encounter.pokemonName)}>
+                                                    {encounter.fleeRate}</td>
+                                            <td>
+                                                <button type="button" className={styles.button} onClick={() => handleDeleteEncounter(encounter.areaId, encounter.pokemonName)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </fieldset>
 
-                    <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden'}}>
-                        {editError.map(error => (
-                            <p>{error}</p>
-                        ))}
-                    </div>
-                    <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden'}}>
-                        {editSuccess.map(success => (
-                            <p>{success}</p>
-                        ))}
-                    </div>
+                        <div className={styles.errorContainer} style={{visibility: editError.length > 0 ? 'visible' : 'hidden', margin: editError.length > 0 ? '.5rem 0' : '0'}}>
+                            {editError.map(error => (
+                                <p>{error}</p>
+                            ))}
+                        </div>
+                        <div className={styles.successContainer} style={{visibility: editSuccess.length > 0 ? 'visible' : 'hidden', margin: editSuccess.length > 0 ? '.5rem 0' : '0'}}>
+                            {editSuccess.map(success => (
+                                <p>{success}</p>
+                            ))}
+                        </div>
 
-                    <div className={styles.buttonContainer}>
-                        <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
-                        <button className={`${styles.button} ${styles.optionButton}`} type="button" onClick={handleCancelForm}>Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </section>
+                        <div className={styles.buttonContainer}>
+                            <button className={`${styles.button} ${styles.optionButton}`} style={{marginRight: '2rem'}}>Submit</button>
+                            <button className={`${styles.button} ${styles.optionButton}`} type="button" onClick={handleCancelForm}>Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </Layout>
+        
     )
 }
 

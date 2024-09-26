@@ -3,6 +3,7 @@ import styles from '../assets/styles/pages/Account.module.css';
 import StyledLink from '../components/StyledLink';
 import StyledButton from '../components/StyledButton';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 const CREDENTIALS_DEFAULT = {
     username: '',
@@ -125,46 +126,48 @@ function Account() {
     }
 
     return(
-        <div className={styles.mainContainer}>
-            <div className={styles.background}/>
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>Account Management</h1>
-                <div className={styles.formContainer}>
-                    <form className={styles.accountForm} onSubmit={handleSubmit} id='accountForm'>
-                        <div className={success ? styles.successNotifContainer : styles.errorNotifContainer} style={{visibility: notifs.length > 0 ? 'visible' : 'hidden'}}>
-                            {notifs.map(notif => (
-                                <p>{notif}</p>
-                            ))}
-                        </div>
+        <Layout>
+            <div className={styles.mainContainer}>
+                <div className={styles.background}/>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>Account Management</h1>
+                    <div className={styles.formContainer}>
+                        <form className={styles.accountForm} onSubmit={handleSubmit} id='accountForm'>
+                            <div className={success ? styles.successNotifContainer : styles.errorNotifContainer} style={{visibility: notifs.length > 0 ? 'visible' : 'hidden'}}>
+                                {notifs.map(notif => (
+                                    <p>{notif}</p>
+                                ))}
+                            </div>
 
-                        <fieldset className={styles.fieldSet}>
-                            <label className={styles.credentialLabel} htmlFor='username'>Username</label>
-                            <input className={styles.credentialInput} value={credentials.username} type='text' name='username' onChange={handleChange}></input>
-                        </fieldset>
-                        
-                        <fieldset className={styles.fieldSet}>
-                            <label className={styles.credentialLabel} htmlFor='password'>Password</label>
-                            <input className={styles.credentialInput} value={credentials.password} type='password' name='password' onChange={handleChange}></input>
-                        </fieldset>
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.credentialLabel} htmlFor='username'>Username</label>
+                                <input className={styles.credentialInput} value={credentials.username} type='text' name='username' onChange={handleChange}></input>
+                            </fieldset>
+                            
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.credentialLabel} htmlFor='password'>Password</label>
+                                <input className={styles.credentialInput} value={credentials.password} type='password' name='password' onChange={handleChange}></input>
+                            </fieldset>
 
-                        <fieldset className={styles.fieldSet}>
-                            <label className={styles.credentialLabel} htmlFor='newPassword'>New Password</label>
-                            <input className={styles.credentialInput} value={credentials.newPassword} type='password' name='newPassword' onChange={handleChange}></input>
-                        </fieldset>
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.credentialLabel} htmlFor='newPassword'>New Password</label>
+                                <input className={styles.credentialInput} value={credentials.newPassword} type='password' name='newPassword' onChange={handleChange}></input>
+                            </fieldset>
 
-                        <fieldset className={styles.fieldSet}>
-                            <label className={styles.credentialLabel} htmlFor='newPasswordConfirm'>Confirm New Password</label>
-                            <input className={styles.credentialInput} value={credentials.newPasswordConfirm} type='password' name='newPasswordConfirm' onChange={handleChange}></input>
-                        </fieldset>
+                            <fieldset className={styles.fieldSet}>
+                                <label className={styles.credentialLabel} htmlFor='newPasswordConfirm'>Confirm New Password</label>
+                                <input className={styles.credentialInput} value={credentials.newPasswordConfirm} type='password' name='newPasswordConfirm' onChange={handleChange}></input>
+                            </fieldset>
 
-                        <div className={styles.buttonContainer}>
-                            <StyledButton type='submit'>Confirm</StyledButton>
-                            <StyledLink type='danger' to={'/entrance'}>Cancel</StyledLink>
-                        </div>
-                    </form>
+                            <div className={styles.buttonContainer}>
+                                <StyledButton type='submit'>Confirm</StyledButton>
+                                <StyledLink type='danger' to={'/entrance'}>Cancel</StyledLink>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Layout>
     )
 }
 

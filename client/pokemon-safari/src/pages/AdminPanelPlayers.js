@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../assets/styles/pages/AdminPanelPlayers.module.css"
+import Layout from "../components/Layout";
 
 const baseUrl = 'http://localhost:8080/api';
 
@@ -82,40 +83,42 @@ function AdminPanelPlayers() {
     }
 
     return(
-        <section className={styles.mainContainer}>
-            <div className={styles.background}>
-                <div className={styles.topBg}/>
-                <div className={styles.middleBg}/>
-                <div className={styles.bgBall}/>
-            </div>
-            <div className={styles.contentContainer}>
-                <h1 className={styles.heading}>Players</h1>
+        <Layout>
+            <section className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <div className={styles.topBg}/>
+                    <div className={styles.middleBg}/>
+                    <div className={styles.bgBall}/>
+                </div>
+                <div className={styles.contentContainer}>
+                    <h1 className={styles.heading}>Players</h1>
 
-                <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin'}>Back</Link>
+                    <Link className={`${styles.button} ${styles.optionButton}`} to={'/admin'}>Back</Link>
 
-                <table className={styles.playerTable}>
-                    <thead>
-                        <tr>
-                            <th>User Id</th>
-                            <th>Username</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {players.map((player) => (
-                            <tr key={player.username}>
-                                <td>{player.appUserId}</td>
-                                <td>{player.username}</td>
-                                <td>
-                                    <button className={styles.button} style={{marginRight: '2rem'}} onClick={() => handleDeleteAccount(player.appUserId, player.username)}>Delete Account</button>
-                                    <Link className={styles.button} to={`/admin/players/form/${player.appUserId}`}>Edit PC Box</Link>
-                                </td>
+                    <table className={styles.playerTable}>
+                        <thead>
+                            <tr>
+                                <th>User Id</th>
+                                <th>Username</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                        </thead>
+                        <tbody>
+                            {players.map((player) => (
+                                <tr key={player.username}>
+                                    <td>{player.appUserId}</td>
+                                    <td>{player.username}</td>
+                                    <td>
+                                        <button className={styles.button} style={{marginRight: '2rem'}} onClick={() => handleDeleteAccount(player.appUserId, player.username)}>Delete Account</button>
+                                        <Link className={styles.button} to={`/admin/players/form/${player.appUserId}`}>Edit PC Box</Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </Layout>
     )
 }
 

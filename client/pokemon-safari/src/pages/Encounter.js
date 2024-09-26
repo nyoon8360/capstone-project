@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../assets/styles/pages/Encounter.module.css'
 import { useLocation, useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 const basePokeApiUrl = 'https://pokeapi.co/api/v2';
 const baseUrl = 'http://localhost:8080/api';
@@ -277,29 +278,32 @@ function Encounter() {
     }
 
     return(
-        <div className={styles.mainContainer}>
-            <div className={styles.background}>
-                <img className={styles.trainer} alt='pokemon trainer' src={require('../assets/images/trainer_encounter_sprite.png')}/>
-                <div id='pokemonContainer' className={styles.pokemonContainer}>
-                    <img className={styles.pokemon} alt={pokemon.pokemonName} style={{height: pokemon.size, visibility: pokemonVisible ? "visible" : "hidden"}} src={pokemon.sprite}/>
-                </div>
-            </div>
-            <div className={styles.actionBar}>
-                <div className={styles.actionBarTextWindowContainer}>
-                    <div className={styles.actionBarTextWindow}>
-                        {currentMessages.map(msg => (
-                            <p>{msg}</p>
-                        ))}
+        <Layout>
+            <div className={styles.mainContainer}>
+                <div className={styles.background}>
+                    <img className={styles.trainer} alt='pokemon trainer' src={require('../assets/images/trainer_encounter_sprite.png')}/>
+                    <div id='pokemonContainer' className={styles.pokemonContainer}>
+                        <img className={styles.pokemon} alt={pokemon.pokemonName} style={{height: pokemon.size, visibility: pokemonVisible ? "visible" : "hidden"}} src={pokemon.sprite}/>
                     </div>
                 </div>
-                <div className={styles.actionBarButtonContainer}>
-                    <button className={styles.actionBarButton} onClick={handleThrowBait} disabled={actionsDisabled}>Throw Bait</button>
-                    <button className={styles.actionBarButton} onClick={handleThrowMud} disabled={actionsDisabled}>Throw Mud</button>
-                    <button className={styles.actionBarButton} onClick={handleThrowPokeball} disabled={actionsDisabled}>Throw Pokeball</button>
-                    <button className={styles.actionBarButton} onClick={handleRunAway} disabled={actionsDisabled}>Run Away</button>
+                <div className={styles.actionBar}>
+                    <div className={styles.actionBarTextWindowContainer}>
+                        <div className={styles.actionBarTextWindow}>
+                            {currentMessages.map(msg => (
+                                <p>{msg}</p>
+                            ))}
+                        </div>
+                    </div>
+                    <div className={styles.actionBarButtonContainer}>
+                        <button className={styles.actionBarButton} onClick={handleThrowBait} disabled={actionsDisabled}>Throw Bait</button>
+                        <button className={styles.actionBarButton} onClick={handleThrowMud} disabled={actionsDisabled}>Throw Mud</button>
+                        <button className={styles.actionBarButton} onClick={handleThrowPokeball} disabled={actionsDisabled}>Throw Pokeball</button>
+                        <button className={styles.actionBarButton} onClick={handleRunAway} disabled={actionsDisabled}>Run Away</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Layout>
+        
     )
 }
 

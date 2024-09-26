@@ -119,6 +119,7 @@
 
 .fieldInput {
     padding: .25rem;
+    font-size: 1.1rem;
 }
 
 .encounterTable {
@@ -136,6 +137,8 @@
     text-align: center;
 
     padding: 8px;
+
+    font-size: 1.1rem;
 }
 
 .encounterTable th {
@@ -145,6 +148,8 @@
     padding: 8px;
 
     border: 4px solid;
+
+    
 }
 
 .errorContainer {
@@ -153,6 +158,11 @@
 
     box-sizing: border-box;
     padding: .5rem;
+
+    line-height: 1.8rem;
+
+    border: 2px solid black;
+    border-radius: .25rem;
 }
 
 .successContainer {
@@ -161,4 +171,9 @@
 
     box-sizing: border-box;
     padding: .5rem;
+
+    line-height: 1.8rem;
+
+    border: 2px solid black;
+    border-radius: .25rem;
 }
