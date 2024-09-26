@@ -25,7 +25,7 @@ public class AppUserJDBCRepository implements AppUserRepository{
     @Override
     @Transactional
     public List<AppUser> findAll(){
-        final String sql = "select app_user_id, username "
+        final String sql = "select app_user_id, username, password, disabled  "
                 + "from app_user;";
         List<String> roles = List.of();
 
