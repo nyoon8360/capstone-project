@@ -5,7 +5,6 @@ import StyledLink from '../components/StyledLink';
 import { useNavigate } from 'react-router-dom';
 
 const basePokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
-const baseUrl = 'http://localhost:8080/api';
 
 const TEST_DATA_DELETE_LATER = [
     {
@@ -70,64 +69,17 @@ function PCBox() {
             navigate('/')
         }
 
-        //fetch all player information and display it on ui
-        const init = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            }
-        }
-
-        fetch(`${baseUrl}/pokemon`, init)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
-                }
-            })
-            .then(data => {
-
-                populateSprites(data).then(fullPokemon => {
-                    setIsLoading(false);
-                    setPokemon(fullPokemon);
-                })
-            })
-            .catch(console.log);
-
-        
-    }, [pokemon]);
+        populateSprites()
+        //set loading state to false so pokemon slots can render
+        .then(() => setIsLoading(false));
+    }, []);
 
     //==============
     //EVENT HANDLERS
     //==============
 
     const handleRelease = () => {
-        //fetch all player information and display it on ui
-        const init = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getCookie('Authorization')
-            }
-        }
-
-        fetch(`${baseUrl}/pokemon/${selectedPokemon.pokemonInstanceId}`, init)
-            .then(response => {
-                console.log(response);
-                if (response.status === 204) {
-                    const newPokemon = [...pokemon];
-                    newPokemon.filter(mon => mon.pokemonInstanceId != selectedPokemon.pokemonInstanceId);
-
-                    setPokemon(newPokemon);
-                    setSelectedPokemon(DEFAULT_SELECTED_POKEMON);
-                    setIsLoading(false);
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
-                }
-            })
-            .catch(console.log);
+        //TODO: implement releasing pokemon and deleting them from database
     }
     
     //==============
@@ -135,16 +87,17 @@ function PCBox() {
     //==============
 
     //fetch all sprites and attach them to pokemon objects
-    function populateSprites(data) {
+    function populateSprites() {
+        const newPokemon = [...pokemon];
         let promises = [];
 
         //iterate through all pokemon and invoke fetch methods
-        for (const mon of data) {
+        for (const mon of newPokemon) {
             promises.push(fetch(`${basePokeApiUrl}/${mon.pokemonName}`).then(data => {
                 return data.json();
             })
             .then(dataJson => {
-                return ({...mon, sprite: dataJson.sprites.front_default})
+                mon.sprite = dataJson.sprites.front_default;
             }));
         }
 
@@ -155,23 +108,6 @@ function PCBox() {
     //=================
     //UTILITY FUNCTIONS
     //=================
-
-    //returns value of cookie with key cookieName
-    const getCookie = (cookieName) => {
-        let name = cookieName + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let cookieArr = decodedCookie.split(';');
-        for(let index = 0; index < cookieArr.length; index++) {
-          let curCookie = cookieArr[index];
-          while (curCookie.charAt(0) === ' ') {
-            curCookie = curCookie.substring(1);
-          }
-          if (curCookie.indexOf(name) === 0) {
-            return curCookie.substring(name.length, curCookie.length);
-          }
-        }
-        return "";
-    }
 
     return(
         <section className={styles.background}>

@@ -58,8 +58,7 @@ public class PokemonInstanceController {
         User user = converter.getUserFromToken(token); //get user for request token
         AppUser appUser = userService.findByUsername(user.getUsername());
         boolean isAdmin = AppUser.convertAuthoritiesToRoles(appUser.getAuthorities()).contains("admin");
-        AppUser.convertAuthoritiesToRoles(appUser.getAuthorities()).stream().forEach(System.out::println);
-        System.out.println(isAdmin);
+
         if(isAdmin){ //Allow selection of any user for admin
             Result<List<PokemonInstance>> result = service.getByUserId(userId);
 
@@ -121,7 +120,6 @@ public class PokemonInstanceController {
     @DeleteMapping("/{pokemonInstanceId}")
     public ResponseEntity<Void> deleteById(@PathVariable int pokemonInstanceId) {
         Result<PokemonInstance> result = service.deleteById(pokemonInstanceId);
-        System.out.println(pokemonInstanceId);
 
         if (result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
