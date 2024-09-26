@@ -5,9 +5,9 @@
 GET {{url}} HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6InVzZXIxMjMiLCJhdXRob3JpdGllcyI6IlJPTEVfdXNlciIsImV4cCI6MTcyNzM0OTM2NX0.iBT8FuGeUM9IiJlccJX-1ed-SFiEwH3k6_HRuN8MRtI
 ### Admin
-GET {{url}}2 HTTP/1.1
+GET {{url}}admin/2 HTTP/1.1
 Content-Type: application/json
-Authorization: : Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM0NjcxNH0.uilpkLZBEgGnjHI51oVnz0yiqRRw2ChZh8r53CAgfFA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlcm5hbWUiLCJhdXRob3JpdGllcyI6IlJPTEVfYWRtaW4iLCJleHAiOjE3MjczNTc3MDN9.zTlIgL3uO7v1JFA6jlES79im8dqTCDEy_gwMb85lwwk
 
 ### Admin
 GET {{url}}admin/3 HTTP/1.1
