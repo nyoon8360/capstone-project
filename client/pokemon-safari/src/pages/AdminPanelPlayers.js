@@ -77,7 +77,7 @@ function AdminPanelPlayers() {
                     </thead>
                     <tbody>
                         {players.map((player) => (
-                            <tr>
+                            <tr key={player.username}>
                                 <td>{player.username}</td>
                                 <td>
                                     <button>Delete Account</button>

@@ -205,3 +205,41 @@
         opacity: 0;
     }
 }
+
+.pokeball {
+    position: absolute;
+
+    bottom: 13%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s ease-out 0s 1 normal forwards running throwPokeball;
+}
+
+@keyframes throwPokeball {
+    0% {
+        transform: translate(-1600%, 500%);
+    }
+
+    20% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(0, -180%);
+    }
+
+    60% {
+        transform: translate(0, -190%);
+    }
+
+    70% {
+        transform: translate(0, -180%);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
