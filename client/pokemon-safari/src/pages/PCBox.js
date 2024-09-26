@@ -88,22 +88,46 @@ function PCBox() {
                 }
             })
             .then(data => {
+
                 populateSprites(data).then(fullPokemon => {
+                    setIsLoading(false);
                     setPokemon(fullPokemon);
-                    setIsLoading(false)
                 })
             })
             .catch(console.log);
 
         
-    }, []);
+    }, [pokemon]);
 
     //==============
     //EVENT HANDLERS
     //==============
 
     const handleRelease = () => {
-        //TODO: implement releasing pokemon and deleting them from database
+        //fetch all player information and display it on ui
+        const init = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': getCookie('Authorization')
+            }
+        }
+
+        fetch(`${baseUrl}/pokemon/${selectedPokemon.pokemonInstanceId}`, init)
+            .then(response => {
+                console.log(response);
+                if (response.status === 204) {
+                    const newPokemon = [...pokemon];
+                    newPokemon.filter(mon => mon.pokemonInstanceId != selectedPokemon.pokemonInstanceId);
+
+                    setPokemon(newPokemon);
+                    setSelectedPokemon(DEFAULT_SELECTED_POKEMON);
+                    setIsLoading(false);
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .catch(console.log);
     }
     
     //==============
