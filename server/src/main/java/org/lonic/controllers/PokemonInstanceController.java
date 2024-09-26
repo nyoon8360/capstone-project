@@ -35,7 +35,7 @@ public class PokemonInstanceController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<Object> getByUserId(@RequestHeader("Authorization") String token) {
         User user = converter.getUserFromToken(token);
         AppUser appUser = userService.findByUsername(user.getUsername());
@@ -50,14 +50,8 @@ public class PokemonInstanceController {
     }
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Object> getByUserIdAdmin(@RequestHeader("Authorization") String token, @PathVariable int userId) {
-//        Result<List<PokemonInstance>> result = service.getByUserId(userId);
-//
-//        if(result.isSuccess()) {
-//            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
-//        }
-//        return ErrorResponse.build(result);
+    @GetMapping("/admin/{userId}")
+    public ResponseEntity<Object> getByUserIdAdmin(@PathVariable int userId, @RequestHeader("Authorization") String token) {
 
         User user = converter.getUserFromToken(token); //get user for request token
         AppUser appUser = userService.findByUsername(user.getUsername());
