@@ -170,7 +170,7 @@ function AdminPanelPlayerForm() {
                     body: JSON.stringify({...mon, appUserId: appUserId})
                 }
 
-                promises.push(fetch(`${baseUrl}/pokemon`, init)
+                promises.push(fetch(`${baseUrl}/pokemon/adminCreate/${appUserId}`, init)
                     .then(response => {
                         console.log(response);
                         if (response.status === 201 || response.status === 400) {
