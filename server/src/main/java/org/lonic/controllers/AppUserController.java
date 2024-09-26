@@ -1,5 +1,6 @@
 package org.lonic.controllers;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.lonic.models.PasswordUpdateRequest;
 import org.lonic.security.AppUserService;
 import org.lonic.models.AppUser;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import javax.validation.ValidationException;
 import java.security.Principal;
 import java.util.HashMap;
@@ -91,10 +93,39 @@ public class AppUserController {
 
     @DeleteMapping()
     public ResponseEntity<Object> deleteAccount(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> credentials) {
-        User tokenUser = converter.getUserFromToken(token); //get user for request token
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
+        User tokenUser = converter.getUserFromToken(token); //get user for request token
 
+        try {
+            Authentication authentication = authenticationManager.authenticate(authToken);
+
+            if (authentication.isAuthenticated()) { //validate credentials are valid
+                String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal()); //get the token for credential's user
+                AppUser loggedAppUser = (AppUser) authentication.getPrincipal();
+
+                if(jwtToken.equals(converter.getTokenFromUser(tokenUser))) { //make sure tokens of logged user and input match
+                    AppUser appUser = appUserService.findByUsername(tokenUser.getUsername());
+
+                    return appUserService.delete(appUser.getAppUserId()) ?
+                            new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+
+        } catch (AuthenticationException ex) {
+            System.out.println(ex);
+        }
+        return new ResponseEntity<>("No Match", HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/admin/{userId}")
+    public ResponseEntity<Object> deleteAccountAdmin(@PathVariable int userId, @RequestHeader("Authorization") String token, @RequestBody Map<String, String> credentials) {
+        User tokenUser = converter.getUserFromToken(token);
+
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);
 
@@ -104,17 +135,9 @@ public class AppUserController {
                 List<String> roles = AppUser.convertAuthoritiesToRoles(loggedAppUser.getAuthorities());
                 boolean isAdmin = roles.contains("admin");
 
-                if(isAdmin){ //Allow deletion of any user for admin
-                    AppUser appUser = appUserService.findByUsername(tokenUser.getUsername()); //user for String token input
-                    return appUserService.delete(appUser.getAppUserId()) ?
+                if(isAdmin && jwtToken.equals(converter.getTokenFromUser(tokenUser))){ //Allow deletion of any user for admin
+                    return appUserService.delete(userId) ?
                             new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-                if(jwtToken.equals(converter.getTokenFromUser(tokenUser))) { //make sure tokens of logged user and input match
-                    AppUser appUser = appUserService.findByUsername(tokenUser.getUsername());
-                    return appUserService.delete(appUser.getAppUserId()) ?
-                            new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                } else {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
             }
 

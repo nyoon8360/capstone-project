@@ -10,6 +10,9 @@ import org.lonic.security.JwtRequestFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +36,7 @@ public class PokemonInstanceController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getByUserId(@RequestBody String token) {
+    public ResponseEntity<Object> getByUserId(@RequestHeader("Authorization") String token) {
         User user = converter.getUserFromToken(token);
         AppUser appUser = userService.findByUsername(user.getUsername());
 
@@ -42,17 +45,32 @@ public class PokemonInstanceController {
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
         }
-        return ErrorResponse.build(result);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/admin/{userId}")
-    public ResponseEntity<Object> getByUserIdAdmin(@PathVariable int userId) {
-        Result<List<PokemonInstance>> result = service.getByUserId(userId);
 
-        if(result.isSuccess()) {
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    @GetMapping("/{userId}")
+    public ResponseEntity<Object> getByUserIdAdmin(@RequestHeader("Authorization") String token, @PathVariable int userId) {
+//        Result<List<PokemonInstance>> result = service.getByUserId(userId);
+//
+//        if(result.isSuccess()) {
+//            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+//        }
+//        return ErrorResponse.build(result);
+
+        User user = converter.getUserFromToken(token); //get user for request token
+        AppUser appUser = userService.findByUsername(user.getUsername());
+        boolean isAdmin = AppUser.convertAuthoritiesToRoles(appUser.getAuthorities()).contains("admin");
+
+        if(isAdmin){ //Allow selection of any user for admin
+            Result<List<PokemonInstance>> result = service.getByUserId(userId);
+
+            return result.isSuccess() ?
+                    new ResponseEntity<>(result.getPayload(), HttpStatus.OK) : ErrorResponse.build(result);
+
         }
-        return ErrorResponse.build(result);
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping()

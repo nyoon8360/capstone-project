@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/pokemonEncounter/*").hasRole("admin")
                 .antMatchers(HttpMethod.GET, "/api/pokemon/*").hasAnyRole("user", "admin")
                 .antMatchers(HttpMethod.GET, "/api/pokemon/admin/*").hasRole("admin")
-                .antMatchers(HttpMethod.DELETE, "/api/pokemon/user/*").hasAnyRole("user","admin")
+                .antMatchers(HttpMethod.GET, "/api/user").hasAnyRole("user", "admin")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))
