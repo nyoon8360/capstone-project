@@ -13,6 +13,7 @@ import javax.validation.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class AppUserService implements UserDetailsService {
 
@@ -23,6 +24,26 @@ public class AppUserService implements UserDetailsService {
                           PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
+        ensureAdmin();
+    }
+
+    private void ensureAdmin() {
+
+        AppUser user = repository.findByUsername("pokeadmin");
+        String ensurePassword = "pokeadmin";
+
+        if (user == null) {
+
+
+            user = new AppUser(0, "pokeadmin", encoder.encode(ensurePassword), false, List.of("admin"));
+
+            try {
+                repository.create(user);
+            } catch (ValidationException ex) {
+                ex.printStackTrace();
+            }
+        }
+        System.out.printf("%n%nAdmin password: %s%n%n", ensurePassword);
     }
 
     public List<AppUser> findAll(){
