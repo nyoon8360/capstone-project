@@ -1,5 +1,6 @@
 package org.lonic.controllers;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.lonic.App;
 import org.lonic.domain.PokemonInstanceService;
 import org.lonic.domain.Result;
@@ -69,7 +70,7 @@ public class PokemonInstanceController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> add(@RequestHeader String token, @RequestBody PokemonInstance pokemonInstance) {
+    public ResponseEntity<Object> add(@RequestHeader("Authorization") String token, @RequestBody PokemonInstance pokemonInstance) {
         User user = converter.getUserFromToken(token);
         AppUser appUser = userService.findByUsername(user.getUsername());
         pokemonInstance.setAppUserId(appUser.getAppUserId());
@@ -79,6 +80,26 @@ public class PokemonInstanceController {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
+    }
+
+    @PostMapping("/adminCreate/{userId}")
+    public ResponseEntity<Object> add(@PathVariable int userId, @RequestHeader("Authorization") String token, @RequestBody PokemonInstance pokemonInstance) {
+        User user = converter.getUserFromToken(token);
+        AppUser appUser = userService.findByUsername(user.getUsername());
+        List<String> roles = AppUser.convertAuthoritiesToRoles(appUser.getAuthorities());
+        boolean isAdmin = roles.contains("admin");
+
+        if(isAdmin) {
+            pokemonInstance.setAppUserId(userId);
+            Result<PokemonInstance> result = service.add(pokemonInstance);
+
+            if (result.isSuccess()) {
+                return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+            } else {
+                return ErrorResponse.build(result);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/{pokemonInstanceId}")

@@ -3,10 +3,10 @@
 ### GET
 ### User
 GET {{url}} HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM1NzcyOH0.muBZ1lfKvYk7r26fNGkOR7iMCqtodldq9UVuAAFZyJg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6InVzZXIxMjMiLCJhdXRob3JpdGllcyI6IlJPTEVfdXNlciIsImV4cCI6MTcyNzM2Njk3Mn0.yfNnA2EaylSjQl44X99bYCSckB1jDQSjkLmeI1PCWUc
 ### Admin 
-GET {{url}}/admin/4 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6InVzZXIxMjM0IiwiYXV0aG9yaXRpZXMiOiJST0xFX3VzZXIiLCJleHAiOjE3MjczNTc4MTh9.VoiDfuuV0tEhPOnDmG2-cFWtt3pNC0j6xWbJndF3fHw
+GET {{url}}/admin/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM2NjkzNH0.OPMZt0Lw-ZJ3dvjNpAGX3bi5DUpLKh2Yxuy6yo_zst0
 ### Admin
 GET {{url}}admin/3 HTTP/1.1
 
@@ -16,13 +16,14 @@ GET {{url}}user/22 HTTP/1.1
 
 ### POST
 ### Happy
-POST {{url}} HTTP/1.1
+POST {{url}}/adminCreate/2 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM2NjkzNH0.OPMZt0Lw-ZJ3dvjNpAGX3bi5DUpLKh2Yxuy6yo_zst0
 
 {
     "pokemonInstanceId": 0,
-    "pokemonName": "Test",
-    "appUserId": 2,
+    "pokemonName": "Test2",
+    "appUserId": 0,
     "maxHp": 22,
     "attack": 22,
     "defense": 22,
