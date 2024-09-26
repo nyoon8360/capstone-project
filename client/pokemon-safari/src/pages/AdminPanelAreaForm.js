@@ -136,7 +136,7 @@ function AdminPanelAreaForm() {
                     bulkAddUpdate(bundle.data, bundle.encounters, false)
                     .then(messages => {
                         let newErrors = [];
-                        let newSuccesses = [];
+                        let newSuccesses = ["Area successfully created!"];
                         for (const message of messages) {
                             if (message.success) {
                                 newSuccesses.push(message.msg);
