@@ -33,10 +33,36 @@ function AdminPanelPlayers() {
                 }
             })
             .then(data => {
+                console.log(data);
                 setPlayers(data);
             })
             .catch(console.log);
     },[]);
+
+    const handleDeleteAccount = (appUserId, username) => {
+        if (window.confirm(`Are you sure you want to delete ${username}'s account?`)) {
+            
+            const init = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': getCookie('Authorization')
+                }
+            }
+
+            fetch(`${baseUrl}/user/admin/${appUserId}`, init)
+            .then(response => {
+                if (response.status !== 201) {
+                    const newPlayers = players.filter(user => user.appUserId != appUserId);
+
+                    setPlayers(newPlayers);
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .catch(console.log);
+        }
+    }
 
     //returns value of cookie with key cookieName
     const getCookie = (cookieName) => {
@@ -70,17 +96,19 @@ function AdminPanelPlayers() {
                 <table className={styles.playerTable}>
                     <thead>
                         <tr>
+                            <th>User Id</th>
                             <th>Username</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {players.map((player) => (
-                            <tr>
+                            <tr key={player.username}>
+                                <td>{player.appUserId}</td>
                                 <td>{player.username}</td>
                                 <td>
-                                    <button>Delete Account</button>
-                                    <Link>Edit PC Box</Link>
+                                    <button className={styles.button} style={{marginRight: '2rem'}} onClick={() => handleDeleteAccount(player.appUserId, player.username)}>Delete Account</button>
+                                    <Link className={styles.button} to={`/admin/players/form/${player.appUserId}`}>Edit PC Box</Link>
                                 </td>
                             </tr>
                         ))}
