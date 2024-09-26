@@ -1,5 +1,6 @@
 package org.lonic.controllers;
 
+import org.lonic.App;
 import org.lonic.domain.PokemonInstanceService;
 import org.lonic.domain.Result;
 import org.lonic.models.AppUser;
@@ -69,7 +70,10 @@ public class PokemonInstanceController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> add(@RequestBody PokemonInstance pokemonInstance) {
+    public ResponseEntity<Object> add(@RequestHeader String token, @RequestBody PokemonInstance pokemonInstance) {
+        User user = converter.getUserFromToken(token);
+        AppUser appUser = userService.findByUsername(user.getUsername());
+        pokemonInstance.setAppUserId(appUser.getAppUserId());
         Result<PokemonInstance> result = service.add(pokemonInstance);
 
         if (result.isSuccess()) {

@@ -56,9 +56,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1Y
     "password" : "userpass2"
 }
 ### ADMIN DELETE
-DELETE http://localhost:8080/api/user/admin/8 HTTP/1.1
+DELETE http://localhost:8080/api/user/admin/3 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbixST0xFX3VzZXIiLCJleHAiOjE3MjczNTQzMTN9.i37nFkByw0Sg56aDH19-8RaXJnOFDg-4wWFIiszHm5Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM2MDA3OH0.SOfIy1TJyG5F_SBKhorrAkmdaSzTVOpc-9TUcEaTgoA
 
 {
     "username" : "adminuser",

@@ -1,5 +1,6 @@
 package org.lonic.controllers;
 
+import org.lonic.App;
 import org.lonic.models.Area;
 import org.lonic.models.PasswordUpdateRequest;
 import org.lonic.security.AppUserService;
@@ -127,29 +128,19 @@ public class AppUserController {
     }
 
     @DeleteMapping("/admin/{userId}")
-    public ResponseEntity<Object> deleteAccountAdmin(@PathVariable int userId, @RequestHeader("Authorization") String token, @RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Object> deleteAccountAdmin(@PathVariable int userId, @RequestHeader("Authorization") String token) {
         User tokenUser = converter.getUserFromToken(token);
 
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
-        try {
-            Authentication authentication = authenticationManager.authenticate(authToken);
+        User adminUser = converter.getUserFromToken(token);
+        AppUser adminAppUser = appUserService.findByUsername(adminUser.getUsername());
+        List<String> roles = AppUser.convertAuthoritiesToRoles(adminAppUser.getAuthorities());
+        boolean isAdmin = roles.contains("admin");
 
-            if (authentication.isAuthenticated()) { //validate credentials are valid
-                String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal()); //get the token for credential's user
-                AppUser loggedAppUser = (AppUser) authentication.getPrincipal();
-                List<String> roles = AppUser.convertAuthoritiesToRoles(loggedAppUser.getAuthorities());
-                boolean isAdmin = roles.contains("admin");
-
-                if(isAdmin && jwtToken.equals(converter.getTokenFromUser(tokenUser))){ //Allow deletion of any user for admin
-                    return appUserService.delete(userId) ?
-                            new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
+        if (isAdmin) { //validate credentials are valid
+            return appUserService.delete(userId) ?
+                    new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-        } catch (AuthenticationException ex) {
-            System.out.println(ex);
-        }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
