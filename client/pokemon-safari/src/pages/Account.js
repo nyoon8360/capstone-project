@@ -34,24 +34,25 @@ function Account() {
 
         console.log(credentials);
 
+        const newNotifs = [];
+
         //field validations
         for (const prop in credentials) {
             if (credentials[prop] == '') {
-                const newNotifs = [...notifs];
-                newNotifs.push(`${prop.charAt(0).toUpperCase + prop.slice(1)} can NOT be empty!`);
+                newNotifs.push(`${prop.charAt(0).toUpperCase() + prop.slice(1)} can NOT be empty!`);
             }
         }
 
         if (credentials.newPassword != credentials.newPasswordConfirm) {
-            const newNotifs = [...notifs];
             newNotifs.push("New password and confirm new password fields must match!")
         }
+
+        setNotifs(newNotifs);
 
         console.log(notifs);
 
         //if no validation errors for fields then perform request
-        if (notifs.length == 0) {
-            console.log('wat');
+        if (newNotifs.length == 0) {
             //put new credentials
             const init = {
                 method: 'PUT',
@@ -59,29 +60,28 @@ function Account() {
                     'Content-Type': 'application/json',
                     'Authorization': getCookie('Authorization')
                 },
-                body: {
+                body: JSON.stringify({
                     currentPassword: credentials.password,
                     newPassword: credentials.newPassword
-                }
+                })
             }
 
-            fetch(`${baseUrl}/user/update-password/${credentials.user}`, init)
+            fetch(`${baseUrl}/user/update-password/${credentials.username}`, init)
                 .then(response => {
                     if (response.status === 200 || response.status === 400) {
-                        console.log(response);
-                        return ({response: response.json(), status: response.status});
+                        return ({response: response, status: response.status});
                     } else {
                         return Promise.reject(`Unexpected Status Code: ${response.status}`);
                     }
                 })
                 .then(data => {
-                    console.log(data.response)
-                    if (data.response === 200) {
+                    if (data.response.status === 200) {
                         setSuccess(true);
-                        setNotifs('success');
-                    } else if (data.response === 400) {
+                        setNotifs(['Password updated successfully!']);
+                        setCredentials(CREDENTIALS_DEFAULT);
+                    } else if (data.response.status === 400) {
                         setSuccess(false);
-                        setNotifs('failure');
+                        setNotifs(['Password failed to update. Please ensure all fields are correct!']);
                     }
                     
                 })
@@ -131,7 +131,7 @@ function Account() {
                 <h1 className={styles.heading}>Account Management</h1>
                 <div className={styles.formContainer}>
                     <form className={styles.accountForm} onSubmit={handleSubmit} id='accountForm'>
-                        <div className={success ? styles.successNotifContainer : styles.errorNotifContainer} style={{visibility: notifs.size > 0 ? 'visible' : 'hidden'}}>
+                        <div className={success ? styles.successNotifContainer : styles.errorNotifContainer} style={{visibility: notifs.length > 0 ? 'visible' : 'hidden'}}>
                             {notifs.map(notif => (
                                 <p>{notif}</p>
                             ))}
