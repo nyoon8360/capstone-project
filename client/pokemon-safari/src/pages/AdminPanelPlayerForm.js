@@ -160,7 +160,6 @@ function AdminPanelPlayerForm() {
             console.log(mon.pokemonInstanceId);
             if (!mon.pokemonInstanceId) {
                 //send POST request
-                
 
                 const init = {
                     method: 'POST',

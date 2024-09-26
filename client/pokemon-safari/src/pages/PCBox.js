@@ -88,12 +88,10 @@ function PCBox() {
                 }
             })
             .then(data => {
-                console.log(data);
-                setPokemon(data);
-            }).then(() => {
-                populateSprites()
-                //set loading state to false so pokemon slots can render
-                .then(() => setIsLoading(false));
+                populateSprites(data).then(fullPokemon => {
+                    setPokemon(fullPokemon);
+                    setIsLoading(false)
+                })
             })
             .catch(console.log);
 
@@ -113,17 +111,16 @@ function PCBox() {
     //==============
 
     //fetch all sprites and attach them to pokemon objects
-    function populateSprites() {
-        const newPokemon = [...pokemon];
+    function populateSprites(data) {
         let promises = [];
 
         //iterate through all pokemon and invoke fetch methods
-        for (const mon of newPokemon) {
+        for (const mon of data) {
             promises.push(fetch(`${basePokeApiUrl}/${mon.pokemonName}`).then(data => {
                 return data.json();
             })
             .then(dataJson => {
-                mon.sprite = dataJson.sprites.front_default;
+                return ({...mon, sprite: dataJson.sprites.front_default})
             }));
         }
 

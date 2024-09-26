@@ -41,7 +41,7 @@ function AdminPanelPlayers() {
 
     const handleDeleteAccount = (appUserId, username) => {
         if (window.confirm(`Are you sure you want to delete ${username}'s account?`)) {
-            //TODO: finish this 
+            
             const init = {
                 method: 'DELETE',
                 headers: {

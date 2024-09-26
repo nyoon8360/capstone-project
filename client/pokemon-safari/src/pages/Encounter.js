@@ -156,11 +156,17 @@ function Encounter() {
                         'Authorization': getCookie('Authorization')
                     },
                     body: JSON.stringify({
-                        //TODO: CREATE randomized pokemon instance and POST to backend
+                        pokemonName: location.state.pokemonName,
+                        maxHp: Math.floor((Math.random() * 30) + 1),
+                        attack: Math.floor((Math.random() * 30) + 1),
+                        defense: Math.floor((Math.random() * 30) + 1),
+                        specialAttack: Math.floor((Math.random() * 30) + 1),
+                        specialDefense: Math.floor((Math.random() * 30) + 1),
+                        speed: Math.floor((Math.random() * 30) + 1)
                     })
                 }
         
-                fetch(`${baseUrl}/api/pokemon`, init)
+                fetch(`${baseUrl}/pokemon`, init)
                     .then(response => {
                         if (response.status !== 201) {
                             return Promise.reject(`Unexpected Status Code: ${response.status}`);

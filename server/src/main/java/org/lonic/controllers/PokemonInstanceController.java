@@ -70,7 +70,7 @@ public class PokemonInstanceController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> add(@RequestHeader String token, @RequestBody PokemonInstance pokemonInstance) {
+    public ResponseEntity<Object> add(@RequestHeader("Authorization") String token, @RequestBody PokemonInstance pokemonInstance) {
         User user = converter.getUserFromToken(token);
         AppUser appUser = userService.findByUsername(user.getUsername());
         pokemonInstance.setAppUserId(appUser.getAppUserId());
