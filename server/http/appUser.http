@@ -1,0 +1,67 @@
+### Admit create
+POST http://localhost:8080/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "adminuser",
+    "password" : "adminpass"
+}
+### user create
+POST http://localhost:8080/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "user123",
+    "password" : "userpass"
+}
+### user create
+POST http://localhost:8080/api/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "user1234",
+    "password" : "userpass2"
+}
+### User Login
+POST http://localhost:8080/api/user/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "user123",
+    "password" : "userpass"
+}
+### User Login
+POST http://localhost:8080/api/user/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "user1234",
+    "password" : "userpass2"
+}
+### Admin Login
+POST http://localhost:8080/api/user/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "adminusername",
+    "password" : "password"
+}
+### USER DELETE
+DELETE http://localhost:8080/api/user HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6InVzZXIxMjM0IiwiYXV0aG9yaXRpZXMiOiJST0xFX3VzZXIiLCJleHAiOjE3MjczNTE0MTZ9.826mhaMRA7sFKekfwzwvi5CYHO6b4dUrbk2GNhSpBdA
+
+{
+    "username" : "user1234",
+    "password" : "userpass2"
+}
+### ADMIN DELETE
+DELETE http://localhost:8080/api/user/admin/3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2tlbW9uLXNhZmFyaSIsInN1YiI6ImFkbWludXNlciIsImF1dGhvcml0aWVzIjoiUk9MRV9hZG1pbiIsImV4cCI6MTcyNzM2MDA3OH0.SOfIy1TJyG5F_SBKhorrAkmdaSzTVOpc-9TUcEaTgoA
+
+{
+    "username" : "adminuser",
+    "password" : "adminpass"
+}
+

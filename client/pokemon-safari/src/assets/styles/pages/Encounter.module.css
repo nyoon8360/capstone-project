@@ -1,0 +1,245 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.background {
+    position: relative;
+    height: 75%;
+    width: 100%;
+
+    background-size: 100% 100%;
+    background-image: url("/src/assets/images/encounter.png");
+}
+
+.actionBar {
+    position: relative;
+    width: 100%;
+    height: 25%;
+
+    background-color: black;
+
+    box-sizing: border-box;
+    border: 2px solid black;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 2px;
+}
+
+.actionBarTextWindowContainer {
+    background-color: rgb(204, 196, 78);
+    position: relative;
+}
+
+.actionBarTextWindow {
+    background-color: rgb(255, 255, 255);
+
+    position: absolute;
+
+    border-radius: 1rem 0 0 1rem;
+
+    padding: 1vw 0 1vw 1vw;
+
+    top: 1vw;
+    bottom: 1vw;
+    left: 1vw;
+    right: 0;
+}
+
+.actionBarButtonContainer {
+    background-color: rgb(41, 142, 224);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.actionBarButton {
+    margin: .25rem;
+    box-sizing: border-box;
+
+    font-size: 1rem;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-radius: .5rem;
+}
+
+.pokemonContainer {
+    position: absolute;
+    height: 60%;
+    width: 50%;
+
+    right: 2%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.pokemon {
+    position: absolute;
+    bottom: 0%;
+    
+    aspect-ratio: 1;
+
+    transform: translateX(50vw);
+
+    animation: 1s ease-out 1s 1 normal forwards running enterPokemon;
+}
+
+@keyframes enterPokemon {
+    0% {
+        transform: translateX(50vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.trainer {
+    position: absolute;
+    height: 50%;
+
+    aspect-ratio: 1/1.5;
+
+    bottom: 0;
+
+    transition: 1s;
+
+    animation: 1s ease-out 0s 1 normal forwards running enterTrainer;
+}
+
+@keyframes enterTrainer {
+    0% {
+        right: 150%;
+    }
+
+    100% {
+        right: 70%;
+    }
+}
+
+.mud {
+    position: absolute;
+
+    bottom: 13%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s ease-out 0s 1 normal forwards running smearMud;
+}
+
+@keyframes smearMud {
+    0% {
+        transform: translate(-1600%, 500%);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scaleY(1) translateY(0) translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleY(1.5) translateY(50%);
+    }
+}
+
+.bait {
+    position: absolute;
+
+    bottom: 10%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s linear 0s 1 normal forwards running tossBait;
+}
+
+@keyframes tossBait {
+    0% {
+        transform: translateY(-300%) translateX(-200%);
+    }
+
+    10% {
+        transform: translateY(0) translateX(-100%);
+    }
+
+    25% {
+        transform: translateY(-70%) translateX(-60%);
+    }
+
+    30% {
+        transform: translateY(-70%) translateX(-50%);
+    }
+
+    35% {
+        transform: translateY(-70%) translateX(-40%);
+    }
+
+    60% {
+        transform: translateY(0) translateX(0%);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0) translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) translateX(0%);
+        opacity: 0;
+    }
+}
+
+.pokeball {
+    position: absolute;
+
+    bottom: 13%;
+
+    aspect-ratio: 1;
+
+    height: 10%;
+
+    animation: 1.5s ease-out 0s 1 normal forwards running throwPokeball;
+}
+
+@keyframes throwPokeball {
+    0% {
+        transform: translate(-1600%, 500%);
+    }
+
+    20% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(0, -180%);
+    }
+
+    60% {
+        transform: translate(0, -190%);
+    }
+
+    70% {
+        transform: translate(0, -180%);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
