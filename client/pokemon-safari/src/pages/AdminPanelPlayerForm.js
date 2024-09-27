@@ -190,7 +190,7 @@ function AdminPanelPlayerForm() {
                     })
                     .then(data => {
                         if (data.pokemonInstanceId) {
-                            return ({success: true, msg: `${mon.pokemonName} instance was succesfully created!`})
+                            return ({success: true, msg: [`${mon.pokemonName} instance was succesfully created!`]})
                         } else {
                             return (
                                 {success: false, msg: 
@@ -228,7 +228,7 @@ function AdminPanelPlayerForm() {
                     .then(data => {
                         console.log(data);
                         if (!data) {
-                            return ({success: true, msg: `${mon.pokemonName} instance was succesfully updated!`})
+                            return ({success: true, msg: [`${mon.pokemonName} instance was succesfully updated!`]})
                         } else {
                             return (
                                 {success: false, 
@@ -390,7 +390,7 @@ function AdminPanelPlayerForm() {
 
                         <div className={styles.buttonContainer}>
                             <button className={`${styles.button} ${styles.optionButton}`} type="submit" style={{marginRight: '2rem'}}>Submit</button>
-                            <button className={`${styles.button} ${styles.optionButton}`} onClick={handleCancel}>Cancel</button>
+                            <button className={`${styles.button} ${styles.optionButton}`} onClick={handleCancel} type="button">Cancel</button>
                         </div>
                     </form>
                 </div>
