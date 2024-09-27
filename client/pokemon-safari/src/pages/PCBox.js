@@ -177,7 +177,7 @@ function PCBox() {
                             <tbody key='body'>
                                 <tr key='statMaxHp'>
                                     <td key='statMaxHpLabel'>Max HP:</td>
-                                    <td key='statMaxHpValue'>{selectedPokemon.maxhp}</td>
+                                    <td key='statMaxHpValue'>{selectedPokemon.maxHp}</td>
                                 </tr>
                                 <tr key='statAttack'>
                                     <td key='statAttackLabel'>Attack:</td>
